@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "259789676102",
+    "project_id": "manttoprev-8c25e",
+    "storage_bucket": "manttoprev-8c25e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259789676102:android:72104909f0dd838f6b7447",
+        "android_client_info": {
+          "package_name": "com.example.manttoprev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCusjw-aGLXQlyX4jQ6aw_t2NQ6ciLyooY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
