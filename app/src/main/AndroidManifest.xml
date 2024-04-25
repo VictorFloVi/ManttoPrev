@@ -16,6 +16,21 @@
         android:theme="@style/Theme.ManttoPrev"
         tools:targetApi="31">
         <activity
+            android:name=".Vista.Reportes"
+            android:exported="false" />
+        <activity
+            android:name=".Vista.Historial"
+            android:exported="false" />
+        <activity
+            android:name=".Vista.Alertas"
+            android:exported="false" />
+        <activity
+            android:name=".Vista.Graficos"
+            android:exported="false" />
+        <activity
+            android:name=".Vista.ManttoMotor"
+            android:exported="false" />
+        <activity
             android:name=".Vista.Aislamiento"
             android:exported="false" />
         <activity
