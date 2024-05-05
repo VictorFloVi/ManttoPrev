@@ -14,6 +14,7 @@ import java.util.Map;
 
 
 public class RegistroUsuarioPresenter implements RegistroUsuarioContract.Presenter {
+
     private final RegistroUsuario view;
     private final FirebaseAuth mAuth;
     private final DatabaseReference mDatabase;
@@ -25,7 +26,7 @@ public class RegistroUsuarioPresenter implements RegistroUsuarioContract.Present
     }
 
     @SuppressLint("SetTextI18n")
-    public void registrarUsuario(String nombreCompleto, String dni, String email, String password) {
+    public void registrarUsuario(String nombreCompleto, String dni, String email, String password, String rol) {
         if (nombreCompleto.isEmpty() || dni.isEmpty() || email.isEmpty() || password.isEmpty()) {
             view.showErrorMessage("Todos los campos son obligatorios");
             return; // No realizamos el registro si algún campo está vacío
@@ -50,8 +51,9 @@ public class RegistroUsuarioPresenter implements RegistroUsuarioContract.Present
                 crearUsuario.put("nombre", nombreCompleto);
                 crearUsuario.put("dni", dni);
                 crearUsuario.put("email", email);
+                crearUsuario.put("rol", rol);
                 mDatabase.child("Usuarios").child(task.getResult().getUser().getUid()).updateChildren(crearUsuario);
-                view.showMenuPrincipal();
+                view.showSuccessMessage("Usuario agregado con éxito.");
             } else {
                 dialog.dismiss();
                 view.showErrorMessage("Los campos son incorrectos.");

@@ -50,8 +50,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 view.showErrorMessage("Credenciales no válidas.");
             }
         });
-
-
-
     }
+
+
 }

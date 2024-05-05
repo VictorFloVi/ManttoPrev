@@ -4,17 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
+import com.example.manttoprev.Presentador.InterfazPrincipalContract;
+import com.example.manttoprev.Presentador.InterfazPrincipalPresenter;
 import com.example.manttoprev.R;
 
-public class InterfazPrincipal extends AppCompatActivity {
 
+public class InterfazPrincipal extends AppCompatActivity implements InterfazPrincipalContract.View{
+
+    TextView tvMantenimiento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interfaz_principal);
+
+        InterfazPrincipalContract.Presenter presenter = new InterfazPrincipalPresenter(this);
+
+        tvMantenimiento = findViewById(R.id.tvMantenimiento);
+        tvMantenimiento.setOnClickListener(v -> {
+            Intent intent = new Intent(InterfazPrincipal.this, Mantenimiento.class);
+            startActivity(intent);
+        });
+
+
+
+        presenter.obtenerRolUsuario();
 
 
 
@@ -54,4 +71,14 @@ public class InterfazPrincipal extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+
+    public void showRegistrarTextView(boolean show) {
+        if (show) {
+            tvMantenimiento.setVisibility(View.VISIBLE); // Mostrar el TextView de registro
+        } else {
+            tvMantenimiento.setVisibility(View.GONE); // Ocultar el TextView de registro
+        }
+    }
+
 }

@@ -9,5 +9,6 @@ public interface LoginContract {
     interface Presenter {
 
         void accederAdmin(String email, String password);
+
     }
 }

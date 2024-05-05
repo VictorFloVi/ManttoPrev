@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">ManttoPrev</string>
 
+    <string-array name="lista_roles">
+        <item>Rol</item>
+        <item>estandar</item>
+        <item>administrador</item>
+    </string-array>
+
     <string-array name="lista_areas">
         <item>Área</item>
         <item>Proceso de jurel y caballa</item>
