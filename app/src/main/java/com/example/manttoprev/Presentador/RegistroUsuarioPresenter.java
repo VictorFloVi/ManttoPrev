@@ -52,7 +52,6 @@ public class RegistroUsuarioPresenter implements RegistroUsuarioContract.Present
                 crearUsuario.put("email", email);
                 mDatabase.child("Usuarios").child(task.getResult().getUser().getUid()).updateChildren(crearUsuario);
                 view.showMenuPrincipal();
-
             } else {
                 dialog.dismiss();
                 view.showErrorMessage("Los campos son incorrectos.");

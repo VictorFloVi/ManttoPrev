@@ -14,10 +14,11 @@
         android:layout_gravity="center"
         android:layout_weight="1.5"
         android:background="@color/black"
-        android:foreground="@drawable/mantto" />
+        android:foreground="@drawable/mantto"
+        tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvMantenimiento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
@@ -26,20 +27,22 @@
         android:text="MANTENIMIENTO"
         android:textColor="#00B0FF"
         android:textSize="24sp"
-        tools:ignore="TextContrastCheck" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="DisableBaselineAlignment">
 
         <FrameLayout
             android:id="@+id/FrameLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            tools:ignore="NestedWeights">
 
             <ImageButton
                 android:layout_width="match_parent"
@@ -47,7 +50,7 @@
                 android:backgroundTint="@color/black"
                 android:foreground="@drawable/megandom"
                 android:visibility="visible"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/tvAislamiento"
@@ -58,7 +61,8 @@
                 android:text="AISLAMIENTO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
         </FrameLayout>
 
         <FrameLayout
@@ -70,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/manttomotor"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/tvManttoMotor"
@@ -81,7 +85,8 @@
                 android:text="PROGRAMAR MANTTO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
         </FrameLayout>
 
     </LinearLayout>
@@ -91,19 +96,21 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center|center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="DisableBaselineAlignment">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            tools:ignore="NestedWeights">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/alertamotor2"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="ContentDescription,ObsoleteLayoutParam,SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/tvAlertas"
@@ -114,7 +121,8 @@
                 android:text="ALERTAS!"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
         </FrameLayout>
 
         <FrameLayout
@@ -128,7 +136,7 @@
                 android:background="#3D5AFE"
                 android:foreground="@drawable/iconografico"
                 android:hapticFeedbackEnabled="true"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/tvGraficos"
@@ -139,7 +147,8 @@
                 android:text="GRÁFICOS"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
         </FrameLayout>
     </LinearLayout>
 
@@ -148,12 +157,14 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="DisableBaselineAlignment">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            tools:ignore="NestedWeights">
 
             <ImageButton
                 android:id="@+id/imageButton7"
@@ -161,7 +172,7 @@
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/black"
                 android:foreground="@drawable/historial"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/tvHistorial"
@@ -172,7 +183,8 @@
                 android:text="HISTORIAL"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
         </FrameLayout>
 
         <FrameLayout
@@ -186,7 +198,7 @@
                 android:layout_height="match_parent"
                 android:backgroundTint="#FFEA00"
                 android:foreground="@drawable/reportepdf"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/tvReportes"
@@ -197,7 +209,8 @@
                 android:text="REPORTES"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,TextContrastCheck" />
         </FrameLayout>
 
     </LinearLayout>

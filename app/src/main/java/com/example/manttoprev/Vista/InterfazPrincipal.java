@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.manttoprev.R;
@@ -16,6 +15,7 @@ public class InterfazPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interfaz_principal);
+
 
 
         TextView tvAislamiento = findViewById(R.id.tvAislamiento);

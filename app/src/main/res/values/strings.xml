@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">ManttoPrev</string>
+
+    <string-array name="lista_areas">
+        <item>Área</item>
+        <item>Proceso de jurel y caballa</item>
+        <item>Cámaras de almacenamiento</item>
+    </string-array>
+
+    <string-array name="lista_equipos">
+        <item>Equipos</item>
+        <item>Resta</item>
+        <item>Multiplicación</item>
+        <item>División</item>
+    </string-array>
+
+    <string-array name="lista_maquinas">
+        <item>Maquinas</item>
+        <item>Resta</item>
+        <item>Multiplicación</item>
+        <item>División</item>
+    </string-array>
+
+    <string-array name="lista_motores">
+        <item>Motor</item>
+        <item>Resta</item>
+        <item>Multiplicación</item>
+        <item>División</item>
+    </string-array>
 </resources>

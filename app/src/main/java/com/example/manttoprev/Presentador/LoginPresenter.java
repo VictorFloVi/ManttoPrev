@@ -38,6 +38,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         dialog.setMessage("Ingresando...");
         dialog.show();
 
+
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 dialog.dismiss();
