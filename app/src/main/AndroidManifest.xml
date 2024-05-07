@@ -16,6 +16,9 @@
         android:theme="@style/Theme.ManttoPrev"
         tools:targetApi="31">
         <activity
+            android:name=".Vista.AreaAdmin"
+            android:exported="false" />
+        <activity
             android:name=".Vista.Mantenimiento"
             android:exported="false" />
         <activity
