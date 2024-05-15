@@ -3,6 +3,8 @@ package com.example.manttoprev.Vista;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -35,8 +37,23 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
         //Ver la lista de áreas en el Spinner
         presenter.obtenerAreas();
 
-        //Ver la lista de equipos01 en el Spinner
-        presenter.obtenerEquipos();
+
+
+        cboArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Obtener el área seleccionada
+                String areaSeleccionada = parent.getItemAtPosition(position).toString();
+
+                // Llamar al método obtenerEquipos() con el área seleccionada
+                presenter.obtenerEquipos(areaSeleccionada);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Manejar el caso en que no se seleccione nada en el Spinner
+            }
+        });
 
 
         String[] fuenteDato3 = getResources().getStringArray(R.array.lista_maquinas);
