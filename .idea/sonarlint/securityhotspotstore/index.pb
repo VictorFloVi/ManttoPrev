@@ -27,3 +27,11 @@ H
 Rapp/src/main/java/com/example/manttoprev/Presentador/RegistroUsuarioPresenter.java,1\6\16258ecea3e458378e8dcead905ad7b5fcbd3c5a
 q
 Aapp/src/main/java/com/example/manttoprev/Vista/Mantenimiento.java,d\6\d60cedcdaf1abb49c34bf647fa445846a6de9f90
+m
+=app/src/main/java/com/example/manttoprev/Vista/AreaAdmin.java,c\3\c34953af8031affdcd11292edc99adaaf010100d
+i
+9app/src/main/java/com/example/manttoprev/Modelo/Area.java,2\9\293c5aa68cb764d10a898dda2bac3d7876f9fdad
+{
+Kapp/src/main/java/com/example/manttoprev/Presentador/AreaAdminContract.java,5\a\5ab35445a788ead547d08523f1d09a1f2137663e
+|
+Lapp/src/main/java/com/example/manttoprev/Presentador/AreaAdminPresenter.java,e\d\ed59f66096ecbc6217d452ab4438aab79f4eaa8a
