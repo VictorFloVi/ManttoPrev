@@ -22,7 +22,7 @@
             android:name=".Vista.EquipoAdmin"
             android:exported="false" />
         <activity
-            android:name=".Vista.AreaAdmin"
+            android:name=".Vista.UbicacionAdmin"
             android:exported="false" />
         <activity
             android:name=".Vista.Mantenimiento"

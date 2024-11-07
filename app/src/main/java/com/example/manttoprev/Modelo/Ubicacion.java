@@ -1,15 +1,15 @@
 package com.example.manttoprev.Modelo;
 
-public class Area {
+public class Ubicacion {
     private String nombre;
     private String descripcion;
 
-    public Area(String nombre, String descripcion) {
+    public Ubicacion(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
-    public Area(String nombre) {
+    public Ubicacion(String nombre) {
         this.nombre = nombre;
     }
 

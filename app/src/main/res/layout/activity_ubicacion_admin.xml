@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Vista.AreaAdmin">
+    tools:context=".Vista.UbicacionAdmin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:orientation="vertical">
 
         <AutoCompleteTextView
-            android:id="@+id/etArea"
+            android:id="@+id/etUbicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -41,7 +41,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/etDescripcionArea"
+            android:id="@+id/etDescripcionUbicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -64,7 +64,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnAgregarArea"
+            android:id="@+id/btnAgregarUbicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -74,7 +74,7 @@
             android:text="AGREGAR" />
 
         <Button
-            android:id="@+id/btnConsultarArea"
+            android:id="@+id/btnConsultarUbicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -93,7 +93,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnEditarArea"
+            android:id="@+id/btnEditarUbicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -102,7 +102,7 @@
             android:text="EDITAR" />
 
         <Button
-            android:id="@+id/btnBorrarArea"
+            android:id="@+id/btnBorrarUbicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -118,7 +118,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/lvListadoArea"
+            android:id="@+id/lvListadoUbicacion"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

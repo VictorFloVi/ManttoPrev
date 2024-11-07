@@ -1,7 +1,7 @@
 package com.example.manttoprev.Presentador;
 
-import com.example.manttoprev.Modelo.Area;
-import com.example.manttoprev.Vista.AreaAdmin;
+import com.example.manttoprev.Modelo.Ubicacion;
+import com.example.manttoprev.Vista.UbicacionAdmin;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -11,55 +11,55 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AreaAdminPresenter implements AreaAdminContract.Presenter{
-    private static final String AREAS = "areas";
+public class UbiicacionAdminPresenter implements UbicacionAdminContract.Presenter{
+    private static final String UBICACION = "ubicacion";
     private static final String NOMBRE = "nombre";
     private static final String DESCRIPCION = "descripcion";
-    private AreaAdmin view;
+    private UbicacionAdmin view;
     private DatabaseReference mDatabase;
 
-    public AreaAdminPresenter(AreaAdmin view) {
+    public UbiicacionAdminPresenter(UbicacionAdmin view) {
         this.view = view;
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
-    public void listarAreas() {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(AREAS);
+    public void listarUbicacion() {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Area> areas = new ArrayList<>();
+                List<Ubicacion> ubicacions = new ArrayList<>();
 
-                for (DataSnapshot areaSnapshot : dataSnapshot.getChildren()) {
-                    String nombre = areaSnapshot.child(DESCRIPCION).getValue(String.class);
-                    Area area = new Area(nombre);
-                    areas.add(area);
+                for (DataSnapshot ubicacionSnapshot : dataSnapshot.getChildren()) {
+                    String nombre = ubicacionSnapshot.child(DESCRIPCION).getValue(String.class);
+                    Ubicacion ubicacion = new Ubicacion(nombre);
+                    ubicacions.add(ubicacion);
                 }
                 // Llama al método de la Vista para mostrar los proveedores
-                view.showAreas(areas);
+                view.showUbicacion(ubicacions);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Llama al método de la Vista para mostrar mensajes de error
-                view.showErrorMessage("Error al cargar las áreas: " + databaseError.getMessage());
+                view.showErrorMessage("Error al cargar las ubicaciones: " + databaseError.getMessage());
             }
         });
     }
 
     @Override
-    public void clicItemListaArea(String nombreArea) {
+    public void clicItemListaUbicacion(String nombreUbicacion) {
         // Obtener la descripción desde la base de datos
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(AREAS);
-        Query query = mDatabase.orderByChild(DESCRIPCION).equalTo(nombreArea);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
+        Query query = mDatabase.orderByChild(DESCRIPCION).equalTo(nombreUbicacion);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String nombreArea = snapshot.child(NOMBRE).getValue(String.class);
-                    String descripcionArea = snapshot.child(DESCRIPCION).getValue(String.class);
+                    String nombreUbicacion = snapshot.child(NOMBRE).getValue(String.class);
+                    String descripcionUbicacion = snapshot.child(DESCRIPCION).getValue(String.class);
                     // Notificar a la vista con los detalles
-                    view.showDetallesAreaSeleccionado(nombreArea, descripcionArea);
+                    view.showDetallesUbicacionSeleccionada(nombreUbicacion, descripcionUbicacion);
                 }
             }
             @Override
@@ -71,12 +71,12 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
 
 
     @Override
-    public void agregarArea(String nombre, String descripcion) {
+    public void agregarUbicacion(String nombre, String descripcion) {
         // Validar los datos (puedes agregar más validaciones según tus necesidades)
         if (nombre.isEmpty() || descripcion.isEmpty()) {
             view.showErrorMessage("Todos los campos son obligatorios");
         } else {
-            mDatabase = FirebaseDatabase.getInstance().getReference().child(AREAS);
+            mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
 
             // Realizar una consulta para verificar si ya existe una area con el mismo nombre
             Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
@@ -84,19 +84,19 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        // Ya existe una area con el mismo nombre, muestra un mensaje de error
-                        view.showErrorMessage("Ya existe una area con ese nombre");
+                        // Ya existe una ubicación con el mismo nombre, muestra un mensaje de error
+                        view.showErrorMessage("Ya existe una ubicación con ese nombre");
                     } else {
-                        // No existe una area con el mismo nombre, procede a agregarla
+                        // No existe una ubicacion con el mismo nombre, procede a agregarla
 
-                        // Crear un objeto para el area
-                        Area area = new Area(nombre,descripcion);
+                        // Crear un objeto para el ubicacion
+                        Ubicacion ubicacion = new Ubicacion(nombre,descripcion);
 
-                        // Agrega area con la URL de la imagen a la base de datos
-                        mDatabase.push().setValue(area);
+                        // Agrega ubicacion con la URL de la imagen a la base de datos
+                        mDatabase.push().setValue(ubicacion);
 
                         // Notifica a la vista de éxito
-                        view.showSuccessMessage("Area agregada con éxito.");
+                        view.showSuccessMessage("Ubicacion agregada con éxito.");
 
                     }
                 }
@@ -108,23 +108,23 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
         }
     }
 
-    public void autocompletarArea(String textoBusqueda) {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(AREAS);
+    public void autocompletarUbicacion(String textoBusqueda) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
 
         Query query = mDatabase.orderByChild(NOMBRE).startAt(textoBusqueda).endAt(textoBusqueda + "\uf8ff");
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> areasEncontradas = new ArrayList<>();
+                List<String> ubicacionEncontrada = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombre = snapshot.child(NOMBRE).getValue(String.class);
-                    areasEncontradas.add(nombre);
+                    ubicacionEncontrada.add(nombre);
                 }
 
-                // Notifica a la vista con las áreas encontradas
-                view.showAreasEncontradosAutocompletado(areasEncontradas);
+                // Notifica a la vista con las ubicaciones encontradas
+                view.showUbicacionEncontradaAutocompletado(ubicacionEncontrada);
             }
 
             @Override
@@ -135,14 +135,14 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
     }
 
     @Override
-    public void consultarArea(String nombreArea) {
-        // Validar que el nombre del area no sea nulo o esté vacío
-        if (nombreArea == null || nombreArea.trim().isEmpty()) {
-            view.showErrorMessage("Ingrese un nombre de área");
+    public void consultarUbicacion(String nombreUbicacion) {
+        // Validar que el nombre de la ubicacion no sea nulo o esté vacío
+        if (nombreUbicacion == null || nombreUbicacion.trim().isEmpty()) {
+            view.showErrorMessage("Ingrese un nombre de ubicación");
             return;
         }
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(AREAS);
-        Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombreArea);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
+        Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombreUbicacion);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -150,11 +150,11 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
                     String nombre = snapshot.child(NOMBRE).getValue(String.class);
                     String descripcion = snapshot.child(DESCRIPCION).getValue(String.class);
 
-                    // Crear un objeto Area con la información obtenida
-                    Area area = new Area(nombre, descripcion);
+                    // Crear un objeto Ubicacion con la información obtenida
+                    Ubicacion ubicacion = new Ubicacion(nombre, descripcion);
 
-                    // Notificar a la vista con el area obtenida
-                    view.showConsultarArea(area);
+                    // Notificar a la vista con el ubicacion obtenida
+                    view.showConsultarUbicacion(ubicacion);
                 }
             }
 
@@ -166,15 +166,15 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
     }
 
     @Override
-    public void editarArea(String nombre, String descripcion) {
+    public void editarUbicacion(String nombre, String descripcion) {
         // Validar los datos (puedes agregar más validaciones según tus necesidades)
         if (nombre.isEmpty() || descripcion.isEmpty()) {
             view.showErrorMessage("Todos los campos son obligatorios");
             return;
         }
 
-        // Obtener la referencia al area en la base de datos
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(AREAS);
+        // Obtener la referencia a la ubicación en la base de datos
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
         Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -183,54 +183,54 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     // Actualiza al area
-                    Area areaActualizado = new Area(nombre, descripcion);
-                    snapshot.getRef().setValue(areaActualizado);
+                    Ubicacion ubicacionActualizado = new Ubicacion(nombre, descripcion);
+                    snapshot.getRef().setValue(ubicacionActualizado);
 
                     // Notificar a la vista de éxito
-                    view.showSuccessMessage("Área actualizada con éxito.");
+                    view.showSuccessMessage("Ubicación actualizada con éxito.");
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
-                view.showErrorMessage("Error al editar el area: " + databaseError.getMessage());
+                view.showErrorMessage("Error al editar la ubicación: " + databaseError.getMessage());
             }
         });
     }
 
     @Override
-    public void borrarArea(String nombre) {
-        // Validar el nombre del área
+    public void borrarUbicacion(String nombre) {
+        // Validar el nombre de la ubicación
 
         if (nombre.isEmpty()) {
-            view.showErrorMessage("Nombre de área inválida");
+            view.showErrorMessage("Nombre de ubicación inválida");
             return;
         }
 
-        // Obtener la referencia al área en la base de datos
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(AREAS);
+        // Obtener la referencia a la ubicación en la base de datos
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
         Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String areaId = snapshot.getKey();
+                    String ubicacionId = snapshot.getKey();
 
                     // Borrar el área de la base de datos
-                    assert areaId != null;
-                    mDatabase.child(areaId).removeValue();
+                    assert ubicacionId != null;
+                    mDatabase.child(ubicacionId).removeValue();
 
                     // Notificar a la vista de éxito
-                    view.showSuccessMessage("Área eliminada con éxito.");
+                    view.showSuccessMessage("Ubicación eliminada con éxito.");
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
-                view.showErrorMessage("Error al borrar el área: " + databaseError.getMessage());
+                view.showErrorMessage("Error al borrar la ubicación: " + databaseError.getMessage());
             }
         });
     }
