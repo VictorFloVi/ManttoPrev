@@ -19,7 +19,8 @@
             android:layout_height="match_parent"
             android:autoSizeTextType="uniform"
             android:autoText="false"
-            android:text="REGISTRO DE ÁREAS" />
+            android:text="REGISTRO DE UBICACIÓN"
+            tools:ignore="TextViewEdits" />
     </LinearLayout>
 
     <LinearLayout
@@ -36,7 +37,7 @@
             android:layout_marginRight="50dp"
             android:autoSizeTextType="uniform"
             android:ems="10"
-            android:hint="Área"
+            android:hint="Id"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 

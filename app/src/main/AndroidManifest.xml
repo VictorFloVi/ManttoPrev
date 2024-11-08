@@ -19,7 +19,7 @@
             android:name=".Vista.MaquinaAdmin"
             android:exported="false" />
         <activity
-            android:name=".Vista.EquipoAdmin"
+            android:name=".Vista.Ubicacion2Admin"
             android:exported="false" />
         <activity
             android:name=".Vista.UbicacionAdmin"

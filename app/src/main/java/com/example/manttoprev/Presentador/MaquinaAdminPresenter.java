@@ -1,6 +1,5 @@
 package com.example.manttoprev.Presentador;
 
-import com.example.manttoprev.Modelo.Equipo;
 import com.example.manttoprev.Modelo.Maquina;
 import com.example.manttoprev.Vista.MaquinaAdmin;
 import com.google.firebase.database.DataSnapshot;
@@ -213,7 +212,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
                     String area = snapshot.child(AREA).getValue(String.class);
                     String descripcion = snapshot.child(DESCRIPCION).getValue(String.class);
 
-                    // Crear un objeto Equipo con la información obtenida
+                    // Crear un objeto Ubicacion2 con la información obtenida
                     Maquina maquina = new Maquina(nombre, equipo, area, descripcion);
 
                     // Notificar a la vista con el equipo obtenido
@@ -250,7 +249,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
                     snapshot.getRef().setValue(maquinaActualizado);
 
                     // Notificar a la vista de éxito
-                    view.showSuccessMessage("Equipo actualizada con éxito.");
+                    view.showSuccessMessage("Ubicacion2 actualizada con éxito.");
                 }
             }
 

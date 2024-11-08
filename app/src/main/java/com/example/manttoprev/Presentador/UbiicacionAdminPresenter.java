@@ -78,7 +78,7 @@ public class UbiicacionAdminPresenter implements UbicacionAdminContract.Presente
         } else {
             mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
 
-            // Realizar una consulta para verificar si ya existe una area con el mismo nombre
+            // Realizar una consulta para verificar si ya existe una ubicación con el mismo nombre
             Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

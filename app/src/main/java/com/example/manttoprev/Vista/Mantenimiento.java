@@ -30,7 +30,7 @@ public class Mantenimiento extends AppCompatActivity {
 
         Button btnRegistrarEquipo = findViewById(R.id.btnRegistrarEquipo);
         btnRegistrarEquipo.setOnClickListener(v -> {
-            Intent intent = new Intent(Mantenimiento.this, EquipoAdmin.class);
+            Intent intent = new Intent(Mantenimiento.this, Ubicacion2Admin.class);
             startActivity(intent);
         });
 
