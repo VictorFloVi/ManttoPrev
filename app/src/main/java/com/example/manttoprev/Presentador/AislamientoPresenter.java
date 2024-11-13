@@ -1,5 +1,7 @@
 package com.example.manttoprev.Presentador;
 
+import androidx.annotation.NonNull;
+
 import com.example.manttoprev.Vista.Aislamiento;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,7 +15,7 @@ import java.util.List;
 public class AislamientoPresenter implements AislamientoContract.Presenter{
     private static final String DESCRIPCION = "descripcion";
     private static final String SELECCIONAR = "Seleccionar";
-    private Aislamiento view;
+    private final Aislamiento view;
     private DatabaseReference mDatabase;
     public AislamientoPresenter(Aislamiento view) {
         this.view = view;
@@ -28,7 +30,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         mDatabase = FirebaseDatabase.getInstance().getReference().child("areas");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nombresAreas.clear(); // Limpiar la lista antes de agregar las nuevas áreas
                 nombresAreas.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -41,7 +43,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error si es necesario
             }
         });
@@ -56,7 +58,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         mDatabase = FirebaseDatabase.getInstance().getReference().child("equipos");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nombresEquipos.clear(); // Limpiar la lista antes de agregar los nuevos equipos
                 nombresEquipos.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
 
@@ -72,7 +74,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error si es necesario
             }
         });

@@ -1,5 +1,7 @@
 package com.example.manttoprev.Presentador;
 
+import androidx.annotation.NonNull;
+
 import com.example.manttoprev.Modelo.Area;
 import com.example.manttoprev.Vista.AreaAdmin;
 import com.google.firebase.database.DataSnapshot;
@@ -15,7 +17,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
     private static final String AREAS = "areas";
     private static final String NOMBRE = "nombre";
     private static final String DESCRIPCION = "descripcion";
-    private AreaAdmin view;
+    private final AreaAdmin view;
     private DatabaseReference mDatabase;
 
     public AreaAdminPresenter(AreaAdmin view) {
@@ -28,7 +30,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
         mDatabase = FirebaseDatabase.getInstance().getReference().child(AREAS);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Area> areas = new ArrayList<>();
 
                 for (DataSnapshot areaSnapshot : dataSnapshot.getChildren()) {
@@ -40,7 +42,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
                 view.showAreas(areas);
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Llama al método de la Vista para mostrar mensajes de error
                 view.showErrorMessage("Error al cargar las áreas: " + databaseError.getMessage());
             }
@@ -54,7 +56,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
         Query query = mDatabase.orderByChild(DESCRIPCION).equalTo(nombreArea);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombreArea = snapshot.child(NOMBRE).getValue(String.class);
                     String descripcionArea = snapshot.child(DESCRIPCION).getValue(String.class);
@@ -63,7 +65,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
                 }
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -82,7 +84,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
             Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         // Ya existe una area con el mismo nombre, muestra un mensaje de error
                         view.showErrorMessage("Ya existe una area con ese nombre");
@@ -101,7 +103,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
                     }
                 }
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                     // Manejar el error de Firebase aquí
                 }
             });
@@ -115,7 +117,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> areasEncontradas = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -128,7 +130,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -145,7 +147,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
         Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombreArea);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombre = snapshot.child(NOMBRE).getValue(String.class);
                     String descripcion = snapshot.child(DESCRIPCION).getValue(String.class);
@@ -159,7 +161,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -179,7 +181,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     // Actualiza al area
@@ -192,7 +194,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
                 view.showErrorMessage("Error al editar el area: " + databaseError.getMessage());
             }
@@ -214,7 +216,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String areaId = snapshot.getKey();
 
@@ -228,7 +230,7 @@ public class AreaAdminPresenter implements AreaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
                 view.showErrorMessage("Error al borrar el área: " + databaseError.getMessage());
             }

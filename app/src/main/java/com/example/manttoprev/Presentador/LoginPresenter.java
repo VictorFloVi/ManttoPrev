@@ -8,6 +8,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 
 public class LoginPresenter implements LoginContract.Presenter {
     private final Login view;
@@ -42,7 +44,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 dialog.dismiss();
-                mDatabase.child("Usuarios").child(task.getResult().getUser().getUid());
+                mDatabase.child("Usuarios").child(Objects.requireNonNull(task.getResult().getUser()).getUid());
                 view.showMenuPrincipal();
 
             } else {

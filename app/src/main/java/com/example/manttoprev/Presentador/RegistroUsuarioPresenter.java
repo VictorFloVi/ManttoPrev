@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class RegistroUsuarioPresenter implements RegistroUsuarioContract.Presenter {
@@ -52,7 +53,7 @@ public class RegistroUsuarioPresenter implements RegistroUsuarioContract.Present
                 crearUsuario.put("dni", dni);
                 crearUsuario.put("email", email);
                 crearUsuario.put("rol", rol);
-                mDatabase.child("Usuarios").child(task.getResult().getUser().getUid()).updateChildren(crearUsuario);
+                mDatabase.child("Usuarios").child(Objects.requireNonNull(task.getResult().getUser()).getUid()).updateChildren(crearUsuario);
                 view.showSuccessMessage("Usuario agregado con éxito.");
             } else {
                 dialog.dismiss();

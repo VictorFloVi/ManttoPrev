@@ -1,5 +1,7 @@
 package com.example.manttoprev.Presentador;
 
+import androidx.annotation.NonNull;
+
 import com.example.manttoprev.Modelo.Equipo;
 import com.example.manttoprev.Vista.EquipoAdmin;
 import com.google.firebase.database.DataSnapshot;
@@ -19,7 +21,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
     private static final String AREA = "area";
     private static final String DESCRIPCION = "descripcion";
     private static final String SELECCIONAR = "Seleccionar";
-    private EquipoAdmin view;
+    private final EquipoAdmin view;
     private DatabaseReference mDatabase;
 
     public EquipoAdminPresenter(EquipoAdmin view) {
@@ -32,7 +34,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
         mDatabase = FirebaseDatabase.getInstance().getReference().child(EQUIPOS);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Equipo> equipos = new ArrayList<>();
 
                 for (DataSnapshot equipoSnapshot : dataSnapshot.getChildren()) {
@@ -44,7 +46,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
                 view.showEquipos(equipos);
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Llama al método de la Vista para mostrar mensajes de error
                 view.showErrorMessage("Error al cargar las áreas: " + databaseError.getMessage());
             }
@@ -59,7 +61,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
         mDatabase = FirebaseDatabase.getInstance().getReference().child("areas");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nombresAreas.clear(); // Limpiar la lista antes de agregar las nuevas áreas
                 nombresAreas.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -72,7 +74,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error si es necesario
             }
         });
@@ -85,7 +87,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
         Query query = mDatabase.orderByChild(DESCRIPCION).equalTo(nombreEquipo);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombreEquipo = snapshot.child(NOMBRE).getValue(String.class);
                     String areaEquipo = snapshot.child(AREA).getValue(String.class);
@@ -95,7 +97,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
                 }
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -108,7 +110,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> equiposEncontrados = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -121,7 +123,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -140,7 +142,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
             Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         // Ya existe un equipo con el mismo nombre, muestra un mensaje de error
                         view.showErrorMessage("Ya existe una area con ese nombre");
@@ -159,7 +161,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
                     }
                 }
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                     // Manejar el error de Firebase aquí
                 }
             });
@@ -179,7 +181,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
         Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombreEquipo);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombre = snapshot.child(NOMBRE).getValue(String.class);
                     String area = snapshot.child(AREA).getValue(String.class);
@@ -194,7 +196,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -214,7 +216,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     // Actualiza el equipo
@@ -227,7 +229,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
                 view.showErrorMessage("Error al editar el equipo: " + databaseError.getMessage());
             }
@@ -249,7 +251,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String equipoId = snapshot.getKey();
 
@@ -263,7 +265,7 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
                 view.showErrorMessage("Error al borrar el área: " + databaseError.getMessage());
             }

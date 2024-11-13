@@ -15,7 +15,6 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.manttoprev.Modelo.Equipo;
 import com.example.manttoprev.Modelo.Maquina;
 import com.example.manttoprev.Presentador.MaquinaAdminContract;
 import com.example.manttoprev.Presentador.MaquinaAdminPresenter;

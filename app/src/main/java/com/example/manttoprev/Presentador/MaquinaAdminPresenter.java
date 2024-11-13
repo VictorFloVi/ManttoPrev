@@ -1,6 +1,8 @@
 package com.example.manttoprev.Presentador;
 
-import com.example.manttoprev.Modelo.Equipo;
+
+import androidx.annotation.NonNull;
+
 import com.example.manttoprev.Modelo.Maquina;
 import com.example.manttoprev.Vista.MaquinaAdmin;
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +23,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
     private static final String NOMBRE = "nombre";
     private static final String SELECCIONAR = "Seleccionar";
     private static final String DESCRIPCION = "descripcion";
-    private MaquinaAdmin view;
+    private final MaquinaAdmin view;
     private DatabaseReference mDatabase;
 
     public MaquinaAdminPresenter(MaquinaAdmin view) {
@@ -34,7 +36,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
         mDatabase = FirebaseDatabase.getInstance().getReference().child(MAQUINAS);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Maquina> maquinas = new ArrayList<>();
 
                 for (DataSnapshot maquinaSnapshot : dataSnapshot.getChildren()) {
@@ -46,7 +48,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
                 view.showMaquinas(maquinas);
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Llama al método de la Vista para mostrar mensajes de error
                 view.showErrorMessage("Error al cargar las máquinas: " + databaseError.getMessage());
             }
@@ -61,7 +63,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
         mDatabase = FirebaseDatabase.getInstance().getReference().child("equipos");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nombresEquipos.clear(); // Limpiar la lista antes de agregar las nuevas áreas
                 nombresEquipos.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -74,7 +76,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error si es necesario
             }
         });
@@ -87,7 +89,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
         mDatabase = FirebaseDatabase.getInstance().getReference().child("areas");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nombresAreas.clear(); // Limpiar la lista antes de agregar las nuevas áreas
                 nombresAreas.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -100,7 +102,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error si es necesario
             }
         });
@@ -113,7 +115,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
         Query query = mDatabase.orderByChild(DESCRIPCION).equalTo(nombreMaquina);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombreMaquina = snapshot.child(NOMBRE).getValue(String.class);
                     String equipoMaquina = snapshot.child(EQUIPO).getValue(String.class);
@@ -124,7 +126,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
                 }
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -137,7 +139,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> maquinasEncontrados = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -150,7 +152,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -169,7 +171,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
             Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         // Ya existe un equipo con el mismo nombre, muestra un mensaje de error
                         view.showErrorMessage("Ya existe una máquina con ese nombre");
@@ -188,7 +190,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
                     }
                 }
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                     // Manejar el error de Firebase aquí
                 }
             });
@@ -206,7 +208,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
         Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombreMaquina);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombre = snapshot.child(NOMBRE).getValue(String.class);
                     String equipo = snapshot.child(EQUIPO).getValue(String.class);
@@ -222,7 +224,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
             }
         });
@@ -242,7 +244,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     // Actualiza la máquina
@@ -255,7 +257,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
                 view.showErrorMessage("Error al editar la máquina: " + databaseError.getMessage());
             }
@@ -277,7 +279,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String maquinaId = snapshot.getKey();
 
@@ -291,7 +293,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
                 view.showErrorMessage("Error al borrar la máquina: " + databaseError.getMessage());
             }
