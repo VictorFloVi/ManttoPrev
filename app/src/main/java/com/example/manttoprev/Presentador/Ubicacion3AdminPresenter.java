@@ -1,7 +1,7 @@
 package com.example.manttoprev.Presentador;
 
-import com.example.manttoprev.Modelo.Maquina;
-import com.example.manttoprev.Vista.MaquinaAdmin;
+import com.example.manttoprev.Modelo.Ubicacion3;
+import com.example.manttoprev.Vista.Ubicacion3Admin;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,64 +12,64 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
+public class Ubicacion3AdminPresenter implements Ubicacion3AdminContract.Presenter{
 
-    private static final String MAQUINAS = "maquinas";
-    private static final String EQUIPO = "equipo";
-    private static final String AREA = "area";
+    private static final String UBICACION3 = "ubicacion3";
+    private static final String UBICACION2 = "ubicacion2";
+    private static final String UBICACION = "ubicacion";
     private static final String NOMBRE = "nombre";
     private static final String SELECCIONAR = "Seleccionar";
     private static final String DESCRIPCION = "descripcion";
-    private MaquinaAdmin view;
+    private Ubicacion3Admin view;
     private DatabaseReference mDatabase;
 
-    public MaquinaAdminPresenter(MaquinaAdmin view) {
+    public Ubicacion3AdminPresenter(Ubicacion3Admin view) {
         this.view = view;
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
-    public void listarMaquinas() {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(MAQUINAS);
+    public void listarUbicacion3() {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION3);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Maquina> maquinas = new ArrayList<>();
+                List<Ubicacion3> ubicacion3s = new ArrayList<>();
 
                 for (DataSnapshot maquinaSnapshot : dataSnapshot.getChildren()) {
                     String nombre = maquinaSnapshot.child(DESCRIPCION).getValue(String.class);
-                    Maquina maquina = new Maquina(nombre);
-                    maquinas.add(maquina);
+                    Ubicacion3 ubicacion3 = new Ubicacion3(nombre);
+                    ubicacion3s.add(ubicacion3);
                 }
                 // Llama al método de la Vista para mostrar los proveedores
-                view.showMaquinas(maquinas);
+                view.showUbicacion3(ubicacion3s);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Llama al método de la Vista para mostrar mensajes de error
-                view.showErrorMessage("Error al cargar las máquinas: " + databaseError.getMessage());
+                view.showErrorMessage("Error al cargar las ubicaciones: " + databaseError.getMessage());
             }
         });
     }
 
     @Override
-    public void obtenerEquipos() {
-        List<String> nombresEquipos = new ArrayList<>();
-        nombresEquipos.add(SELECCIONAR);
+    public void obtenerUbicacion2() {
+        List<String> nombresUbicacion2 = new ArrayList<>();
+        nombresUbicacion2.add(SELECCIONAR);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("equipos");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION2);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                nombresEquipos.clear(); // Limpiar la lista antes de agregar las nuevas áreas
-                nombresEquipos.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
+                nombresUbicacion2.clear(); // Limpiar la lista antes de agregar las nuevas ubicaciones
+                nombresUbicacion2.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String nombreEquipo = snapshot.child(DESCRIPCION).getValue(String.class);
-                    if (nombreEquipo != null) {
-                        nombresEquipos.add(nombreEquipo);
+                    String nombreUbicacion2 = snapshot.child(DESCRIPCION).getValue(String.class);
+                    if (nombreUbicacion2 != null) {
+                        nombresUbicacion2.add(nombreUbicacion2);
                     }
                 }
-                view.mostrarEquipos(nombresEquipos);
+                view.mostrarUbicacion2(nombresUbicacion2);
             }
 
             @Override
@@ -79,23 +79,23 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
         });
     }
     @Override
-    public void obtenerAreas() {
-        List<String> nombresAreas = new ArrayList<>();
-        nombresAreas.add(SELECCIONAR);
+    public void obtenerUbicacion() {
+        List<String> nombresUbicacion = new ArrayList<>();
+        nombresUbicacion.add(SELECCIONAR);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("areas");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                nombresAreas.clear(); // Limpiar la lista antes de agregar las nuevas áreas
-                nombresAreas.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
+                nombresUbicacion.clear(); // Limpiar la lista antes de agregar las nuevas ubicaciones
+                nombresUbicacion.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String nombreArea = snapshot.child(DESCRIPCION).getValue(String.class);
-                    if (nombreArea != null) {
-                        nombresAreas.add(nombreArea);
+                    String nombreUbicacion = snapshot.child(DESCRIPCION).getValue(String.class);
+                    if (nombreUbicacion != null) {
+                        nombresUbicacion.add(nombreUbicacion);
                     }
                 }
-                view.mostrarAreas(nombresAreas);
+                view.mostrarUbicacion(nombresUbicacion);
             }
 
             @Override
@@ -106,20 +106,20 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
     }
 
     @Override
-    public void clicItemListaMaquina(String nombreMaquina) {
+    public void clicItemListaUbicacion3(String nombreUbicacion3) {
         // Obtener la descripción desde la base de datos
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(MAQUINAS);
-        Query query = mDatabase.orderByChild(DESCRIPCION).equalTo(nombreMaquina);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION3);
+        Query query = mDatabase.orderByChild(DESCRIPCION).equalTo(nombreUbicacion3);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String nombreMaquina = snapshot.child(NOMBRE).getValue(String.class);
-                    String equipoMaquina = snapshot.child(EQUIPO).getValue(String.class);
-                    String areaMaquina = snapshot.child(AREA).getValue(String.class);
-                    String descripcionEquipo = snapshot.child(DESCRIPCION).getValue(String.class);
+                    String nombreUbicacion3 = snapshot.child(NOMBRE).getValue(String.class);
+                    String ubicacion2Ubicacion3 = snapshot.child(UBICACION2).getValue(String.class);
+                    String ubicacionUbicacion3 = snapshot.child(UBICACION).getValue(String.class);
+                    String descripcionUbicacion3 = snapshot.child(DESCRIPCION).getValue(String.class);
                     // Notificar a la vista con los detalles
-                    view.showDetallesMaquinaSeleccionado(nombreMaquina, equipoMaquina, areaMaquina, descripcionEquipo);
+                    view.showDetallesUbicacion3Seleccionado(nombreUbicacion3, ubicacion2Ubicacion3, ubicacionUbicacion3, descripcionUbicacion3);
                 }
             }
             @Override
@@ -129,23 +129,23 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
         });
     }
 
-    public void autocompletarMaquina(String textoBusqueda) {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(MAQUINAS);
+    public void autocompletarUbicacion3(String textoBusqueda) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION3);
 
         Query query = mDatabase.orderByChild(NOMBRE).startAt(textoBusqueda).endAt(textoBusqueda + "\uf8ff");
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> maquinasEncontrados = new ArrayList<>();
+                List<String> ubicacion3Encontrados = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombre = snapshot.child(NOMBRE).getValue(String.class);
-                    maquinasEncontrados.add(nombre);
+                    ubicacion3Encontrados.add(nombre);
                 }
 
                 // Notifica a la vista con los equipos encontrados
-                view.showMaquinasEncontradosAutocompletado(maquinasEncontrados);
+                view.showUbicacion3EncontradosAutocompletado(ubicacion3Encontrados);
             }
 
             @Override
@@ -157,32 +157,32 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
 
 
     @Override
-    public void agregarMaquina(String nombre, String equipo, String area, String descripcion) {
+    public void agregarUbicacion3(String nombre, String ubicacion2, String ubicacion, String descripcion) {
         // Validar los datos (puedes agregar más validaciones según tus necesidades)
-        if (nombre.isEmpty() || equipo.isEmpty() || area.isEmpty() || descripcion.isEmpty()) {
+        if (nombre.isEmpty() || ubicacion2.isEmpty() || ubicacion.isEmpty() || descripcion.isEmpty()) {
             view.showErrorMessage("Todos los campos son obligatorios");
         } else {
-            mDatabase = FirebaseDatabase.getInstance().getReference().child(MAQUINAS);
+            mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION3);
 
-            // Realizar una consulta para verificar si ya existe un equipo con el mismo nombre
+            // Realizar una consulta para verificar si ya existe un ubicacion2 con el mismo nombre
             Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        // Ya existe un equipo con el mismo nombre, muestra un mensaje de error
-                        view.showErrorMessage("Ya existe una máquina con ese nombre");
+                        // Ya existe un ubicacion2 con el mismo nombre, muestra un mensaje de error
+                        view.showErrorMessage("Ya existe una ubicación con ese nombre");
                     } else {
-                        // No existe una máquina con el mismo nombre, procede a agregarla
+                        // No existe una ubicación con el mismo nombre, procede a agregarla
 
-                        // Crear un objeto para la máquina
-                        Maquina maquina = new Maquina(nombre, equipo,area,descripcion);
+                        // Crear un objeto para la ubicación
+                        Ubicacion3 ubicacion3 = new Ubicacion3(nombre, ubicacion2, ubicacion,descripcion);
 
-                        // Agrega máquina con la URL de la imagen a la base de datos
-                        mDatabase.push().setValue(maquina);
+                        // Agrega ubicación con la URL de la imagen a la base de datos
+                        mDatabase.push().setValue(ubicacion3);
 
                         // Notifica a la vista de éxito
-                        view.showSuccessMessage("Máquina agregada con éxito.");
+                        view.showSuccessMessage("Ubicación agregada con éxito.");
 
                     }
                 }
@@ -195,28 +195,28 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
     }
 
     @Override
-    public void consultarMaquina(String nombreMaquina) {
-        // Validar que el nombre de la máquina no sea nulo o esté vacío
-        if (nombreMaquina == null || nombreMaquina.trim().isEmpty()) {
-            view.showErrorMessage("Ingrese un nombre de máquina");
+    public void consultarUbicacion3(String nombreUbicacion3) {
+        // Validar que el nombre de la ubicación no sea nulo o esté vacío
+        if (nombreUbicacion3 == null || nombreUbicacion3.trim().isEmpty()) {
+            view.showErrorMessage("Ingrese un nombre de ubicación");
             return;
         }
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(MAQUINAS);
-        Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombreMaquina);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION3);
+        Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombreUbicacion3);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombre = snapshot.child(NOMBRE).getValue(String.class);
-                    String equipo = snapshot.child(EQUIPO).getValue(String.class);
-                    String area = snapshot.child(AREA).getValue(String.class);
+                    String ubicacion2 = snapshot.child(UBICACION2).getValue(String.class);
+                    String ubicacion = snapshot.child(UBICACION).getValue(String.class);
                     String descripcion = snapshot.child(DESCRIPCION).getValue(String.class);
 
                     // Crear un objeto Ubicacion2 con la información obtenida
-                    Maquina maquina = new Maquina(nombre, equipo, area, descripcion);
+                    Ubicacion3 ubicacion3 = new Ubicacion3(nombre, ubicacion2, ubicacion, descripcion);
 
-                    // Notificar a la vista con el equipo obtenido
-                    view.showConsultarMaquina(maquina);
+                    // Notificar a la vista con el ubicacion2 obtenido
+                    view.showConsultarUbicacion3(ubicacion3);
                 }
             }
 
@@ -228,15 +228,15 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
     }
 
     @Override
-    public void editarMaquina(String nombre, String equipo, String area, String descripcion) {
+    public void editarUbicacion3(String nombre, String ubicacion2, String ubicacion, String descripcion) {
         // Validar los datos (puedes agregar más validaciones según tus necesidades)
-        if (nombre.isEmpty() || equipo.isEmpty() || area.isEmpty() || descripcion.isEmpty()) {
+        if (nombre.isEmpty() || ubicacion2.isEmpty() || ubicacion.isEmpty() || descripcion.isEmpty()) {
             view.showErrorMessage("Todos los campos son obligatorios");
             return;
         }
 
         // Obtener la referencia a la máquina en la base de datos
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(MAQUINAS);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION3);
         Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -245,8 +245,8 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     // Actualiza la máquina
-                    Maquina maquinaActualizado = new Maquina(nombre, equipo, area, descripcion);
-                    snapshot.getRef().setValue(maquinaActualizado);
+                    Ubicacion3 ubicacion3Actualizado = new Ubicacion3(nombre, ubicacion2, ubicacion, descripcion);
+                    snapshot.getRef().setValue(ubicacion3Actualizado);
 
                     // Notificar a la vista de éxito
                     view.showSuccessMessage("Ubicacion2 actualizada con éxito.");
@@ -262,37 +262,37 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
     }
 
     @Override
-    public void borrarMaquina(String nombre) {
+    public void borrarUbicacion3(String nombre) {
         // Validar el nombre del equipo
 
         if (nombre.isEmpty()) {
-            view.showErrorMessage("Nombre de máquina inválido");
+            view.showErrorMessage("Nombre de ubicación inválido");
             return;
         }
 
         // Obtener la referencia a la máquina en la base de datos
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(MAQUINAS);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(UBICACION3);
         Query query = mDatabase.orderByChild(NOMBRE).equalTo(nombre);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String maquinaId = snapshot.getKey();
+                    String ubicacion3Id = snapshot.getKey();
 
-                    // Borrar la máquina de la base de datos
-                    assert maquinaId != null;
-                    mDatabase.child(maquinaId).removeValue();
+                    // Borrar la ubicación de la base de datos
+                    assert ubicacion3Id != null;
+                    mDatabase.child(ubicacion3Id).removeValue();
 
                     // Notificar a la vista de éxito
-                    view.showSuccessMessage("Máquina eliminada con éxito.");
+                    view.showSuccessMessage("Ubicación eliminada con éxito.");
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Manejar el error de Firebase aquí
-                view.showErrorMessage("Error al borrar la máquina: " + databaseError.getMessage());
+                view.showErrorMessage("Error al borrar la ubicación: " + databaseError.getMessage());
             }
         });
     }

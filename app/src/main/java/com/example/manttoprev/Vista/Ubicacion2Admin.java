@@ -120,7 +120,7 @@ public class Ubicacion2Admin extends AppCompatActivity implements Ubicacion2Admi
             equiposMapList.add(ubicacion2Map);
         }
         String[] from = {NOMBRE};
-        int[] to = {R.id.tvNombreEquipo};
+        int[] to = {R.id.tvNombreUbicacion2};
         SimpleAdapter adapter = new SimpleAdapter(this, equiposMapList,
                 R.layout.lista_ubicacion2_item, from, to);
         lvListadoUbicacion2.setAdapter(adapter);

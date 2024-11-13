@@ -36,7 +36,7 @@ public class Mantenimiento extends AppCompatActivity {
 
         Button btnRegistrarZona = findViewById(R.id.btnRegistrarMaquina);
         btnRegistrarZona.setOnClickListener(v -> {
-            Intent intent = new Intent(Mantenimiento.this, MaquinaAdmin.class);
+            Intent intent = new Intent(Mantenimiento.this, Ubicacion3Admin.class);
             startActivity(intent);
         });
     }

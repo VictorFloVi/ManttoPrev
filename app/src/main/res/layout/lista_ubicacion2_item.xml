@@ -3,16 +3,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/ivImagenEquipo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop" />
-
     <TextView
-        android:id="@+id/tvNombreEquipo"
+        android:id="@+id/tvNombreUbicacion2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:paddingStart="16dp"
         android:textAppearance="?android:textAppearanceMedium" />

@@ -16,7 +16,7 @@
         android:theme="@style/Theme.ManttoPrev"
         tools:targetApi="31">
         <activity
-            android:name=".Vista.MaquinaAdmin"
+            android:name=".Vista.Ubicacion3Admin"
             android:exported="false" />
         <activity
             android:name=".Vista.Ubicacion2Admin"

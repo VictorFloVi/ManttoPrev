@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Vista.MaquinaAdmin">
+    tools:context=".Vista.Ubicacion3Admin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:orientation="vertical">
 
         <AutoCompleteTextView
-            android:id="@+id/etMaquina"
+            android:id="@+id/etUbicacion3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -50,7 +50,7 @@
             android:text="Equipo" />
 
         <Spinner
-            android:id="@+id/cboMaquinaEquipo"
+            android:id="@+id/cboUbicacion3Ubicacion2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -67,7 +67,7 @@
             android:text="Ubicación" />
 
         <Spinner
-            android:id="@+id/cboMaquinaArea"
+            android:id="@+id/cboUbicacion3Ubicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -75,7 +75,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/etDescripcionMaquina"
+            android:id="@+id/etDescripcionUbicacion3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -98,7 +98,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnAgregarMaquina"
+            android:id="@+id/btnAgregarUbicacion3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -108,7 +108,7 @@
             android:text="AGREGAR" />
 
         <Button
-            android:id="@+id/btnConsultarMaquina"
+            android:id="@+id/btnConsultarUbicacion3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -126,7 +126,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnEditarMaquina"
+            android:id="@+id/btnEditarUbicacion3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -135,7 +135,7 @@
             android:text="EDITAR" />
 
         <Button
-            android:id="@+id/btnBorrarMaquina"
+            android:id="@+id/btnBorrarUbicacion3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -151,7 +151,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/lvListadoMaquina"
+            android:id="@+id/lvListadoUbicacion3"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
