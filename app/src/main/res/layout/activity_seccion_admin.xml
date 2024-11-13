@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Vista.MaquinaAdmin">
+    tools:context=".Vista.SeccionAdmin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:autoSizeTextType="uniform"
             android:autoText="false"
-            android:text="REGISTRO DE MÁQUINAS" />
+            android:text="REGISTRO DE SECCIÓN" />
     </LinearLayout>
 
     <LinearLayout
@@ -28,7 +28,7 @@
         android:orientation="vertical">
 
         <AutoCompleteTextView
-            android:id="@+id/etMaquina"
+            android:id="@+id/etSeccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -36,29 +36,12 @@
             android:layout_marginRight="50dp"
             android:autoSizeTextType="uniform"
             android:ems="10"
-            android:hint="Máquina"
+            android:hint="Id"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/textView12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="50dp"
-            android:text="Equipo" />
-
-        <Spinner
-            android:id="@+id/cboMaquinaEquipo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            tools:ignore="TouchTargetSizeCheck" />
-
-        <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -67,7 +50,7 @@
             android:text="Área" />
 
         <Spinner
-            android:id="@+id/cboMaquinaArea"
+            android:id="@+id/cboAreaSeccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -75,7 +58,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/etDescripcionMaquina"
+            android:id="@+id/etDescripcionSeccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -98,7 +81,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnAgregarMaquina"
+            android:id="@+id/btnAgregarSeccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -108,7 +91,7 @@
             android:text="AGREGAR" />
 
         <Button
-            android:id="@+id/btnConsultarMaquina"
+            android:id="@+id/btnConsultarSeccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -126,7 +109,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnEditarMaquina"
+            android:id="@+id/btnEditarSeccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -135,7 +118,7 @@
             android:text="EDITAR" />
 
         <Button
-            android:id="@+id/btnBorrarMaquina"
+            android:id="@+id/btnBorrarSeccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -151,7 +134,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/lvListadoMaquina"
+            android:id="@+id/lvListadoSeccion"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

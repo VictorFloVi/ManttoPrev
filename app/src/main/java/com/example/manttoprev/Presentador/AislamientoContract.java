@@ -5,10 +5,10 @@ import java.util.List;
 public interface AislamientoContract {
     interface View{
         void mostrarAreas(List<String> areas);
-        void mostrarEquipos(List<String> equipos);
+        void mostrarSecciones(List<String> secciones);
     }
     interface Presenter{
         void obtenerAreas();
-        void obtenerEquipos(String areaSeleccionada);
+        void obtenerSecciones(String areaSeleccionada);
     }
 }

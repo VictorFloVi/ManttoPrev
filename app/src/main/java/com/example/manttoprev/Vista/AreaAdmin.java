@@ -115,7 +115,7 @@ public class AreaAdmin extends AppCompatActivity implements AreaAdminContract.Vi
             areasMapList.add(areaMap);
         }
         String[] from = {NOMBRE};
-        int[] to = {R.id.tvNombreEquipo};
+        int[] to = {R.id.tvNombreSeccion};
         SimpleAdapter adapter = new SimpleAdapter(this, areasMapList,
                 R.layout.lista_area_item, from, to);
         lvListadoArea.setAdapter(adapter);

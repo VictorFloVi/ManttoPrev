@@ -36,12 +36,12 @@
             android:layout_marginRight="50dp"
             android:autoSizeTextType="uniform"
             android:ems="10"
-            android:hint="Equipo"
+            android:hint="Id"
             android:inputType="text"
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -50,7 +50,24 @@
             android:text="Área" />
 
         <Spinner
-            android:id="@+id/cboAreaEquipo"
+            android:id="@+id/cboEquipoArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:text="Sección" />
+
+        <Spinner
+            android:id="@+id/cboEquipoSeccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"

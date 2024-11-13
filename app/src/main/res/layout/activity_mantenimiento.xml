@@ -49,7 +49,7 @@
             android:layout_marginTop="50dp"
             android:layout_marginRight="50dp"
             android:autoSizeTextType="uniform"
-            android:text="Registrar equipo" />
+            android:text="Registrar seccion" />
 
         <Button
             android:id="@+id/btnRegistrarMaquina"

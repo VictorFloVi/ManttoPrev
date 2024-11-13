@@ -1,19 +1,17 @@
 package com.example.manttoprev.Modelo;
 
-public class Maquina {
+public class Seccion {
     private String nombre;
-    private String equipo;
     private String area;
     private String descripcion;
 
-    public Maquina(String nombre, String equipo, String area, String descripcion) {
+    public Seccion(String nombre, String area, String descripcion) {
         this.nombre = nombre;
-        this.equipo = equipo;
         this.area = area;
         this.descripcion = descripcion;
     }
 
-    public Maquina(String nombre) {
+    public Seccion(String nombre) {
         this.nombre = nombre;
     }
 
@@ -23,14 +21,6 @@ public class Maquina {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getEquipo() {
-        return equipo;
-    }
-
-    public void setEquipo(String equipo) {
-        this.equipo = equipo;
     }
 
     public String getArea() {

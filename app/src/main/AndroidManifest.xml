@@ -16,10 +16,10 @@
         android:theme="@style/Theme.ManttoPrev"
         tools:targetApi="31">
         <activity
-            android:name=".Vista.MaquinaAdmin"
+            android:name=".Vista.EquipoAdmin"
             android:exported="false" />
         <activity
-            android:name=".Vista.EquipoAdmin"
+            android:name=".Vista.SeccionAdmin"
             android:exported="false" />
         <activity
             android:name=".Vista.AreaAdmin"

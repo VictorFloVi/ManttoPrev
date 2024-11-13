@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -29,7 +30,8 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
     private static final String NOMBRE = "nombre";
     private ListView lvListadoEquipo;
     private AutoCompleteTextView etEquipo;
-    Spinner cboAreaEquipo;
+    Spinner cboEquipoSeccion;
+    Spinner cboEquipoArea;
     EditText etDescripcionEquipo;
     Button btnAgregarEquipo;
     Button btnConsultarEquipo;
@@ -42,10 +44,10 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
         setContentView(R.layout.activity_equipo_admin);
 
         EquipoAdminContract.Presenter presenter;
-
         lvListadoEquipo = findViewById(R.id.lvListadoEquipo);
         etEquipo = findViewById(R.id.etEquipo);
-        cboAreaEquipo = findViewById(R.id.cboAreaEquipo);
+        cboEquipoSeccion = findViewById(R.id.cboEquipoSeccion);
+        cboEquipoArea = findViewById(R.id.cboEquipoArea);
         etDescripcionEquipo = findViewById(R.id.etDescripcionEquipo);
         btnAgregarEquipo = findViewById(R.id.btnAgregarEquipo);
         btnConsultarEquipo = findViewById(R.id.btnConsultarEquipo);
@@ -53,7 +55,9 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
         btnBorrarEquipo = findViewById(R.id.btnBorrarEquipo);
 
         presenter = new EquipoAdminPresenter(this);
+
         presenter.listarEquipos();
+        presenter.obtenerSecciones();
         presenter.obtenerAreas();
 
         //Detecta cuando se selecciona un elemento de la lista
@@ -64,6 +68,7 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
             // Llama al método del presentador para obtener detalles de la categoría
             presenter.clicItemListaEquipo(nombreEquipo);
         });
+
 
         //Detecta los cambios en el texto del AutoCompleteTextView
         etEquipo.addTextChangedListener(new TextWatcher() {
@@ -84,11 +89,11 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
 
         btnAgregarEquipo.setOnClickListener(v -> {
             String equipo = etEquipo.getText().toString().trim();
-            String area = cboAreaEquipo.getSelectedItem().toString().trim();
+            String seccion = cboEquipoSeccion.getSelectedItem().toString().trim();
+            String area = cboEquipoArea.getSelectedItem().toString().trim();
             String descripcion = etDescripcionEquipo.getText().toString().trim();
-            presenter.agregarEquipo(equipo, area, descripcion);
+            presenter.agregarEquipo(equipo, seccion, area, descripcion);
         });
-
 
         btnConsultarEquipo.setOnClickListener(v -> {
             String nombreEquipo = etEquipo.getText().toString().trim();
@@ -97,11 +102,11 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
 
         btnEditarEquipo.setOnClickListener(v -> {
             String nombre = etEquipo.getText().toString().trim();
-            String area = cboAreaEquipo.getSelectedItem().toString().trim();
+            String seccion = cboEquipoSeccion.getSelectedItem().toString().trim();
+            String area = cboEquipoArea.getSelectedItem().toString().trim();
             String descripcion = etDescripcionEquipo.getText().toString().trim();
-            presenter.editarEquipo(nombre, area, descripcion);
+            presenter.editarEquipo(nombre, seccion, area, descripcion);
         });
-
 
         btnBorrarEquipo.setOnClickListener(v -> {
             String nombre = etEquipo.getText().toString().trim();
@@ -111,8 +116,10 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
 
     }
 
+
+
     public void showEquipos(List<Equipo> equipos) {
-        // Crear un adaptador personalizado para mostrar los equipos en la ListView
+        // Crear un adaptador personalizado para mostrar las máquinas en la ListView
         List<Map<String, Object>> equiposMapList = new ArrayList<>();
         for (Equipo equipo : equipos) {
             Map<String, Object> equipoMap = new HashMap<>();
@@ -126,7 +133,6 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
         lvListadoEquipo.setAdapter(adapter);
     }
 
-
     public void showErrorMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -136,22 +142,31 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
     }
     public void clearEditTextFields() {
         etEquipo.setText("");
-        cboAreaEquipo.setSelection(0);
+        cboEquipoSeccion.setSelection(0);
+        cboEquipoArea.setSelection(0);
         etDescripcionEquipo.setText("");
     }
+
     @Override
-    public void showDetallesEquipoSeleccionado(String nombreEquipo, String areaEquipo, String descripcionEquipo) {
+    public void showDetallesEquipoSeleccionado(String nombreEquipo, String seccionEquipo, String areaEquipo, String descripcionEquipo) {
         // Mostrar la información en los campos correspondientes
         etEquipo.setText(nombreEquipo);
-        // Obtener el índice de la categoría seleccionada en el Spinner
-        int index = obtenerIndiceArea(areaEquipo);
-        cboAreaEquipo.setSelection(index);
+        // Obtener el índice del equipo seleccionado en el Spinner
+        int index = obtenerIndiceSeccion(seccionEquipo);
+        int indexa = obtenerIndiceArea(areaEquipo);
+        cboEquipoSeccion.setSelection(index);
+        cboEquipoArea.setSelection(indexa);
         etDescripcionEquipo.setText(descripcionEquipo);
     }
+    private int obtenerIndiceSeccion(String seccion) {
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) cboEquipoSeccion.getAdapter();
+        return adapter.getPosition(seccion);
+    }
     private int obtenerIndiceArea(String area) {
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) cboAreaEquipo.getAdapter();
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) cboEquipoArea.getAdapter();
         return adapter.getPosition(area);
     }
+
     @Override
     public void showEquiposEncontradosAutocompletado(List<String> equipos) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -159,21 +174,27 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
         etEquipo.setAdapter(adapter);
     }
 
-
     @Override
     public void showConsultarEquipo(Equipo equipo) {
-        // Obtener el índice del área seleccionada en el Spinner
-        int index = obtenerIndiceArea(equipo.getArea());
+        // Obtener el índice de la máquina seleccionada en el Spinner
+        int index = obtenerIndiceSeccion(equipo.getSeccion());
+        int indexa = obtenerIndiceArea(equipo.getArea());
         etEquipo.setText(String.valueOf(equipo.getNombre()));
-        cboAreaEquipo.setSelection(index);
+        cboEquipoSeccion.setSelection(index);
+        cboEquipoArea.setSelection(indexa);
         etDescripcionEquipo.setText(String.valueOf(equipo.getDescripcion()));
     }
 
-
+    @Override
+    public void mostrarSecciones(List<String> secciones) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, secciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cboEquipoSeccion.setAdapter(adapter);
+    }
     @Override
     public void mostrarAreas(List<String> areas) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, areas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        cboAreaEquipo.setAdapter(adapter);
+        cboEquipoArea.setAdapter(adapter);
     }
 }

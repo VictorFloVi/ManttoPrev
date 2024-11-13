@@ -17,8 +17,8 @@ import java.util.List;
 public class Aislamiento extends AppCompatActivity implements AislamientoContract.View {
 
     Spinner cboArea;
+    Spinner cboSecciones;
     Spinner cboEquipos;
-    Spinner cboMaquinas;
     Spinner cboMotor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
         AislamientoContract.Presenter presenter;
 
         cboArea = findViewById(R.id.cboArea);
+        cboSecciones = findViewById(R.id.cboSecciones);
         cboEquipos = findViewById(R.id.cboEquipos);
-        cboMaquinas = findViewById(R.id.cboMaquinas);
         cboMotor = findViewById(R.id.cboMotor);
 
         presenter = new AislamientoPresenter(this);
@@ -46,7 +46,7 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
                 String areaSeleccionada = parent.getItemAtPosition(position).toString();
 
                 // Llamar al método obtenerEquipos() con el área seleccionada
-                presenter.obtenerEquipos(areaSeleccionada);
+                presenter.obtenerSecciones(areaSeleccionada);
             }
 
             @Override
@@ -56,9 +56,9 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
         });
 
 
-        String[] fuenteDato3 = getResources().getStringArray(R.array.lista_maquinas);
+        String[] fuenteDato3 = getResources().getStringArray(R.array.lista_equipos);
         ArrayAdapter<String> adp3 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, fuenteDato3);
-        cboMaquinas.setAdapter(adp3);
+        cboEquipos.setAdapter(adp3);
 
         String[] fuenteDato4 = getResources().getStringArray(R.array.lista_motores);
         ArrayAdapter<String> adp4 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, fuenteDato4);
@@ -72,10 +72,10 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
         cboArea.setAdapter(adapter);
     }
     @Override
-    public void mostrarEquipos(List<String> equipos) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, equipos);
+    public void mostrarSecciones(List<String> secciones) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, secciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        cboEquipos.setAdapter(adapter);
+        cboSecciones.setAdapter(adapter);
     }
 
 

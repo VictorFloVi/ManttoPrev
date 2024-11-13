@@ -14,7 +14,8 @@ import java.util.List;
 
 public class AislamientoPresenter implements AislamientoContract.Presenter{
     private static final String DESCRIPCION = "descripcion";
-    private static final String SELECCIONAR = "Seleccionar";
+    private static final String AREA = "Área";
+    private static final String SECCION = "Sección";
     private final Aislamiento view;
     private DatabaseReference mDatabase;
     public AislamientoPresenter(Aislamiento view) {
@@ -25,14 +26,14 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
     @Override
     public void obtenerAreas() {
         List<String> nombresAreas = new ArrayList<>();
-        nombresAreas.add(SELECCIONAR);
+        nombresAreas.add(AREA);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("areas");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nombresAreas.clear(); // Limpiar la lista antes de agregar las nuevas áreas
-                nombresAreas.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
+                nombresAreas.add(AREA); // Agregar la opción "Seleccionar" nuevamente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombreArea = snapshot.child(DESCRIPCION).getValue(String.class);
                     if (nombreArea != null) {
@@ -51,26 +52,26 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
 
 
     @Override
-    public void obtenerEquipos(final String areaSeleccionada) {
-        final List<String> nombresEquipos = new ArrayList<>();
-        nombresEquipos.add(SELECCIONAR);
+    public void obtenerSecciones(final String areaSeleccionada) {
+        final List<String> nombresSecciones = new ArrayList<>();
+        nombresSecciones.add(SECCION);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("equipos");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("secciones");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nombresEquipos.clear(); // Limpiar la lista antes de agregar los nuevos equipos
-                nombresEquipos.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
+                nombresSecciones.clear(); // Limpiar la lista antes de agregar los nuevos equipos
+                nombresSecciones.add(SECCION); // Agregar la opción "Seleccionar" nuevamente
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String nombreEquipo = snapshot.child(DESCRIPCION).getValue(String.class);
-                    String areaEquipo = snapshot.child("area").getValue(String.class);
+                    String nombreSeccion = snapshot.child(DESCRIPCION).getValue(String.class);
+                    String areaSeccion = snapshot.child("area").getValue(String.class);
 
-                    if (nombreEquipo != null && areaEquipo != null && areaEquipo.equals(areaSeleccionada)) {
-                        nombresEquipos.add(nombreEquipo);
+                    if (nombreSeccion != null && areaSeccion != null && areaSeccion.equals(areaSeleccionada)) {
+                        nombresSecciones.add(nombreSeccion);
                     }
                 }
-                view.mostrarEquipos(nombresEquipos);
+                view.mostrarSecciones(nombresSecciones);
             }
 
             @Override
