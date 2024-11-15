@@ -19,6 +19,7 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
     Spinner cboArea;
     Spinner cboSecciones;
     Spinner cboEquipos;
+    Spinner cboMaquinas;
     Spinner cboMotor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
         cboArea = findViewById(R.id.cboArea);
         cboSecciones = findViewById(R.id.cboSecciones);
         cboEquipos = findViewById(R.id.cboEquipos);
+        cboMaquinas= findViewById(R.id.cboMaquinas);
         cboMotor = findViewById(R.id.cboMotor);
 
         presenter = new AislamientoPresenter(this);
@@ -45,7 +47,7 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
                 // Obtener el área seleccionada
                 String areaSeleccionada = parent.getItemAtPosition(position).toString();
 
-                // Llamar al método obtenerEquipos() con el área seleccionada
+                // Llamar al método obtenerSeccioness() con el área seleccionada
                 presenter.obtenerSecciones(areaSeleccionada);
             }
 
@@ -55,14 +57,17 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
             }
         });
 
+        cboSecciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String seccionSeleccionada = parent.getItemAtPosition(position).toString();
+                presenter.obtenerEquipos(seccionSeleccionada);
+            }
 
-        String[] fuenteDato3 = getResources().getStringArray(R.array.lista_equipos);
-        ArrayAdapter<String> adp3 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, fuenteDato3);
-        cboEquipos.setAdapter(adp3);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
-        String[] fuenteDato4 = getResources().getStringArray(R.array.lista_motores);
-        ArrayAdapter<String> adp4 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, fuenteDato4);
-        cboMotor.setAdapter(adp4);
     }
 
     @Override
@@ -78,5 +83,11 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
         cboSecciones.setAdapter(adapter);
     }
 
+    @Override
+    public void mostrarEquipos(List<String> equipos) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, equipos);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cboEquipos.setAdapter(adapter);
+    }
 
 }

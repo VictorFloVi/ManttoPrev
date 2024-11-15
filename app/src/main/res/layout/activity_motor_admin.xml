@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Vista.SeccionAdmin">
+    tools:context=".Vista.MotorAdmin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,17 +19,17 @@
             android:layout_height="match_parent"
             android:autoSizeTextType="uniform"
             android:autoText="false"
-            android:text="REGISTRO DE SECCIÓN"
+            android:text="REGISTRO DE MOTORES"
             tools:ignore="Deprecated,HardcodedText,TextViewEdits" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="494dp"
         android:orientation="vertical">
 
         <AutoCompleteTextView
-            android:id="@+id/etSeccion"
+            android:id="@+id/etMotor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -42,7 +42,7 @@
             tools:ignore="HardcodedText,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -52,7 +52,61 @@
             tools:ignore="HardcodedText" />
 
         <Spinner
-            android:id="@+id/cboAreaSeccion"
+            android:id="@+id/cboMotorArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:text="Sección"
+            tools:ignore="HardcodedText" />
+
+        <Spinner
+            android:id="@+id/cboMotorSeccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:text="Equipo"
+            tools:ignore="HardcodedText" />
+
+        <Spinner
+            android:id="@+id/cboMotorEquipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:text="Máquina"
+            tools:ignore="HardcodedText" />
+
+        <Spinner
+            android:id="@+id/cboMotorMaquina"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -60,7 +114,7 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/etDescripcionSeccion"
+            android:id="@+id/etDescripcionMotor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -83,7 +137,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnAgregarSeccion"
+            android:id="@+id/btnAgregarMotor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -94,7 +148,7 @@
             tools:ignore="ButtonStyle,HardcodedText,RtlHardcoded,VisualLintButtonSize" />
 
         <Button
-            android:id="@+id/btnConsultarSeccion"
+            android:id="@+id/btnConsultarMotor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -113,7 +167,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnEditarSeccion"
+            android:id="@+id/btnEditarMotor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -123,7 +177,7 @@
             tools:ignore="ButtonStyle,HardcodedText,RtlHardcoded,VisualLintButtonSize" />
 
         <Button
-            android:id="@+id/btnBorrarSeccion"
+            android:id="@+id/btnBorrarMotor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -140,7 +194,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/lvListadoSeccion"
+            android:id="@+id/lvListadoMotor"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

@@ -8,7 +8,9 @@
     </string-array>
 
 
-    <string-array name="lista_equipos">
+
+
+    <string-array name="lista_maquinas">
         <item>Maquinas</item>
         <item>Resta</item>
         <item>Multiplicación</item>
