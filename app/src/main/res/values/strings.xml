@@ -7,20 +7,4 @@
         <item>administrador</item>
     </string-array>
 
-
-
-
-    <string-array name="lista_maquinas">
-        <item>Maquinas</item>
-        <item>Resta</item>
-        <item>Multiplicación</item>
-        <item>División</item>
-    </string-array>
-
-    <string-array name="lista_motores">
-        <item>Motor</item>
-        <item>Resta</item>
-        <item>Multiplicación</item>
-        <item>División</item>
-    </string-array>
 </resources>

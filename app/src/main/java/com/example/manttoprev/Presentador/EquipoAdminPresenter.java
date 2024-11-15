@@ -120,9 +120,9 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
                     String nombreEquipo = snapshot.child(NOMBRE).getValue(String.class);
                     String seccionEquipo = snapshot.child(SECCION).getValue(String.class);
                     String areaEquipo = snapshot.child(AREA).getValue(String.class);
-                    String descripcionSeccion = snapshot.child(DESCRIPCION).getValue(String.class);
+                    String descripcionEquipo = snapshot.child(DESCRIPCION).getValue(String.class);
                     // Notificar a la vista con los detalles
-                    view.showDetallesEquipoSeleccionado(nombreEquipo, seccionEquipo, areaEquipo, descripcionSeccion);
+                    view.showDetallesEquipoSeleccionado(nombreEquipo, seccionEquipo, areaEquipo, descripcionEquipo);
                 }
             }
             @Override
@@ -140,15 +140,15 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> maquinasEncontrados = new ArrayList<>();
+                List<String>equiposEncontrados = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombre = snapshot.child(NOMBRE).getValue(String.class);
-                    maquinasEncontrados.add(nombre);
+                    equiposEncontrados.add(nombre);
                 }
 
                 // Notifica a la vista con los equipos encontrados
-                view.showEquiposEncontradosAutocompletado(maquinasEncontrados);
+                view.showEquiposEncontradosAutocompletado(equiposEncontrados);
             }
 
             @Override
@@ -281,11 +281,11 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String maquinaId = snapshot.getKey();
+                    String equipoId = snapshot.getKey();
 
                     // Borrar la máquina de la base de datos
-                    assert maquinaId != null;
-                    mDatabase.child(maquinaId).removeValue();
+                    assert equipoId != null;
+                    mDatabase.child(equipoId).removeValue();
 
                     // Notificar a la vista de éxito
                     view.showSuccessMessage("Máquina eliminada con éxito.");
