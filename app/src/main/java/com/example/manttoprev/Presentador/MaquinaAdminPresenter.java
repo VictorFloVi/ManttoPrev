@@ -57,19 +57,22 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
     }
 
     @Override
-    public void obtenerEquipos() {
-        List<String> nombresEquipos = new ArrayList<>();
-        nombresEquipos.add(SELECCIONAR);
+    public void obtenerEquipos( String equipoSeleccionado) {
+        final List<String> nombresEquipos = new ArrayList<>();
+        nombresEquipos.add(EQUIPO);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("equipos");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nombresEquipos.clear(); // Limpiar la lista antes de agregar las nuevas áreas
+                nombresEquipos.clear(); // Limpiar la lista antes de agregar los nuevos equipos
                 nombresEquipos.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombreEquipo = snapshot.child(DESCRIPCION).getValue(String.class);
-                    if (nombreEquipo != null) {
+                    String seccionEquipo = snapshot.child(SECCION).getValue(String.class);
+
+                    if (nombreEquipo != null && seccionEquipo != null && seccionEquipo.equals(equipoSeleccionado)) {
                         nombresEquipos.add(nombreEquipo);
                     }
                 }
@@ -84,19 +87,22 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
     }
 
     @Override
-    public void obtenerSecciones() {
-        List<String> nombresSecciones = new ArrayList<>();
-        nombresSecciones.add(SELECCIONAR);
+    public void obtenerSecciones(final String areaSeleccionada) {
+        final List<String> nombresSecciones = new ArrayList<>();
+        nombresSecciones.add(SECCION);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("secciones");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nombresSecciones.clear(); // Limpiar la lista antes de agregar las nuevas áreas
+                nombresSecciones.clear(); // Limpiar la lista antes de agregar los nuevos equipos
                 nombresSecciones.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombreSeccion = snapshot.child(DESCRIPCION).getValue(String.class);
-                    if (nombreSeccion != null) {
+                    String areaSeccion = snapshot.child(AREA).getValue(String.class);
+
+                    if (nombreSeccion != null && areaSeccion != null && areaSeccion.equals(areaSeleccionada)) {
                         nombresSecciones.add(nombreSeccion);
                     }
                 }
@@ -109,6 +115,7 @@ public class MaquinaAdminPresenter implements MaquinaAdminContract.Presenter{
             }
         });
     }
+
 
     @Override
     public void obtenerAreas() {

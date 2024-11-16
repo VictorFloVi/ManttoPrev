@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -57,8 +59,23 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
         presenter = new EquipoAdminPresenter(this);
 
         presenter.listarEquipos();
-        presenter.obtenerSecciones();
         presenter.obtenerAreas();
+
+
+        cboEquipoArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Obtener el área seleccionada
+                String areaSeleccionada = parent.getItemAtPosition(position).toString();
+
+                // Llamar al método obtenerSeccioness() con el área seleccionada
+                presenter.obtenerSecciones(areaSeleccionada);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Manejar el caso en que no se seleccione nada en el Spinner
+            }
+        });
 
         //Detecta cuando se selecciona un elemento de la lista
         lvListadoEquipo.setOnItemClickListener((parent, view, position, id) -> {
@@ -184,6 +201,10 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
         cboEquipoArea.setSelection(indexa);
         etDescripcionEquipo.setText(String.valueOf(equipo.getDescripcion()));
     }
+
+
+
+
 
     @Override
     public void mostrarSecciones(List<String> secciones) {

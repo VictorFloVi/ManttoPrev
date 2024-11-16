@@ -68,6 +68,17 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        cboEquipos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String equipoSeleccionado = parent.getItemAtPosition(position).toString();
+                presenter.obtenerMaquinas(equipoSeleccionado);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
     }
 
     @Override
@@ -89,5 +100,10 @@ public class Aislamiento extends AppCompatActivity implements AislamientoContrac
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboEquipos.setAdapter(adapter);
     }
-
+    @Override
+    public void mostrarMaquinas(List<String> maquinas) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, maquinas);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cboMaquinas.setAdapter(adapter);
+    }
 }

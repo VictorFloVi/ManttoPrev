@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -57,9 +59,33 @@ public class MaquinaAdmin extends AppCompatActivity implements MaquinaAdminContr
         presenter = new MaquinaAdminPresenter(this);
 
         presenter.listarMaquinas();
-        presenter.obtenerEquipos();
-        presenter.obtenerSecciones();
         presenter.obtenerAreas();
+
+        cboMaquinaArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Obtener el área seleccionada
+                String areaSeleccionada = parent.getItemAtPosition(position).toString();
+
+                // Llamar al método obtenerSeccioness() con el área seleccionada
+                presenter.obtenerSecciones(areaSeleccionada);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Manejar el caso en que no se seleccione nada en el Spinner
+            }
+        });
+
+        cboMaquinaSeccion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String seccionSeleccionada = parent.getItemAtPosition(position).toString();
+                presenter.obtenerEquipos(seccionSeleccionada);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         //Detecta cuando se selecciona un elemento de la lista
         lvListadoMaquina.setOnItemClickListener((parent, view, position, id) -> {
@@ -116,7 +142,6 @@ public class MaquinaAdmin extends AppCompatActivity implements MaquinaAdminContr
             clearEditTextFields();
         });
     }
-
 
     public void showMaquinas(List<Maquina> maquinas) {
         // Crear un adaptador personalizado para mostrar las máquinas en la ListView

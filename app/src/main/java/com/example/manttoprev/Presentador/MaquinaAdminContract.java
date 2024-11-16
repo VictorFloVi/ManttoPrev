@@ -15,19 +15,15 @@ public interface MaquinaAdminContract {
 
     }
     interface Presenter{
-
         void listarMaquinas();
         void clicItemListaMaquina(String nombreMaquina);
         void autocompletarMaquina(String textoBusqueda);
-        void obtenerEquipos();
-        void obtenerSecciones();
+        void obtenerEquipos(String equipoSeleccionado);
+        void obtenerSecciones(String areaSeleccionada);
         void obtenerAreas();
         void agregarMaquina(String maquina, String equipo, String seccion, String area, String descripcion);
         void consultarMaquina(String nombreMaquina);
         void editarMaquina(String nombre, String equipo, String seccion, String area, String descripcion);
         void borrarMaquina(String nombre);
-
-
-
     }
 }

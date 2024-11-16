@@ -16,7 +16,7 @@ public interface EquipoAdminContract {
         void listarEquipos();
         void clicItemListaEquipo(String nombreEquipo);
         void autocompletarEquipo(String textoBusqueda);
-        void obtenerSecciones();
+        void obtenerSecciones(String areaSeleccionada);
         void obtenerAreas();
         void agregarEquipo(String seccion, String equipo, String area, String descripcion);
         void consultarEquipo(String nombreEquipo);

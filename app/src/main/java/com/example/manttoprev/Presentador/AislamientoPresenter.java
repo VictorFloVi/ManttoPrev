@@ -17,6 +17,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
     private static final String AREA = "Área";
     private static final String SECCION = "Sección";
     private static final String EQUIPO = "Equipo";
+    private static final String MAQUINA = "Maquina";
     private final Aislamiento view;
     private DatabaseReference mDatabase;
     public AislamientoPresenter(Aislamiento view) {
@@ -112,4 +113,33 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         });
     }
 
+    @Override
+    public void obtenerMaquinas(String maquinaSeleccionada) {
+        final List<String> nombresMaquinas = new ArrayList<>();
+        nombresMaquinas.add(EQUIPO);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("maquinas");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                nombresMaquinas.clear(); // Limpiar la lista antes de agregar los nuevos equipos
+                nombresMaquinas.add(MAQUINA); // Agregar la opción "Seleccionar" nuevamente
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String nombreMaquina = snapshot.child(DESCRIPCION).getValue(String.class);
+                    String equipoMaquina = snapshot.child("equipo").getValue(String.class);
+
+                    if (nombreMaquina != null && equipoMaquina != null && equipoMaquina.equals(maquinaSeleccionada)) {
+                        nombresMaquinas.add(nombreMaquina);
+                    }
+                }
+                view.mostrarMaquinas(nombresMaquinas);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejar el error si es necesario
+            }
+        });
+    }
 }

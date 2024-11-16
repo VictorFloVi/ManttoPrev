@@ -55,20 +55,24 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
         });
     }
 
+
     @Override
-    public void obtenerSecciones() {
-        List<String> nombresSecciones = new ArrayList<>();
-        nombresSecciones.add(SELECCIONAR);
+    public void obtenerSecciones(final String areaSeleccionada) {
+        final List<String> nombresSecciones = new ArrayList<>();
+        nombresSecciones.add(SECCION);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("secciones");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nombresSecciones.clear(); // Limpiar la lista antes de agregar las nuevas áreas
+                nombresSecciones.clear(); // Limpiar la lista antes de agregar los nuevos equipos
                 nombresSecciones.add(SELECCIONAR); // Agregar la opción "Seleccionar" nuevamente
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String nombreSeccion = snapshot.child(DESCRIPCION).getValue(String.class);
-                    if (nombreSeccion != null) {
+                    String areaSeccion = snapshot.child("area").getValue(String.class);
+
+                    if (nombreSeccion != null && areaSeccion != null && areaSeccion.equals(areaSeleccionada)) {
                         nombresSecciones.add(nombreSeccion);
                     }
                 }
@@ -81,6 +85,10 @@ public class EquipoAdminPresenter implements EquipoAdminContract.Presenter{
             }
         });
     }
+
+
+
+
     @Override
     public void obtenerAreas() {
         List<String> nombresAreas = new ArrayList<>();
