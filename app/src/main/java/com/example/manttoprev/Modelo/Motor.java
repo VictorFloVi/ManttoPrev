@@ -2,21 +2,20 @@ package com.example.manttoprev.Modelo;
 
 public class Motor {
     private String nombre;
-    private String area;
-    private String seccion;
+    private String maquina;
     private String equipo;
-    private String motor;
+    private String seccion;
+    private String area;
     private String descripcion;
 
-    public Motor(String nombre, String area, String seccion, String equipo, String motor, String descripcion) {
+    public Motor(String nombre, String maquina, String equipo, String seccion, String area, String descripcion) {
         this.nombre = nombre;
-        this.area = area;
-        this.seccion = seccion;
+        this.maquina = maquina;
         this.equipo = equipo;
-        this.motor = motor;
+        this.seccion = seccion;
+        this.area = area;
         this.descripcion = descripcion;
     }
-
     public Motor(String nombre) {
         this.nombre = nombre;
     }
@@ -29,20 +28,12 @@ public class Motor {
         this.nombre = nombre;
     }
 
-    public String getArea() {
-        return area;
+    public String getMaquina() {
+        return maquina;
     }
 
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getSeccion() {
-        return seccion;
-    }
-
-    public void setSeccion(String seccion) {
-        this.seccion = seccion;
+    public void setMaquina(String maquina) {
+        this.maquina = maquina;
     }
 
     public String getEquipo() {
@@ -53,12 +44,20 @@ public class Motor {
         this.equipo = equipo;
     }
 
-    public String getMotor() {
-        return motor;
+    public String getSeccion() {
+        return seccion;
     }
 
-    public void setMotor(String motor) {
-        this.motor = motor;
+    public void setSeccion(String seccion) {
+        this.seccion = seccion;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public String getDescripcion() {
