@@ -2,7 +2,8 @@ package com.example.manttoprev.Presentador;
 
 import androidx.annotation.NonNull;
 
-import com.example.manttoprev.Vista.Aislamiento;
+import com.example.manttoprev.Modelo.Aislamiento;
+import com.example.manttoprev.Vista.AislamientoAdmin;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -10,17 +11,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AislamientoPresenter implements AislamientoContract.Presenter{
+
+    private static final String AISLAMIENTO = "aislamiento";
     private static final String DESCRIPCION = "descripcion";
     private static final String AREA = "Área";
     private static final String SECCION = "Sección";
     private static final String EQUIPO = "Equipo";
     private static final String MAQUINA = "Maquina";
-    private final Aislamiento view;
+    private static final String MOTOR = "Motor";
+    private final AislamientoAdmin view;
     private DatabaseReference mDatabase;
-    public AislamientoPresenter(Aislamiento view) {
+    public AislamientoPresenter(AislamientoAdmin view) {
         this.view = view;
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
@@ -112,7 +117,6 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
             }
         });
     }
-
     @Override
     public void obtenerMaquinas(String maquinaSeleccionada) {
         final List<String> nombresMaquinas = new ArrayList<>();
@@ -141,5 +145,63 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
                 // Manejar el error si es necesario
             }
         });
+    }
+
+    @Override
+    public void obtenerMotores(String motorSeleccionado) {
+        final List<String> nombresMotores = new ArrayList<>();
+        nombresMotores.add(MOTOR);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("motores");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                nombresMotores.clear(); // Limpiar la lista antes de agregar los nuevos equipos
+                nombresMotores.add(MOTOR); // Agregar la opción "Seleccionar" nuevamente
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String nombreMotor = snapshot.child(DESCRIPCION).getValue(String.class);
+                    String equipoMotor = snapshot.child("maquina").getValue(String.class);
+
+                    if (nombreMotor != null && equipoMotor != null && equipoMotor.equals(motorSeleccionado)) {
+                        nombresMotores.add(nombreMotor);
+                    }
+                }
+                view.mostrarMotores(nombresMotores);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejar el error si es necesario
+            }
+        });
+    }
+
+    @Override
+    public void guardarAislamiento(String area, String seccion, String equipo, String maquina, String motor,
+                                   Double megadou, Double megadov, Double megadow,
+                                   Double resistenciau, Double resistenciav, Double resistenciaw,
+                                   Double amperajeu, Double amperajev, Double amperajew) {
+        // Validar los datos (puedes agregar más validaciones según tus necesidades)
+        if (area.isEmpty() || seccion.isEmpty() || equipo.isEmpty() || maquina.isEmpty() || motor.isEmpty() || megadou==null
+        || megadov==null || megadow==null || resistenciau==null || resistenciav==null || resistenciaw==null ||
+        amperajeu==null || amperajev==null || amperajew==null) {
+            view.showErrorMessage("Todos los campos son obligatorios");
+        } else {
+            mDatabase = FirebaseDatabase.getInstance().getReference().child(AISLAMIENTO);
+
+            // Crear un objeto de la máquina
+            Aislamiento aislamiento = new Aislamiento(area, seccion, equipo, maquina, motor,
+                    megadou, megadov, megadow,
+                    resistenciau, resistenciav, resistenciaw,
+                    amperajeu, amperajev, amperajew, new Date());
+
+            // Agregar la máquina directamente a la base de datos con una clave única
+            mDatabase.push().setValue(aislamiento);
+            // Mostrar mensaje de éxito si la máquina se agregó correctamente
+            view.showSuccessMessage("Máquina agregada con éxito.");
+
+        }
+
     }
 }

@@ -37,7 +37,7 @@ public class InterfazPrincipal extends AppCompatActivity implements InterfazPrin
 
         TextView tvAislamiento = findViewById(R.id.tvAislamiento);
         tvAislamiento.setOnClickListener(v -> {
-            Intent intent = new Intent(InterfazPrincipal.this, Aislamiento.class);
+            Intent intent = new Intent(InterfazPrincipal.this, AislamientoAdmin.class);
             startActivity(intent);
         });
 

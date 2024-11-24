@@ -49,7 +49,7 @@
             android:name=".Vista.ManttoMotor"
             android:exported="false" />
         <activity
-            android:name=".Vista.Aislamiento"
+            android:name=".Vista.AislamientoAdmin"
             android:exported="false" />
         <activity
             android:name=".Vista.InterfazPrincipal"

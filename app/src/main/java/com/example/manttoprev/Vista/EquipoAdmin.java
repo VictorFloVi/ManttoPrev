@@ -70,6 +70,7 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
 
                 // Llamar al método obtenerSeccioness() con el área seleccionada
                 presenter.obtenerSecciones(areaSeleccionada);
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

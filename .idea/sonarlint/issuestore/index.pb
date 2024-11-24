@@ -79,3 +79,9 @@ Kapp/src/main/java/com/example/manttoprev/Presentador/AreaAdminContract.java,5\
 Oapp/src/main/java/com/example/manttoprev/Presentador/MaquinaAdminPresenter.java,0\4\0421404cb6cf656604b2aa08f13205e3c4dfe13f
 |
 Lapp/src/main/java/com/example/manttoprev/Presentador/AreaAdminPresenter.java,e\d\ed59f66096ecbc6217d452ab4438aab79f4eaa8a
+|
+Lapp/src/main/java/com/example/manttoprev/Presentador/MotorAdminContract.java,0\c\0cf958e1063ec6de47174202738c8b2a6089882c
+t
+Dapp/src/main/java/com/example/manttoprev/Vista/AislamientoAdmin.java,8\0\80af54c19b01e71c543e4c857d73072e249a6aa9
+p
+@app/src/main/java/com/example/manttoprev/Modelo/Aislamiento.java,2\d\2d736f59a93aa22c3b09001980f3e8ebaff396e1
