@@ -1,8 +1,9 @@
 {
   "project_info": {
     "project_number": "259789676102",
+    "firebase_url": "https://manttoprev-8c25e-default-rtdb.firebaseio.com",
     "project_id": "manttoprev-8c25e",
-    "storage_bucket": "manttoprev-8c25e.appspot.com"
+    "storage_bucket": "manttoprev-8c25e.firebasestorage.app"
   },
   "client": [
     {

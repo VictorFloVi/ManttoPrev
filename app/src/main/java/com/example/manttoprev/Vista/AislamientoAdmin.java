@@ -1,7 +1,12 @@
 package com.example.manttoprev.Vista;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +21,10 @@ import com.example.manttoprev.Presentador.AislamientoContract;
 import com.example.manttoprev.Presentador.AislamientoPresenter;
 import com.example.manttoprev.R;
 
+
+import java.io.File;
 import java.util.List;
+
 
 public class AislamientoAdmin extends AppCompatActivity implements AislamientoContract.View {
 
@@ -40,6 +48,8 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
     EditText etAmperajeW;
 
     Button btnGuardarAislamiento;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +78,8 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
         etAmperajeW = findViewById(R.id.etAmperajeW);
 
         btnGuardarAislamiento = findViewById(R.id.btnGuardarAislamiento);
+
+
 
         presenter = new AislamientoPresenter(this);
 
@@ -163,6 +175,8 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
 
             presenter.guardarAislamiento(area, seccion, equipo, maquina, motor, megadou, megadov, megadow, resistenciau, 
                     resistenciav, resistenciaw, amperajeu, amperajev, amperajew);
+
+
         });
 
     }
@@ -225,4 +239,24 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
         etAmperajeV.setText("");
         etAmperajeW.setText("");
     }
+
+    public void mostrarPDF(String rutaPDF) {
+        File pdfFile = new File(rutaPDF);
+
+        // Crea un intent para abrir el PDF con el visor de PDF instalado
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = FileProvider.getUriForFile(this, "com.example.manttoprev.fileprovider", pdfFile);
+        intent.setDataAndType(uri, "application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Necesario para Android 7.0 y superior
+
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            // Maneja excepciones si no hay aplicaciones de visor de PDF instaladas
+            e.printStackTrace();
+            Toast.makeText(this, "No se encontró una aplicación para abrir el PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

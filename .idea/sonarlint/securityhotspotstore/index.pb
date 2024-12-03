@@ -85,3 +85,13 @@ t
 Dapp/src/main/java/com/example/manttoprev/Vista/AislamientoAdmin.java,8\0\80af54c19b01e71c543e4c857d73072e249a6aa9
 p
 @app/src/main/java/com/example/manttoprev/Modelo/Aislamiento.java,2\d\2d736f59a93aa22c3b09001980f3e8ebaff396e1
+F
+app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9
+A
+gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
+?
+settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
+X
+(gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+k
+;app/src/main/java/com/example/manttoprev/Vista/Alertas.java,d\5\d5f7c1aed3b3b750c48d8ed2a626a1aa785264cf

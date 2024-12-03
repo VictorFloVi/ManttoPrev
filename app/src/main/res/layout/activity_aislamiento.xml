@@ -322,6 +322,7 @@
             android:autoSizeTextType="uniform"
             android:text="Guardar"
             tools:ignore="TouchTargetSizeCheck" />
+
     </LinearLayout>
 
 </LinearLayout>

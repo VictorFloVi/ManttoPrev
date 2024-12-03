@@ -1,18 +1,41 @@
 package com.example.manttoprev.Presentador;
 
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.manttoprev.Modelo.Aislamiento;
+
 import com.example.manttoprev.Vista.AislamientoAdmin;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import java.util.Date;
+
 import java.util.List;
+import java.util.TimeZone;
+
 
 public class AislamientoPresenter implements AislamientoContract.Presenter{
 
@@ -24,10 +47,12 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
     private static final String MAQUINA = "Maquina";
     private static final String MOTOR = "Motor";
     private final AislamientoAdmin view;
+    private final FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     public AislamientoPresenter(AislamientoAdmin view) {
         this.view = view;
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -198,10 +223,274 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
 
             // Agregar la máquina directamente a la base de datos con una clave única
             mDatabase.push().setValue(aislamiento);
-            // Mostrar mensaje de éxito si la máquina se agregó correctamente
-            view.showSuccessMessage("Máquina agregada con éxito.");
+
+            try {
+                generarPDF(area, seccion, equipo, maquina, motor,
+                        megadou, megadov, megadow,
+                        resistenciau, resistenciav, resistenciaw,
+                        amperajeu, amperajev, amperajew);
+                view.showSuccessMessage("Datos guardados y PDF generado exitosamente.");
+            } catch (IOException e) {
+                view.showErrorMessage("Error al generar el PDF: " + e.getMessage());
+            }
+
 
         }
+    }
+
+    /*
+    // Método para generar el PDF
+    private void generarPDF(String area, String seccion, String equipo, String maquina, String motor,
+                            Double megadou, Double megadov, Double megadow,
+                            Double resistenciau, Double resistenciav, Double resistenciaw,
+                            Double amperajeu, Double amperajev, Double amperajew) throws IOException {
+        // Nombre del archivo PDF
+        String pdfName = "Aislamiento_" + motor + "_" + System.currentTimeMillis() + ".pdf";
+
+        // Directorio para guardar el PDF
+        File pdfDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Aislamientos");
+        if (!pdfDir.exists()) {
+            pdfDir.mkdirs();
+        }
+
+        File pdfFile = new File(pdfDir, pdfName);
+
+        // Crear PDF
+        PdfWriter writer = new PdfWriter(pdfFile);
+        PdfDocument pdfDocument = new PdfDocument(writer);
+        Document document = new Document(pdfDocument);
+
+        // Ruta de la fuente en el directorio de "assets/fonts/"
+        String fontPath = "assets/fonts/arial.ttf"; // Cambia según tu fuente
+        PdfFont font = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H, true);
+        document.setFont(font);
+
+        // Título del PDF
+        document.add(new Paragraph("Reporte de Aislamiento del Motor").setBold().setFontSize(20));
+        document.add(new Paragraph("Fecha: " + new Date().toString()).setFontSize(12));
+
+        // Información del motor
+        document.add(new Paragraph("\nInformación del Motor:").setBold());
+        document.add(new Paragraph("Área: " + area));
+        document.add(new Paragraph("Sección: " + seccion));
+        document.add(new Paragraph("Equipo: " + equipo));
+        document.add(new Paragraph("Máquina: " + maquina));
+        document.add(new Paragraph("Motor: " + motor));
+
+        document.add(new Paragraph("\nMegado :").setBold());
+        document.add(new Paragraph("Megado U: " + megadou + " MΩ"));
+        document.add(new Paragraph("Megado V: " + megadov + " MΩ"));
+        document.add(new Paragraph("Megado W: " + megadow + " MΩ"));
+
+        document.add(new Paragraph("\nResistencia:").setBold());
+        document.add(new Paragraph("Resistencia U: " + resistenciau + " Ω"));
+        document.add(new Paragraph("Resistencia V: " + resistenciav + " Ω"));
+        document.add(new Paragraph("Resistencia W: " + resistenciaw + " Ω"));
+
+        document.add(new Paragraph("\nAmperaje:").setBold());
+        document.add(new Paragraph("Amperaje U: " + amperajeu + " A"));
+        document.add(new Paragraph("Amperaje V: " + amperajev + " A"));
+        document.add(new Paragraph("Amperaje W: " + amperajew + " A"));
+
+        // Cerrar documento
+        document.close();
+
+        subirPDFaFirebase(pdfFile);
+    }
+
+     */
+
+    /*
+    private void generarPDF(String area, String seccion, String equipo, String maquina, String motor,
+                            Double megadou, Double megadov, Double megadow,
+                            Double resistenciau, Double resistenciav, Double resistenciaw,
+                            Double amperajeu, Double amperajev, Double amperajew) throws IOException {
+
+        // Referencia a la base de datos
+         mDatabase = FirebaseDatabase.getInstance().getReference().child("Usuarios");
+
+        // UID del usuario autenticado
+        String uid = mAuth.getInstance().getCurrentUser().getUid();
+
+        // Obtener el nombre del usuario desde Firebase
+        mDatabase.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String nombreUsuario = snapshot.child("nombre").getValue(String.class);
+
+                    try {
+                        // Crear el PDF
+                        String pdfName = "Aislamiento_" + motor + "_" + System.currentTimeMillis() + ".pdf";
+
+                        // Directorio para guardar el PDF
+                        File pdfDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Aislamientos");
+                        if (!pdfDir.exists()) {
+                            pdfDir.mkdirs();
+                        }
+
+                        File pdfFile = new File(pdfDir, pdfName);
+
+                        // Crear PDF
+                        PdfWriter writer = new PdfWriter(pdfFile);
+                        PdfDocument pdfDocument = new PdfDocument(writer);
+                        Document document = new Document(pdfDocument);
+
+                        // Ruta de la fuente
+                        String fontPath = "assets/fonts/arial.ttf"; // Cambia según tu fuente
+                        PdfFont font = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H, true);
+                        document.setFont(font);
+
+                        // Título del PDF
+                        document.add(new Paragraph("Reporte de Aislamiento del Motor").setBold().setFontSize(20));
+                        document.add(new Paragraph("Fecha: " + new Date().toString()).setFontSize(12));
+
+                        // Información del motor
+                        document.add(new Paragraph("\nInformación del Motor:").setBold());
+                        document.add(new Paragraph("Área: " + area));
+                        document.add(new Paragraph("Sección: " + seccion));
+                        document.add(new Paragraph("Equipo: " + equipo));
+                        document.add(new Paragraph("Máquina: " + maquina));
+                        document.add(new Paragraph("Motor: " + motor));
+
+                        // Mediciones
+                        document.add(new Paragraph("\nMegado :").setBold());
+                        document.add(new Paragraph("Megado U: " + megadou + " MΩ"));
+                        document.add(new Paragraph("Megado V: " + megadov + " MΩ"));
+                        document.add(new Paragraph("Megado W: " + megadow + " MΩ"));
+
+                        document.add(new Paragraph("\nResistencia:").setBold());
+                        document.add(new Paragraph("Resistencia U: " + resistenciau + " Ω"));
+                        document.add(new Paragraph("Resistencia V: " + resistenciav + " Ω"));
+                        document.add(new Paragraph("Resistencia W: " + resistenciaw + " Ω"));
+
+                        document.add(new Paragraph("\nAmperaje:").setBold());
+                        document.add(new Paragraph("Amperaje U: " + amperajeu + " A"));
+                        document.add(new Paragraph("Amperaje V: " + amperajev + " A"));
+                        document.add(new Paragraph("Amperaje W: " + amperajew + " A"));
+
+                        // Agregar nombre del usuario autenticado al final
+                        document.add(new Paragraph("\n\nGenerado por: " + nombreUsuario).setBold().setFontSize(12));
+
+                        // Cerrar documento
+                        document.close();
+
+                        subirPDFaFirebase(pdfFile);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Error al obtener el nombre del usuario", error.toException());
+            }
+        });
+    }
+
+     */
+
+    private void generarPDF(String area, String seccion, String equipo, String maquina, String motor,
+                            Double megadou, Double megadov, Double megadow,
+                            Double resistenciau, Double resistenciav, Double resistenciaw,
+                            Double amperajeu, Double amperajev, Double amperajew) throws IOException {
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Usuarios");
+        String uid = mAuth.getCurrentUser().getUid();
+
+        // Crear el PDF
+        String pdfName = "Aislamiento_" + motor + "_" + System.currentTimeMillis() + ".pdf";
+
+        // Directorio para guardar el PDF
+        File pdfDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Aislamientos");
+        if (!pdfDir.exists()) {
+            pdfDir.mkdirs();
+        }
+
+        File pdfFile = new File(pdfDir, pdfName);
+
+        PdfWriter writer = new PdfWriter(pdfFile);
+        PdfDocument pdfDocument = new PdfDocument(writer);
+        Document document = new Document(pdfDocument);
+
+        // Ruta de la fuente
+        String fontPath = "assets/fonts/arial.ttf"; // Cambia según tu fuente
+        PdfFont font = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H, true);
+        document.setFont(font);
+
+        // Configurar la fecha y hora en la zona horaria peruana
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("America/Lima"));
+        String fechaPeru = dateFormat.format(new Date());
+
+        // Agrega contenido al PDF
+        document.add(new Paragraph("Reporte de Aislamiento del Motor").setBold().setFontSize(20));
+        document.add(new Paragraph("Fecha: " + fechaPeru).setFontSize(12));
+        document.add(new Paragraph("\nInformación del Motor:").setBold());
+        document.add(new Paragraph("Área: " + area));
+        document.add(new Paragraph("Sección: " + seccion));
+        document.add(new Paragraph("Equipo: " + equipo));
+        document.add(new Paragraph("Máquina: " + maquina));
+        document.add(new Paragraph("Motor: " + motor));
+
+        document.add(new Paragraph("\nMegado :").setBold());
+        document.add(new Paragraph("Megado U: " + megadou + " MΩ"));
+        document.add(new Paragraph("Megado V: " + megadov + " MΩ"));
+        document.add(new Paragraph("Megado W: " + megadow + " MΩ"));
+
+        document.add(new Paragraph("\nResistencia:").setBold());
+        document.add(new Paragraph("Resistencia U: " + resistenciau + " Ω"));
+        document.add(new Paragraph("Resistencia V: " + resistenciav + " Ω"));
+        document.add(new Paragraph("Resistencia W: " + resistenciaw + " Ω"));
+
+        document.add(new Paragraph("\nAmperaje:").setBold());
+        document.add(new Paragraph("Amperaje U: " + amperajeu + " A"));
+        document.add(new Paragraph("Amperaje V: " + amperajev + " A"));
+        document.add(new Paragraph("Amperaje W: " + amperajew + " A"));
+
+        // Obtén el nombre del usuario
+        mDatabase.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String nombreUsuario = dataSnapshot.child("nombre").getValue(String.class);
+                document.add(new Paragraph("\n\nTécnico: " + nombreUsuario).setBold());
+
+                document.close(); // Cierra el documento después de agregar el usuario
+                subirPDFaFirebase(pdfFile); // Sube el archivo
+                abrirPDF(String.valueOf(pdfFile));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("FirebaseError", "Error al obtener los datos del usuario: " + databaseError.getMessage());
+            }
+        });
 
     }
+
+
+
+    private void subirPDFaFirebase(File pdfFile) {
+        String pdfFileName = "aislamientos_" + System.currentTimeMillis() + ".pdf";
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("pdfs/" + pdfFileName);
+
+        storageRef.putFile(Uri.fromFile(pdfFile))
+                .addOnSuccessListener(taskSnapshot -> view.showSuccessMessage("PDF subido correctamente a Firebase"))
+                .addOnFailureListener(e -> view.showErrorMessage("Error al subir el PDF: " + e.getMessage()));
+    }
+
+    public void abrirPDF(String rutaPDF) {
+        File pdfFile = new File(rutaPDF);
+
+        if (pdfFile.exists()) {
+            view.mostrarPDF(rutaPDF); // Llama a la vista para abrir el PDF
+        } else {
+            view.showErrorMessage("El archivo PDF no existe en la ruta especificada.");
+        }
+    }
+
+
+
 }

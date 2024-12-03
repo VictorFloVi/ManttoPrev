@@ -20,5 +20,6 @@ public interface AislamientoContract {
                                 Double megadou, Double megadov, Double megadow,
                                 Double resistenciau, Double resistenciav, Double resistenciaw,
                                 Double amperajeu, Double amperajev, Double amperajew);
+
     }
 }
