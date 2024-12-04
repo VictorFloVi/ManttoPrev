@@ -240,6 +240,7 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
         etAmperajeW.setText("");
     }
 
+
     public void mostrarPDF(String rutaPDF) {
         File pdfFile = new File(rutaPDF);
 

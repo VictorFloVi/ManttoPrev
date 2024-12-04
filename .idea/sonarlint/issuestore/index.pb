@@ -95,3 +95,7 @@ X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 k
 ;app/src/main/java/com/example/manttoprev/Vista/Alertas.java,d\5\d5f7c1aed3b3b750c48d8ed2a626a1aa785264cf
+n
+>app/src/main/java/com/example/manttoprev/Vista/PDFAdapter.java,5\9\59c14205f9fada074bd44ee23eab1516278086e1
+l
+<app/src/main/java/com/example/manttoprev/Vista/Reportes.java,4\d\4d23ac04b374a654427ca0a230175805c34af8e0
