@@ -1,77 +1,90 @@
 package com.example.manttoprev.Vista;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.pm.PackageManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.manttoprev.Modelo.PDFItem;
+import com.example.manttoprev.Presentador.ReportesContract;
+import com.example.manttoprev.Presentador.ReportesPresenter;
 import com.example.manttoprev.R;
 
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reportes extends AppCompatActivity {
-    private RecyclerView recyclerView;
+public class Reportes extends AppCompatActivity implements ReportesContract.View {
+
     private PDFAdapter pdfAdapter;
+    private List<PDFItem> filteredList; // Lista filtrada para mostrar en la UI
+    private ReportesContract.Presenter presenter;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportes);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerViewPDFs = findViewById(R.id.recyclerViewPDFs);
+        recyclerViewPDFs.setLayoutManager(new LinearLayoutManager(this));
 
-        // Verificar permisos en tiempo de ejecución
-        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        } else {
-            cargarPDFs();
-        }
-    }
+        searchView = findViewById(R.id.searchView);
+        filteredList = new ArrayList<>();
+        pdfAdapter = new PDFAdapter(filteredList, this::abrirPDF);
+        recyclerViewPDFs.setAdapter(pdfAdapter);
 
-    private void cargarPDFs() {
-        List<File> pdfFiles = obtenerArchivosPDF();
-        if (pdfFiles.isEmpty()) {
-            Toast.makeText(this, "No se encontraron archivos PDF", Toast.LENGTH_SHORT).show();
-        } else {
-            pdfAdapter = new PDFAdapter(pdfFiles, this);
-            recyclerView.setAdapter(pdfAdapter);
-        }
+        // Inicialización del Presenter
+        presenter = new ReportesPresenter(this);
+
+        // Cargar PDFs desde Firebase
+        presenter.cargarPDFsDesdeFirebase();
+
+        setupSearchView();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                cargarPDFs();
-            } else {
-                Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
+    public void mostrarPDFs(List<PDFItem> pdfItems) {
+        filteredList.clear();
+        filteredList.addAll(pdfItems);
+        pdfAdapter.notifyDataSetChanged();
     }
 
-    private List<File> obtenerArchivosPDF() {
-        List<File> pdfFiles = new ArrayList<>();
-        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "Aislamientos");
+    @Override
+    public void agregarPDF(PDFItem pdfItem) {
+        presenter.agregarPDF(pdfItem);
+    }
 
-        if (directory.exists() && directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isFile() && file.getName().endsWith(".pdf")) {
-                        pdfFiles.add(file);
-                    }
-                }
+    private void setupSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                presenter.filtrarPDFs(query);
+                return true;
             }
-        }
-        return pdfFiles;
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.filtrarPDFs(newText);
+                return true;
+            }
+        });
+    }
+
+    public void showErrorMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void abrirPDF(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(url), "application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(intent);
     }
 }

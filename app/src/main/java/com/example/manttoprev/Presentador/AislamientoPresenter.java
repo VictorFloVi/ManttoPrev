@@ -40,6 +40,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
     private static final String EQUIPO = "Equipo";
     private static final String MAQUINA = "Maquina";
     private static final String MOTOR = "Motor";
+
     private final AislamientoAdmin view;
     private final FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -290,7 +291,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
                 document.add(new Paragraph("\n\nTécnico: " + nombreUsuario).setBold());
 
                 document.close(); // Cierra el documento después de agregar el usuario
-                subirPDFaFirebase(new File(pdfFilePath)); // Sube el archivo
+                subirPDFaFirebase(new File(pdfFilePath), equipo, maquina, motor, fechaPeru); // Pasa los datos al subir
                 abrirPDF(pdfFilePath);
             }
 
@@ -301,8 +302,13 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         });
     }
 
-    private void subirPDFaFirebase(File pdfFile) {
-        String pdfFileName = "aislamientos_" + System.currentTimeMillis() + ".pdf";
+    private void subirPDFaFirebase(File pdfFile, String equipo, String maquina, String motor, String fecha) {
+        // Crear un nombre descriptivo para el PDF
+        String pdfFileName = equipo.replaceAll("\\s+", "_") + "_" +
+                maquina.replaceAll("\\s+", "_") + "_" +
+                motor.replaceAll("\\s+", "_") + "_" +
+                fecha.replaceAll("[^a-zA-Z0-9_]", "") + ".pdf";
+
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("pdfs/" + pdfFileName);
 
         storageRef.putFile(Uri.fromFile(pdfFile))
