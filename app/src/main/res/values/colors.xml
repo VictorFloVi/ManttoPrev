@@ -3,4 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
+    <color name="purple_200">#BB86FC</color> <!-- Este es un valor de ejemplo -->
+    <color name="purple_500">#6200EE</color>
+    <color name="rojo">#F44336</color>
+
 </resources>

@@ -99,3 +99,13 @@ n
 >app/src/main/java/com/example/manttoprev/Vista/PDFAdapter.java,5\9\59c14205f9fada074bd44ee23eab1516278086e1
 l
 <app/src/main/java/com/example/manttoprev/Vista/Reportes.java,4\d\4d23ac04b374a654427ca0a230175805c34af8e0
+l
+<app/src/main/java/com/example/manttoprev/Modelo/PDFItem.java,6\7\67c468f055d1e7c73f711462db5cb0ea997fe993
+z
+Japp/src/main/java/com/example/manttoprev/Presentador/ReportesContract.java,c\c\cc19c7631b62d8b719c763dd7f5bbf85bf6e472b
+{
+Kapp/src/main/java/com/example/manttoprev/Presentador/ReportesPresenter.java,7\9\796ebbae43ac180a55500d5b42171c97abb46ce9
+j
+:app/src/main/java/com/example/manttoprev/Modelo/Motor.java,9\2\92ac5e560763484bbb7375a35a79b4e6aa2841a5
+l
+<app/src/main/java/com/example/manttoprev/Vista/Graficos.java,1\9\192849b865ef5ac7586129ba2c930af51b06ade1
