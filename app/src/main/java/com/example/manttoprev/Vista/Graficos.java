@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Graficos extends AppCompatActivity {
 
@@ -53,6 +54,7 @@ public class Graficos extends AppCompatActivity {
         btnCloseChart = findViewById(R.id.btnCloseChart);
         spMaquinas = findViewById(R.id.spMaquinas);
         spEquipos = findViewById(R.id.spEquipos);
+        loadSpinners();
 
         lineChart.setVisibility(View.GONE);
 
@@ -93,7 +95,74 @@ public class Graficos extends AppCompatActivity {
             selectedMotor = adapter.getItem(position);  // Obtener el motor seleccionado
             showChartForMotor();  // Mostrar el gráfico para el motor seleccionado
         });
+
+        spEquipos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedEquipo = spEquipos.getSelectedItem().toString(); // Obtener el equipo seleccionado
+                filterMotoresByEquipo(selectedEquipo); // Llamar al método de filtrado
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada si no hay selección
+            }
+        });
     }
+
+    private void filterMotoresByEquipo(String equipoSeleccionado) {
+        ArrayList<String> filteredMotores = new ArrayList<>();
+
+        // Verificar si se seleccionó "Todos" o algún equipo específico
+        if (equipoSeleccionado.isEmpty() || equipoSeleccionado.equalsIgnoreCase("Seleccionar")) {
+            // Si no hay selección, mostrar todos los motores
+            filteredMotores.addAll(motores);
+        } else {
+            // Filtrar la lista de motores por el equipo seleccionado
+            for (String motor : motores) {
+                if (motor.contains(" / ") && motor.split(" / ")[2].equalsIgnoreCase(equipoSeleccionado)) {
+                    filteredMotores.add(motor);
+                }
+            }
+        }
+
+        // Actualizar el adaptador con la lista filtrada
+        adapter.clear();
+        adapter.addAll(filteredMotores);
+        adapter.notifyDataSetChanged();
+    }
+
+
+    private void loadSpinners() {
+        // Obtener las opciones para los spinners
+        ArrayList<String> equipos = new ArrayList<>();
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("aislamiento");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                equipos.clear(); // Limpiar la lista antes de agregar los nuevos equipos
+                equipos.add(""); // Agregar la opción "Seleccionar" nuevamente
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String equipo = snapshot.child("equipo").getValue(String.class);
+
+                    if (equipo != null && !equipos.contains(equipo)) {
+                        equipos.add(equipo);  // Agregar el equipo si no está en la lista
+                    }
+                }
+
+                ArrayAdapter<String> equiposAdapter = new ArrayAdapter<>(Graficos.this, android.R.layout.simple_spinner_item, equipos);
+                equiposAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spEquipos.setAdapter(equiposAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejo de errores
+            }
+        });
+    }
+
 
     private void loadMotoresFromFirebase() {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("aislamiento");
@@ -171,8 +240,6 @@ public class Graficos extends AppCompatActivity {
                         entries.add(new Entry(index + 2, (float) megadow));
 
                         index += 3;                    }
-
-
                 }
 
                 LineDataSet lineDataSet = new LineDataSet(entries, "Valores Megado - " + motorSeleccionado);
@@ -206,7 +273,8 @@ public class Graficos extends AppCompatActivity {
         svMotores.setVisibility(View.VISIBLE);
         spEquipos.setVisibility(View.VISIBLE);
         spMaquinas.setVisibility(View.VISIBLE);
-
+        spEquipos.setSelection(0);
+        loadMotoresFromFirebase();
     }
 
 
