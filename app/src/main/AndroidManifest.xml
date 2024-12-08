@@ -44,7 +44,7 @@
             android:name=".Vista.Alertas"
             android:exported="false" />
         <activity
-            android:name=".Vista.Graficos"
+            android:name=".Vista.GraficosAdmin"
             android:exported="false" />
         <activity
             android:name=".Vista.ManttoMotor"

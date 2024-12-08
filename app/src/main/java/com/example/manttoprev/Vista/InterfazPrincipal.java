@@ -55,7 +55,7 @@ public class InterfazPrincipal extends AppCompatActivity implements InterfazPrin
 
         TextView tvGraficos = findViewById(R.id.tvGraficos);
         tvGraficos.setOnClickListener(v -> {
-            Intent intent = new Intent(InterfazPrincipal.this, Graficos.class);
+            Intent intent = new Intent(InterfazPrincipal.this, GraficosAdmin.class);
             startActivity(intent);
         });
 

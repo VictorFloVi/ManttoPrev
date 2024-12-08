@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="3dp"
-    tools:context=".Vista.Graficos" >
+    tools:context=".Vista.GraficosAdmin" >
 
     <TextView
         android:layout_width="match_parent"
@@ -35,20 +35,6 @@
 
     </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spMaquinas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <Spinner
-        android:id="@+id/spEquipos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        tools:ignore="TouchTargetSizeCheck" />
-
 
     <ListView
         android:id="@+id/lvMotores"
@@ -64,7 +50,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/btnCloseChart"
+            android:id="@+id/btnCerrarGrafico"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="top|end"
@@ -75,9 +61,11 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineChart"
+            android:id="@+id/chMegado"
             android:layout_width="match_parent"
-            android:layout_height="365dp" />
+            android:layout_height="500dp" />
+
+
     </LinearLayout>
 
 </LinearLayout>
