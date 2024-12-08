@@ -41,7 +41,7 @@
             android:name=".Vista.Historial"
             android:exported="false" />
         <activity
-            android:name=".Vista.Alertas"
+            android:name=".Vista.AlertasAdmin"
             android:exported="false" />
         <activity
             android:name=".Vista.GraficosAdmin"

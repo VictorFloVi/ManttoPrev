@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".Vista.AlertasAdmin" >
+
+    <!-- Mensaje cuando no hay alertas -->
+    <TextView
+        android:id="@+id/tvNoAlertas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No hay alertas"
+        android:textSize="18sp"
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp" />
+
+    <!-- RecyclerView para mostrar las alertas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAlertas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+
+

@@ -49,7 +49,7 @@ public class InterfazPrincipal extends AppCompatActivity implements InterfazPrin
 
         TextView tvAlertas = findViewById(R.id.tvAlertas);
         tvAlertas.setOnClickListener(v -> {
-            Intent intent = new Intent(InterfazPrincipal.this, Alertas.class);
+            Intent intent = new Intent(InterfazPrincipal.this, AlertasAdmin.class);
             startActivity(intent);
         });
 

@@ -16,20 +16,23 @@
         android:text="GRÁFICOS"
         android:textColor="#F44336"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        tools:ignore="DisableBaselineAlignment">
 
         <SearchView
             android:id="@+id/svMotores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:queryHint="Buscar por motor...">
+            android:queryHint="Buscar por motor..."
+            tools:ignore="InefficientWeight">
 
         </SearchView>
 
@@ -40,7 +43,8 @@
         android:id="@+id/lvMotores"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        tools:ignore="InefficientWeight" />
 
     <!-- Botón para cerrar -->
 
@@ -58,7 +62,7 @@
             android:background="@android:color/transparent"
             android:contentDescription="Cerrar gráfico"
             android:src="@drawable/ic_close"
-            tools:ignore="TouchTargetSizeCheck" />
+            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chMegado"

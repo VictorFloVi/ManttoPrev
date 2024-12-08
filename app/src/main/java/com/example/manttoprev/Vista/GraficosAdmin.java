@@ -34,7 +34,7 @@ public class GraficosAdmin extends AppCompatActivity implements GraficosAdminCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graficos);
+        setContentView(R.layout.activity_graficos_admin);
 
         GraficosAdminContract.Presenter presenter;
 

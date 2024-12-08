@@ -9,6 +9,7 @@ public interface AislamientoContract {
         void mostrarEquipos(List<String> equipos);
         void mostrarMaquinas(List<String> maquinas);
         void mostrarMotores(List<String> maquinas);
+
     }
     interface Presenter{
         void obtenerAreas();

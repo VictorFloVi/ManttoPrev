@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Environment;
 import androidx.annotation.NonNull;
 import com.example.manttoprev.Modelo.Aislamiento;
+import com.example.manttoprev.Modelo.Alertas;
 import com.example.manttoprev.Vista.AislamientoAdmin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -207,9 +208,23 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         || megadov==null || megadow==null || resistenciau==null || resistenciav==null || resistenciaw==null ||
         amperajeu==null || amperajev==null || amperajew==null) {
             view.showErrorMessage("Todos los campos son obligatorios");
-        } else {
-            mDatabase = FirebaseDatabase.getInstance().getReference().child(AISLAMIENTO);
+            return;
+        }
+        // Verificar si algún valor de megado es menor a 5
+        // Configurar la fecha y hora en la zona horaria peruana
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("America/Lima"));
 
+        if (megadou < 5 || megadov < 5 || megadow < 5) {
+            // Generar una alerta
+            String fechaPeru = dateFormat.format(new Date());
+            String mensajeAlerta = "Bajo Aislamiento!";
+
+            // Enviar la alerta a la vista para que esta se encargue de mostrarla
+            guardarAlerta(fechaPeru, mensajeAlerta, motor, maquina);
+        }
+
+            mDatabase = FirebaseDatabase.getInstance().getReference().child(AISLAMIENTO);
             // Crear un objeto de la máquina
             Aislamiento aislamiento = new Aislamiento(area, seccion, equipo, maquina, motor,
                     megadou, megadov, megadow,
@@ -228,9 +243,18 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
             } catch (IOException e) {
                 view.showErrorMessage("Error al generar el PDF: " + e.getMessage());
             }
-
-
         }
+
+
+    private void guardarAlerta(String fechaPeru, String mensajeAlerta, String motor, String maquina) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("alertas");
+
+        // Crear el objeto de la alertas
+        Alertas alertas = new Alertas(fechaPeru, mensajeAlerta, motor, maquina);
+        // Guardar la alertas en Firebase
+        mDatabase.push().setValue(alertas)
+                .addOnSuccessListener(aVoid -> view.showSuccessMessage("Alertas registrada exitosamente."))
+                .addOnFailureListener(e -> view.showErrorMessage("Error al registrar la alertas: " + e.getMessage()));
     }
 
     private void generarPDF(String area, String seccion, String equipo, String maquina, String motor,

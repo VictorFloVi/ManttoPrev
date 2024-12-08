@@ -93,8 +93,6 @@ A
 settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
 X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
-k
-;app/src/main/java/com/example/manttoprev/Vista/Alertas.java,d\5\d5f7c1aed3b3b750c48d8ed2a626a1aa785264cf
 n
 >app/src/main/java/com/example/manttoprev/Vista/PDFAdapter.java,5\9\59c14205f9fada074bd44ee23eab1516278086e1
 l
@@ -107,8 +105,6 @@ Japp/src/main/java/com/example/manttoprev/Presentador/ReportesContract.java,c\c
 Kapp/src/main/java/com/example/manttoprev/Presentador/ReportesPresenter.java,7\9\796ebbae43ac180a55500d5b42171c97abb46ce9
 j
 :app/src/main/java/com/example/manttoprev/Modelo/Motor.java,9\2\92ac5e560763484bbb7375a35a79b4e6aa2841a5
-m
-=app/src/main/java/com/example/manttoprev/Modelo/Graficos.java,2\0\20f4f235c3c00fd24bc3fa8aee5bebf3e4ddd8e3
 }
 Mapp/src/main/java/com/example/manttoprev/Presentador/MotorAdminPresenter.java,4\f\4fd311696aa27bd788c9de919c1fa72239e23dec
 n
@@ -119,3 +115,11 @@ q
 Aapp/src/main/java/com/example/manttoprev/Vista/GraficosAdmin.java,9\a\9a8a736c77eb2563e8d42f8965e92860ac5539b6
 €
 Papp/src/main/java/com/example/manttoprev/Presentador/GraficosAdminPresenter.java,3\7\378c661395d809f065135438bc7b45c190bc8408
+o
+?app/src/main/java/com/example/manttoprev/Vista/ManttoMotor.java,f\2\f2da82c015fcb06d8e9d85c99534435e2b90abb0
+l
+<app/src/main/java/com/example/manttoprev/Modelo/Alertas.java,d\5\d5dbdca2d1f353f780f799501913725f8dc90f36
+q
+Aapp/src/main/java/com/example/manttoprev/Vista/AlertaAdapter.java,e\2\e26132bc0a51309bec7035ead966b36ff11d17f7
+p
+@app/src/main/java/com/example/manttoprev/Vista/AlertasAdmin.java,4\c\4c6dc4488d591d807ff091c338b145f2067db622
