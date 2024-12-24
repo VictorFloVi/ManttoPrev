@@ -81,10 +81,13 @@ public class Reportes extends AppCompatActivity implements ReportesContract.View
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+
     private void abrirPDF(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(url), "application/pdf");
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(intent);
     }
+
+
 }

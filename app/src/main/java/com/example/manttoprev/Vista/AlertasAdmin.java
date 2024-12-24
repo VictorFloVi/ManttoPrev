@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -19,12 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlertasAdmin extends AppCompatActivity {
 
     private TextView tvNoAlertas;
     private RecyclerView rvAlertas;
-    private ArrayList<Alertas> alertaList;
+    private List<Alertas> alertaList;
     private AlertaAdapter alertaAdapter;
 
     @Override
@@ -32,11 +35,12 @@ public class AlertasAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alertas_admin);
 
+
         // Inicializar el RecyclerView y la lista de alertas
         rvAlertas = findViewById(R.id.rvAlertas);
         rvAlertas.setLayoutManager(new LinearLayoutManager(this));
         alertaList = new ArrayList<>();
-        alertaAdapter = new AlertaAdapter(alertaList);
+        alertaAdapter = new AlertaAdapter(alertaList, this::abrirPDF);
         rvAlertas.setAdapter(alertaAdapter);
 
         // Inicializar la referencia a la base de datos
@@ -73,4 +77,16 @@ public class AlertasAdmin extends AppCompatActivity {
         });
 
     }
+    private void abrirPDF(String url) {
+        if (url != null && !url.isEmpty()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.parse(url), "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "URL no válida", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }

@@ -2,6 +2,8 @@ package com.example.manttoprev.Presentador;
 
 
 import com.example.manttoprev.Modelo.PDFItem;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -15,6 +17,7 @@ public class ReportesPresenter implements ReportesContract.Presenter {
         this.view = view;
         this.pdfList = new ArrayList<>();
     }
+
 
     @Override
     public void cargarPDFsDesdeFirebase() {
@@ -37,6 +40,8 @@ public class ReportesPresenter implements ReportesContract.Presenter {
         pdfList.add(pdfItem); // Agregar a la lista completa
         view.mostrarPDFs(new ArrayList<>(pdfList)); // Mostrar lista completa inicialmente
     }
+
+
 
     @Override
     public void filtrarPDFs(String query) {

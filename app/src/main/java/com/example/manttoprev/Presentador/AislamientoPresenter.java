@@ -1,5 +1,6 @@
 package com.example.manttoprev.Presentador;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import androidx.annotation.NonNull;
@@ -26,8 +27,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -198,6 +201,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         });
     }
 
+
     @Override
     public void guardarAislamiento(String area, String seccion, String equipo, String maquina, String motor,
                                    Double megadou, Double megadov, Double megadow,
@@ -210,19 +214,6 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
             view.showErrorMessage("Todos los campos son obligatorios");
             return;
         }
-        // Verificar si algún valor de megado es menor a 5
-        // Configurar la fecha y hora en la zona horaria peruana
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("America/Lima"));
-
-        if (megadou < 5 || megadov < 5 || megadow < 5) {
-            // Generar una alerta
-            String fechaPeru = dateFormat.format(new Date());
-            String mensajeAlerta = "Bajo Aislamiento!";
-
-            // Enviar la alerta a la vista para que esta se encargue de mostrarla
-            guardarAlerta(fechaPeru, mensajeAlerta, motor, maquina);
-        }
 
             mDatabase = FirebaseDatabase.getInstance().getReference().child(AISLAMIENTO);
             // Crear un objeto de la máquina
@@ -234,33 +225,24 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
             // Agregar la máquina directamente a la base de datos con una clave única
             mDatabase.push().setValue(aislamiento);
 
+        boolean bajoAislamiento = (megadou < 5 || megadov < 5 || megadow < 5);
+
             try {
                 generarPDF(area, seccion, equipo, maquina, motor,
                         megadou, megadov, megadow,
                         resistenciau, resistenciav, resistenciaw,
-                        amperajeu, amperajev, amperajew);
+                        amperajeu, amperajev, amperajew, bajoAislamiento);
                 view.showSuccessMessage("Datos guardados y PDF generado exitosamente.");
             } catch (IOException e) {
                 view.showErrorMessage("Error al generar el PDF: " + e.getMessage());
             }
-        }
-
-
-    private void guardarAlerta(String fechaPeru, String mensajeAlerta, String motor, String maquina) {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("alertas");
-
-        // Crear el objeto de la alertas
-        Alertas alertas = new Alertas(fechaPeru, mensajeAlerta, motor, maquina);
-        // Guardar la alertas en Firebase
-        mDatabase.push().setValue(alertas)
-                .addOnSuccessListener(aVoid -> view.showSuccessMessage("Alertas registrada exitosamente."))
-                .addOnFailureListener(e -> view.showErrorMessage("Error al registrar la alertas: " + e.getMessage()));
     }
+
 
     private void generarPDF(String area, String seccion, String equipo, String maquina, String motor,
                             Double megadou, Double megadov, Double megadow,
                             Double resistenciau, Double resistenciav, Double resistenciaw,
-                            Double amperajeu, Double amperajev, Double amperajew) throws IOException {
+                            Double amperajeu, Double amperajev, Double amperajew, boolean bajoAislamiento) throws IOException {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Usuarios");
         String uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
@@ -279,8 +261,33 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         dateFormat.setTimeZone(TimeZone.getTimeZone("America/Lima"));
         String fechaPeru = dateFormat.format(new Date());
 
+        // Agregar contenido al PDF
+        agregarContenidoPDF(document, area, seccion, equipo, maquina, motor, megadou, megadov, megadow,
+                resistenciau, resistenciav, resistenciaw, amperajeu, amperajev, amperajew, fechaPeru);
 
+        // Obtén el nombre del usuario
+        mDatabase.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String nombreUsuario = dataSnapshot.child("nombre").getValue(String.class);
+                document.add(new Paragraph("\n\nTécnico: " + nombreUsuario).setBold());
+                document.close(); // Cierra el documento después de agregar el usuario
+                subirPDFaFirebase(new File(pdfFilePath), equipo, maquina, motor, fechaPeru, bajoAislamiento); // Pasa los datos al subir
+                abrirPDF(pdfFilePath);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.showErrorMessage("Error al obtener los datos del usuario: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    // Método para agregar el contenido al PDF
+    private void agregarContenidoPDF(Document document, String area, String seccion, String equipo, String maquina,
+                                     String motor, Double megadou, Double megadov, Double megadow,
+                                     Double resistenciau, Double resistenciav, Double resistenciaw,
+                                     Double amperajeu, Double amperajev, Double amperajew, String fechaPeru){
         // Agrega contenido al PDF
         document.add(new Paragraph("Reporte de Aislamiento del Motor").setBold().setFontSize(20));
         document.add(new Paragraph("Fecha: " + fechaPeru).setFontSize(12));
@@ -305,29 +312,9 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         document.add(new Paragraph("Amperaje U: " + amperajeu + " A"));
         document.add(new Paragraph("Amperaje V: " + amperajev + " A"));
         document.add(new Paragraph("Amperaje W: " + amperajew + " A"));
-
-
-        // Obtén el nombre del usuario
-        mDatabase.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String nombreUsuario = dataSnapshot.child("nombre").getValue(String.class);
-                document.add(new Paragraph("\n\nTécnico: " + nombreUsuario).setBold());
-
-                document.close(); // Cierra el documento después de agregar el usuario
-                subirPDFaFirebase(new File(pdfFilePath), equipo, maquina, motor, fechaPeru); // Pasa los datos al subir
-                abrirPDF(pdfFilePath);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                view.showErrorMessage("Error al obtener los datos del usuario: " + databaseError.getMessage());
-            }
-        });
     }
 
-    private void subirPDFaFirebase(File pdfFile, String equipo, String maquina, String motor, String fecha) {
-        // Crear un nombre descriptivo para el PDF
+    private void subirPDFaFirebase(File pdfFile, String equipo, String maquina, String motor, String fecha, boolean bajoAislamiento) {
         String pdfFileName = equipo.replaceAll("\\s+", "_") + "_" +
                 maquina.replaceAll("\\s+", "_") + "_" +
                 motor.replaceAll("\\s+", "_") + "_" +
@@ -336,8 +323,33 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("pdfs/" + pdfFileName);
 
         storageRef.putFile(Uri.fromFile(pdfFile))
-                .addOnSuccessListener(taskSnapshot -> view.showSuccessMessage("PDF subido correctamente a Firebase"))
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Obtener la URL del PDF después de subirlo
+                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String pdfUrl = uri.toString();
+                        view.showSuccessMessage("PDF subido correctamente a Firebase. URL: " + pdfUrl);
+                        // Guardar la alerta con la URL del PDF
+                        if (bajoAislamiento){
+                            guardarAlerta(fecha, "Bajo Aislamiento!", motor, maquina, pdfUrl);
+                        }
+
+
+                    }).addOnFailureListener(e -> {
+                        view.showErrorMessage("Error al obtener la URL del PDF: " + e.getMessage());
+                    });
+                })
                 .addOnFailureListener(e -> view.showErrorMessage("Error al subir el PDF: " + e.getMessage()));
+    }
+
+    private void guardarAlerta(String fechaPeru, String mensajeAlerta, String motor, String maquina, String url) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("alertas");
+
+        // Crear el objeto de la alertas
+        Alertas alertas = new Alertas(fechaPeru, mensajeAlerta, motor, maquina, url);
+        // Guardar la alertas en Firebase
+        mDatabase.push().setValue(alertas)
+                .addOnSuccessListener(aVoid -> view.showSuccessMessage("Alertas registrada exitosamente."))
+                .addOnFailureListener(e -> view.showErrorMessage("Error al registrar la alertas: " + e.getMessage()));
     }
 
     public void abrirPDF(String rutaPDF) {

@@ -6,16 +6,20 @@ public class Alertas {
     private String mensaje;
     private String motor;
     private String maquina;
+    private  String url;
 
     public Alertas() {
 
     }
-    public Alertas(String fechap, String mensaje, String motor, String maquina) {
+
+    public Alertas(String fechap, String mensaje, String motor, String maquina, String url) {
         this.fechap = fechap;
         this.mensaje = mensaje;
         this.motor = motor;
         this.maquina = maquina;
+        this.url = url;
     }
+
     public String getFechap() {
         return fechap;
     }
@@ -46,5 +50,9 @@ public class Alertas {
 
     public void setMaquina(String maquina) {
         this.maquina = maquina;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

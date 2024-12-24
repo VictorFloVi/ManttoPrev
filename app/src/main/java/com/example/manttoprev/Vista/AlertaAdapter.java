@@ -1,5 +1,6 @@
 package com.example.manttoprev.Vista;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,20 @@ import com.example.manttoprev.R;
 import java.util.List;
 
 public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.AlertaViewHolder> {
-    private List<Alertas> alertas;
+    private final List<Alertas> alertas;
+    private final AlertaClickListener listener;
 
+    public AlertaAdapter(List<Alertas> alertas, AlertaClickListener listener) {
+        this.alertas = alertas;
+        this.listener = listener;
+    }
+
+    /*
     public AlertaAdapter(List<Alertas> alertas) {
         this.alertas = alertas;
     }
+
+     */
 
     @NonNull
     @Override
@@ -37,19 +47,9 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.AlertaView
         holder.tvMensajeAlerta.setText(alerta.getMensaje());
         holder.tvMotor.setText(alerta.getMotor());
         holder.tvMaquina.setText(alerta.getMaquina());
-
-        /*
-        // Formatear la fecha
-        Alertas.Date fecha = alerta.getFecha();
-        String fechaFormateada = String.format("%d de %d de %d, %02d:%02d",
-                fecha, fecha.getMonth() + 1, fecha.getYear() + 1900, fecha.getHours(), fecha.getMinutes());
-
-        holder.tvFecha.setText("Fecha: " + fechaFormateada);
-        holder.tvMotor.setText("Motor: " + alerta.getMotor());
-        holder.tvMaquina.setText("Máquina: " + alerta.getMaquina());
-        holder.tvEquipo.setText("Equipo: " + alerta.getEquipo());
-
-         */
+        // Agregar log para verificar la URL
+        Log.d("AlertaAdapter", "URL: " + alerta.getUrl());
+        holder.tvMensaje.setOnClickListener(v -> listener.onPDFClick(alerta.getUrl()));
     }
 
 
@@ -71,13 +71,10 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.AlertaView
             tvMotor = itemView.findViewById(R.id.tvMotor);
             tvMaquina = itemView.findViewById(R.id.tvMaquina);
 
-            /*
-            tvFecha = itemView.findViewById(R.id.tvFecha);
-            tvMotor = itemView.findViewById(R.id.tvMotor);
-            tvMaquina = itemView.findViewById(R.id.tvMaquina);
-            tvEquipo = itemView.findViewById(R.id.tvEquipo);
-
-             */
         }
+    }
+
+    public interface AlertaClickListener {
+        void onPDFClick(String url);
     }
 }
