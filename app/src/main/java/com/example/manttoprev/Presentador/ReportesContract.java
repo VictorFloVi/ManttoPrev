@@ -7,7 +7,9 @@ import java.util.List;
 public interface ReportesContract {
     interface View {
         void mostrarPDFs(List<PDFItem> pdfItems); // Muestra la lista filtrada en la UI
-        void agregarPDF(PDFItem pdfItem); // Agrega un PDF a la lista original
+
+        void agregarPDF(PDFItem pdfItem);
+
         void showErrorMessage(String mensaje);
     }
 

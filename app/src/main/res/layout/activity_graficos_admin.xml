@@ -9,15 +9,14 @@
     android:padding="3dp"
     tools:context=".Vista.GraficosAdmin" >
 
-    <TextView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarGraficos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="GRÁFICOS"
-        android:textColor="#F44336"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        tools:ignore="HardcodedText" />
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        app:title="GRÁFICOS"
+        android:theme="?attr/actionBarTheme" />
 
     <LinearLayout
         android:layout_width="match_parent"

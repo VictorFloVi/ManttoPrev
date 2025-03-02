@@ -66,6 +66,7 @@ public class AreaAdmin extends AppCompatActivity implements AreaAdminContract.Vi
         etArea.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //
             }
 
             @Override
@@ -76,6 +77,7 @@ public class AreaAdmin extends AppCompatActivity implements AreaAdminContract.Vi
 
             @Override
             public void afterTextChanged(Editable s) {
+                //
             }
         });
 

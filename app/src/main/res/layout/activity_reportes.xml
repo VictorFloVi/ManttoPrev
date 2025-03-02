@@ -1,18 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="3dp">
 
-    <TextView
-        android:id="@+id/textView8"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarReportes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="REPORTES PDF "
-        android:textColor="#FF5722"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        app:title="REPORTES PDF"
+        android:theme="?attr/actionBarTheme" />
 
     <TextView
         android:id="@+id/textView15"

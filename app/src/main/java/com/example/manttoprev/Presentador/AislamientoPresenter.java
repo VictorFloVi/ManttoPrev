@@ -1,6 +1,6 @@
 package com.example.manttoprev.Presentador;
 
-import android.graphics.Color;
+
 import android.net.Uri;
 import android.os.Environment;
 import androidx.annotation.NonNull;
@@ -27,10 +27,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -334,9 +332,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
                         }
 
 
-                    }).addOnFailureListener(e -> {
-                        view.showErrorMessage("Error al obtener la URL del PDF: " + e.getMessage());
-                    });
+                    }).addOnFailureListener(e -> view.showErrorMessage("Error al obtener la URL del PDF: " + e.getMessage()));
                 })
                 .addOnFailureListener(e -> view.showErrorMessage("Error al subir el PDF: " + e.getMessage()));
     }

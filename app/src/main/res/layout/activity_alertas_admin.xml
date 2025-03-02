@@ -9,6 +9,15 @@
     tools:context=".Vista.AlertasAdmin" >
 
     <!-- Mensaje cuando no hay alertas -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarAlertas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        app:title="ALERTAS"
+        android:theme="?attr/actionBarTheme" />
+
     <TextView
         android:id="@+id/tvNoAlertas"
         android:layout_width="match_parent"

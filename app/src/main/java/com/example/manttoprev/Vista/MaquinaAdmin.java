@@ -84,7 +84,9 @@ public class MaquinaAdmin extends AppCompatActivity implements MaquinaAdminContr
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                //
+            }
         });
 
         //Detecta cuando se selecciona un elemento de la lista
@@ -100,6 +102,7 @@ public class MaquinaAdmin extends AppCompatActivity implements MaquinaAdminContr
         etMaquina.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //
             }
 
             @Override
@@ -110,6 +113,7 @@ public class MaquinaAdmin extends AppCompatActivity implements MaquinaAdminContr
 
             @Override
             public void afterTextChanged(Editable s) {
+                //
             }
         });
 

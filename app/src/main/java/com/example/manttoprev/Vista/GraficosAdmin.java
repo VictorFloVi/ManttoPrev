@@ -2,7 +2,9 @@ package com.example.manttoprev.Vista;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -35,6 +37,21 @@ public class GraficosAdmin extends AppCompatActivity implements GraficosAdminCon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graficos_admin);
+
+        Toolbar toolbar = findViewById(R.id.toolbarGraficos);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(GraficosAdmin.this, InterfazPrincipal.class);
+            startActivity(intent);
+
+        });
 
         GraficosAdminContract.Presenter presenter;
 

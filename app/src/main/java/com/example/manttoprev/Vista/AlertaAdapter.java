@@ -23,12 +23,6 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.AlertaView
         this.listener = listener;
     }
 
-    /*
-    public AlertaAdapter(List<Alertas> alertas) {
-        this.alertas = alertas;
-    }
-
-     */
 
     @NonNull
     @Override
@@ -58,7 +52,7 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.AlertaView
         return alertas.size();
     }
 
-    static class AlertaViewHolder extends RecyclerView.ViewHolder {
+    public static class AlertaViewHolder extends RecyclerView.ViewHolder {
         TextView tvMensaje;
         TextView tvMensajeAlerta;
         TextView tvMotor;

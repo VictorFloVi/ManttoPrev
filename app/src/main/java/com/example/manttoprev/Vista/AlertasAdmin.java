@@ -2,6 +2,7 @@ package com.example.manttoprev.Vista;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,20 @@ public class AlertasAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alertas_admin);
 
+        Toolbar toolbar = findViewById(R.id.toolbarAlertas);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(AlertasAdmin.this, InterfazPrincipal.class);
+            startActivity(intent);
+
+        });
 
         // Inicializar el RecyclerView y la lista de alertas
         rvAlertas = findViewById(R.id.rvAlertas);

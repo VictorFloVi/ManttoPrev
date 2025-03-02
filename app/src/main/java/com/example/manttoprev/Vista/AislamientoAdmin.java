@@ -1,6 +1,7 @@
 package com.example.manttoprev.Vista;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
 
@@ -8,6 +9,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -56,6 +58,21 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aislamiento);
 
+        Toolbar toolbar = findViewById(R.id.toolbarAislamiento);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(AislamientoAdmin.this, InterfazPrincipal.class);
+            startActivity(intent);
+
+        });
+
         AislamientoContract.Presenter presenter;
 
         cboArea = findViewById(R.id.cboArea);
@@ -79,15 +96,12 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
 
         btnGuardarAislamiento = findViewById(R.id.btnGuardarAislamiento);
 
-
-
         presenter = new AislamientoPresenter(this);
 
         tbAislamiento.setVisibility(View.GONE);
 
         //Ver la lista de áreas en el Spinner
         presenter.obtenerAreas();
-
 
 
         cboArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -114,7 +128,9 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                //
+            }
         });
 
         cboEquipos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -125,7 +141,9 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Este método está vacío intencionalmente porque no se requiere un comportamiento específico.
+            }
         });
 
         cboMaquinas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -136,7 +154,9 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                //
+            }
         });
 
         cboMotor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -151,7 +171,9 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                //
+            }
         });
 
         btnGuardarAislamiento.setOnClickListener(v -> {
@@ -255,7 +277,7 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
             // Maneja excepciones si no hay aplicaciones de visor de PDF instaladas
-            e.printStackTrace();
+            Log.e("TuClase", "No se encontró una aplicación para abrir el PDF", e);
             Toast.makeText(this, "No se encontró una aplicación para abrir el PDF", Toast.LENGTH_SHORT).show();
         }
     }

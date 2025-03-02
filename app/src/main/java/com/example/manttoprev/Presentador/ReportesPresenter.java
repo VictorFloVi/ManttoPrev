@@ -2,8 +2,6 @@ package com.example.manttoprev.Presentador;
 
 
 import com.example.manttoprev.Modelo.PDFItem;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 

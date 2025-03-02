@@ -2,9 +2,11 @@ package com.example.manttoprev.Vista;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +34,21 @@ public class Reportes extends AppCompatActivity implements ReportesContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportes);
 
+        Toolbar toolbar = findViewById(R.id.toolbarReportes);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(Reportes.this, InterfazPrincipal.class);
+            startActivity(intent);
+
+        });
+
         RecyclerView recyclerViewPDFs = findViewById(R.id.recyclerViewPDFs);
         recyclerViewPDFs.setLayoutManager(new LinearLayoutManager(this));
 
@@ -49,6 +66,7 @@ public class Reportes extends AppCompatActivity implements ReportesContract.View
         setupSearchView();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void mostrarPDFs(List<PDFItem> pdfItems) {
         filteredList.clear();

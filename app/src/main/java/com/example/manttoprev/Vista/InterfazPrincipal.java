@@ -29,11 +29,7 @@ public class InterfazPrincipal extends AppCompatActivity implements InterfazPrin
             startActivity(intent);
         });
 
-
-
         presenter.obtenerRolUsuario();
-
-
 
         TextView tvAislamiento = findViewById(R.id.tvAislamiento);
         tvAislamiento.setOnClickListener(v -> {

@@ -40,6 +40,7 @@ public class Aislamiento {
         this.fecha = fecha;
     }
 
+
     public String getArea() {
         return area;
     }
