@@ -43,12 +43,9 @@ public class AlertasAdmin extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
         toolbar.setNavigationOnClickListener(v ->  {
-
             Intent intent = new Intent(AlertasAdmin.this, InterfazPrincipal.class);
             startActivity(intent);
-
         });
 
         // Inicializar el RecyclerView y la lista de alertas

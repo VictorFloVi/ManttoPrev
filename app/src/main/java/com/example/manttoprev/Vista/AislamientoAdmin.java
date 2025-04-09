@@ -56,7 +56,7 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aislamiento);
+        setContentView(R.layout.activity_aislamiento_admin);
 
         Toolbar toolbar = findViewById(R.id.toolbarAislamiento);
         setSupportActionBar(toolbar);

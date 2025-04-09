@@ -79,6 +79,7 @@ public class Reportes extends AppCompatActivity implements ReportesContract.View
         presenter.agregarPDF(pdfItem);
     }
 
+
     private void setupSearchView() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -43,7 +43,7 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.AlertaView
         holder.tvMaquina.setText(alerta.getMaquina());
         // Agregar log para verificar la URL
         Log.d("AlertaAdapter", "URL: " + alerta.getUrl());
-        holder.tvMensaje.setOnClickListener(v -> listener.onPDFClick(alerta.getUrl()));
+        holder.itemView.setOnClickListener(v -> listener.onPDFClick(alerta.getUrl()));
     }
 
 

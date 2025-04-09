@@ -37,9 +37,9 @@ public class InterfazPrincipal extends AppCompatActivity implements InterfazPrin
             startActivity(intent);
         });
 
-        TextView tvManttoMotor = findViewById(R.id.tvManttoMotor);
-        tvManttoMotor.setOnClickListener(v -> {
-            Intent intent = new Intent(InterfazPrincipal.this, ManttoMotor.class);
+        TextView tvVibracion = findViewById(R.id.tvVibracion);
+        tvVibracion.setOnClickListener(v -> {
+            Intent intent = new Intent(InterfazPrincipal.this, VibracionAdmin.class);
             startActivity(intent);
         });
 

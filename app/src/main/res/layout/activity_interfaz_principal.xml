@@ -77,12 +77,12 @@
                 tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
             <TextView
-                android:id="@+id/tvManttoMotor"
+                android:id="@+id/tvVibracion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
                 android:paddingBottom="5dp"
-                android:text="PROGRAMAR MANTTO"
+                android:text="VIBRACIONES"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"

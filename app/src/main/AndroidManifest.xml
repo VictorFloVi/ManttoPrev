@@ -47,7 +47,7 @@
             android:name=".Vista.GraficosAdmin"
             android:exported="false" />
         <activity
-            android:name=".Vista.ManttoMotor"
+            android:name=".Vista.VibracionAdmin"
             android:exported="false" />
         <activity
             android:name=".Vista.AislamientoAdmin"

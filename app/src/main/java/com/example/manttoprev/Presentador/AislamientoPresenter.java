@@ -1,6 +1,5 @@
 package com.example.manttoprev.Presentador;
 
-
 import android.net.Uri;
 import android.os.Environment;
 import androidx.annotation.NonNull;
@@ -31,7 +30,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
-
 
 public class AislamientoPresenter implements AislamientoContract.Presenter{
 
