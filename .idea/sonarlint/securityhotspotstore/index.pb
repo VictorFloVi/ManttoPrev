@@ -115,11 +115,11 @@ q
 Aapp/src/main/java/com/example/manttoprev/Vista/GraficosAdmin.java,9\a\9a8a736c77eb2563e8d42f8965e92860ac5539b6
 €
 Papp/src/main/java/com/example/manttoprev/Presentador/GraficosAdminPresenter.java,3\7\378c661395d809f065135438bc7b45c190bc8408
-o
-?app/src/main/java/com/example/manttoprev/Vista/ManttoMotor.java,f\2\f2da82c015fcb06d8e9d85c99534435e2b90abb0
 l
 <app/src/main/java/com/example/manttoprev/Modelo/Alertas.java,d\5\d5dbdca2d1f353f780f799501913725f8dc90f36
 q
 Aapp/src/main/java/com/example/manttoprev/Vista/AlertaAdapter.java,e\2\e26132bc0a51309bec7035ead966b36ff11d17f7
 p
 @app/src/main/java/com/example/manttoprev/Vista/AlertasAdmin.java,4\c\4c6dc4488d591d807ff091c338b145f2067db622
+r
+Bapp/src/main/java/com/example/manttoprev/Vista/VibracionAdmin.java,0\a\0a0496fdd03cec70fac901b53886aa7dccea5ba1

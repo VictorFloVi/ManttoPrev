@@ -31,7 +31,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
-public class AislamientoPresenter implements AislamientoContract.Presenter{
+public class AislamientoAdminPresenter implements AislamientoAdminContract.Presenter{
 
     private static final String AISLAMIENTO = "aislamiento";
     private static final String DESCRIPCION = "descripcion";
@@ -44,7 +44,7 @@ public class AislamientoPresenter implements AislamientoContract.Presenter{
     private final AislamientoAdmin view;
     private final FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    public AislamientoPresenter(AislamientoAdmin view) {
+    public AislamientoAdminPresenter(AislamientoAdmin view) {
         this.view = view;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();

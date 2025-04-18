@@ -19,8 +19,8 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
-import com.example.manttoprev.Presentador.AislamientoContract;
-import com.example.manttoprev.Presentador.AislamientoPresenter;
+import com.example.manttoprev.Presentador.AislamientoAdminContract;
+import com.example.manttoprev.Presentador.AislamientoAdminPresenter;
 import com.example.manttoprev.R;
 
 
@@ -28,7 +28,7 @@ import java.io.File;
 import java.util.List;
 
 
-public class AislamientoAdmin extends AppCompatActivity implements AislamientoContract.View {
+public class AislamientoAdmin extends AppCompatActivity implements AislamientoAdminContract.View {
 
     Spinner cboArea;
     Spinner cboSecciones;
@@ -73,7 +73,7 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
 
         });
 
-        AislamientoContract.Presenter presenter;
+        AislamientoAdminContract.Presenter presenter;
 
         cboArea = findViewById(R.id.cboArea);
         cboSecciones = findViewById(R.id.cboSecciones);
@@ -96,7 +96,7 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoCo
 
         btnGuardarAislamiento = findViewById(R.id.btnGuardarAislamiento);
 
-        presenter = new AislamientoPresenter(this);
+        presenter = new AislamientoAdminPresenter(this);
 
         tbAislamiento.setVisibility(View.GONE);
 
