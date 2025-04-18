@@ -53,10 +53,6 @@ G.idea/sonarlint/issuestore/2/9/293c5aa68cb764d10a898dda2bac3d7876f9fdad,3\a\3a
 Napp/src/main/java/com/example/manttoprev/Presentador/MaquinaAdminContract.java,6\b\6bbbb4f670313a1bbed4a00728de531124fb9257
 Å
 Q.idea/sonarlint/securityhotspotstore/e/d/ed59f66096ecbc6217d452ab4438aab79f4eaa8a,a\b\ab470b192bb9e7211039da18a756aa591961c0ce
-}
-Mapp/src/main/java/com/example/manttoprev/Presentador/AislamientoContract.java,b\3\b3479106b4eaff4d100f5213a42758d615501b91
-~
-Napp/src/main/java/com/example/manttoprev/Presentador/AislamientoPresenter.java,e\8\e8c2b0c6f5bea932efe8a65f4560b8de9bc4c00b
 Å
 Q.idea/sonarlint/securityhotspotstore/d/6/d60cedcdaf1abb49c34bf647fa445846a6de9f90,c\e\cef96271bfeb9d0a29ccb1cbf06e7be61783c654
 k
@@ -123,3 +119,13 @@ p
 @app/src/main/java/com/example/manttoprev/Vista/AlertasAdmin.java,4\c\4c6dc4488d591d807ff091c338b145f2067db622
 r
 Bapp/src/main/java/com/example/manttoprev/Vista/VibracionAdmin.java,0\a\0a0496fdd03cec70fac901b53886aa7dccea5ba1
+n
+>app/src/main/java/com/example/manttoprev/Modelo/Vibracion.java,6\5\65911a15994d68f3a3f5543cefe040c7f6f121a5
+Ç
+Rapp/src/main/java/com/example/manttoprev/Presentador/AislamientoAdminContract.java,e\7\e7379bec13429ea12a9e110bb539cbffab767037
+Ä
+Papp/src/main/java/com/example/manttoprev/Presentador/VibracionAdminContract.java,6\f\6f92e93ae095c3dff12623aa192f9c316564af51
+É
+Sapp/src/main/java/com/example/manttoprev/Presentador/AislamientoAdminPresenter.java,a\8\a8aeaa6e66dff23b0f1bed6393bc6746c2c8dbae
+Å
+Qapp/src/main/java/com/example/manttoprev/Presentador/VibracionAdminPresenter.java,6\7\67a45477263c71c1df308711d9b35dc99c0439fb
