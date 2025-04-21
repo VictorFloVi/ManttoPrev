@@ -1,7 +1,9 @@
 package com.example.manttoprev.Vista;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,6 +41,21 @@ public class AreaAdmin extends AppCompatActivity implements AreaAdminContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_admin);
+
+        Toolbar toolbar = findViewById(R.id.toolbarAreaAdmin);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(AreaAdmin.this, Mantenimiento.class);
+            startActivity(intent);
+
+        });
 
         AreaAdminContract.Presenter presenter;
 

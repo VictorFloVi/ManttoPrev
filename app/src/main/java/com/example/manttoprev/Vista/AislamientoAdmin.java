@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -86,9 +87,20 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         etMegadoV = findViewById(R.id.etMegadoV);
         etMegadoW = findViewById(R.id.etMegadoW);
 
+        etMegadoW.setOnEditorActionListener((v, actionId, event) -> {
+            etResistenciaU.requestFocus(); // Mueve el cursor
+            return true;
+        });
+
+
         etResistenciaU = findViewById(R.id.etResistenciaU);
         etResistenciaV = findViewById(R.id.etResistenciaV);
         etResistenciaW = findViewById(R.id.etResistenciaW);
+
+        etResistenciaW.setOnEditorActionListener((v, actionId, event) -> {
+            etAmperajeU.requestFocus(); // Mueve el cursor
+            return true;
+        });
 
         etAmperajeU = findViewById(R.id.etAmperajeU);
         etAmperajeV = findViewById(R.id.etAmperajeV);

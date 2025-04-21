@@ -215,7 +215,6 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
             Double axibduc = Double.parseDouble(etAxiBduC.getText().toString().trim());
             Double axigc = Double.parseDouble(etAxiGC.getText().toString().trim());
 
-
             Double horisov = Double.parseDouble(etHorIsoV.getText().toString().trim());
             Double horbduv = Double.parseDouble(etHorBduV.getText().toString().trim());
             Double horgv = Double.parseDouble(etHorGV.getText().toString().trim());

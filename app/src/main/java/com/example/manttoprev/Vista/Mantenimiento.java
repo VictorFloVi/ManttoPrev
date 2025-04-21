@@ -1,6 +1,7 @@
 package com.example.manttoprev.Vista;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,20 @@ public class Mantenimiento extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mantenimiento);
+
+        Toolbar toolbar = findViewById(R.id.toolbarMantenimiento);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(Mantenimiento.this, InterfazPrincipal.class);
+            startActivity(intent);
+        });
 
         Button btnNuevoUsuario = findViewById(R.id.btnNuevoUsuario);
         btnNuevoUsuario.setOnClickListener(v -> {

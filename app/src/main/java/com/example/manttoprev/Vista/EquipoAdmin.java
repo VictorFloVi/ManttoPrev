@@ -1,7 +1,9 @@
 package com.example.manttoprev.Vista;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +46,20 @@ public class EquipoAdmin extends AppCompatActivity implements EquipoAdminContrac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipo_admin);
+
+        Toolbar toolbar = findViewById(R.id.toolbarEquipoAdmin);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(EquipoAdmin.this, Mantenimiento.class);
+            startActivity(intent);
+        });
 
         EquipoAdminContract.Presenter presenter;
         lvListadoEquipo = findViewById(R.id.lvListadoEquipo);

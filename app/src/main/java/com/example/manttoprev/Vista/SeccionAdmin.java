@@ -1,7 +1,9 @@
 package com.example.manttoprev.Vista;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,6 +42,20 @@ public class SeccionAdmin extends AppCompatActivity implements SeccionAdminContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seccion_admin);
+
+        Toolbar toolbar = findViewById(R.id.toolbarSeccionAdmin);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(SeccionAdmin.this, Mantenimiento.class);
+            startActivity(intent);
+        });
 
         SeccionAdminContract.Presenter presenter;
 

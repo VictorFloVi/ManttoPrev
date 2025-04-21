@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.manttoprev.Presentador.RegistroUsuarioContract;
 import com.example.manttoprev.Presentador.RegistroUsuarioPresenter;
@@ -33,6 +34,21 @@ public class RegistroUsuario extends AppCompatActivity implements RegistroUsuari
         RegistroUsuarioContract.Presenter presenter;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_usuario);
+
+        Toolbar toolbar = findViewById(R.id.toolbarRegistroUsuario);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso en la barra de acción
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v ->  {
+
+            Intent intent = new Intent(RegistroUsuario.this, Mantenimiento.class);
+            startActivity(intent);
+
+        });
 
         etNombre = findViewById(R.id.etNombre);
         etDNI = findViewById(R.id.etDNI);
