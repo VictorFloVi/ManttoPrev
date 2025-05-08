@@ -25,7 +25,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="494dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <AutoCompleteTextView
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="50dp"
             android:autoSizeTextType="uniform"
             android:ems="10"
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
             android:text="Área"
             tools:ignore="HardcodedText" />
@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
             android:text="Sección"
             tools:ignore="HardcodedText" />
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
             android:text="Equipo"
             tools:ignore="HardcodedText" />
@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
             android:text="Máquina"
             tools:ignore="HardcodedText" />
@@ -118,9 +118,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
             android:autoSizeTextType="uniform"
             android:ems="10"
             android:hint="Descripción"

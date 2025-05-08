@@ -129,3 +129,5 @@ Papp/src/main/java/com/example/manttoprev/Presentador/VibracionAdminContract.jav
 Sapp/src/main/java/com/example/manttoprev/Presentador/AislamientoAdminPresenter.java,a\8\a8aeaa6e66dff23b0f1bed6393bc6746c2c8dbae
 Å
 Qapp/src/main/java/com/example/manttoprev/Presentador/VibracionAdminPresenter.java,6\7\67a45477263c71c1df308711d9b35dc99c0439fb
+p
+@app/src/main/java/com/example/manttoprev/Vista/SeccionAdmin.java,2\1\2117e1bd54e3a4979e83911e7653ad5bd9bfbead

@@ -11,10 +11,9 @@
         android:id="@+id/toolbarAislamiento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
-        app:title="MOTORES CHD"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:title="MOTORES CHD" />
 
     <LinearLayout
         android:layout_width="match_parent"

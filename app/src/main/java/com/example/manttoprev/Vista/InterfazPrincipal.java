@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.manttoprev.MainActivity;
 import com.example.manttoprev.Presentador.InterfazPrincipalContract;
 import com.example.manttoprev.Presentador.InterfazPrincipalPresenter;
 import com.example.manttoprev.R;
@@ -15,6 +17,7 @@ import com.example.manttoprev.R;
 public class InterfazPrincipal extends AppCompatActivity implements InterfazPrincipalContract.View{
 
     TextView tvMantenimiento;
+    ImageButton btnSalir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,14 @@ public class InterfazPrincipal extends AppCompatActivity implements InterfazPrin
             Intent intent = new Intent(InterfazPrincipal.this, Mantenimiento.class);
             startActivity(intent);
         });
+
+        btnSalir = findViewById(R.id.btnSalir);
+        btnSalir.setOnClickListener(v -> {
+            Intent intent = new Intent(InterfazPrincipal.this, MainActivity.class);
+            startActivity(intent); // Inicia la MainActivity
+            finish(); // Opcional: Cierra la actividad actual
+        });
+
 
         presenter.obtenerRolUsuario();
 
