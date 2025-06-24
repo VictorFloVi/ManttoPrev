@@ -1,0 +1,9 @@
+
+i
+java:S2095ø"FUse try-with-resources or close this "Document" in a "finally" clause.(’µò€üÿÿÿÿ8™›—Ûä2
+S	java:S107î"=Method has 15 parameters, which is greater than 7 authorized.(õÏ°á
+X	java:S107›"=Method has 16 parameters, which is greater than 7 authorized.(²Êùøÿÿÿÿ
+`
+java:S6353½"DUse concise character class syntax '\\W' instead of '[^a-zA-Z0-9_]'.(€“À¾ûÿÿÿÿ
+C
+java:S1602Â",Remove useless curly braces around statement(‹¦ë¢
