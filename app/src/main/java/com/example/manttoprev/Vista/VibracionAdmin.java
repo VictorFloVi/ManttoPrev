@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,13 @@ import com.example.manttoprev.Presentador.VibracionAdminContract;
 import com.example.manttoprev.Presentador.VibracionAdminPresenter;
 import com.example.manttoprev.R;
 
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class VibracionAdmin extends AppCompatActivity implements VibracionAdminContract.View {
@@ -59,6 +66,8 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
     EditText etAxiGV;
 
     Button btnGuardarVibracion;
+
+    TextView resultTextView;
 
 
 
@@ -116,6 +125,9 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
         etAxiGV = findViewById(R.id.etAxiGV);
 
         btnGuardarVibracion = findViewById(R.id.btnGuardarVibracion);
+
+        resultTextView = findViewById(R.id.resultTextView);
+        btnGuardarVibracion.setOnClickListener(view -> enviarDatos());
 
         presenter = new VibracionAdminPresenter(this);
 
@@ -227,6 +239,8 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
             Double axibduv = Double.parseDouble(etAxiBduV.getText().toString().trim());
             Double axigv = Double.parseDouble(etAxiGV.getText().toString().trim());
 
+            enviarDatos();
+
             presenter.guardarVibracion(area, seccion, equipo, maquina, motor, horisoc, horbduc, horgc,
                     verisoc, verbduc, vergc, axiisoc, axibduc, axigc, horisov, horbduv, horgv, verisov,
                     verbduv, vergv, axiisov, axibduv, axigv);
@@ -234,6 +248,109 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
 
         });
     }
+
+
+
+    private void enviarDatos() {
+
+
+        new Thread(() -> {
+
+            try {
+
+                URL url = new URL("https://prediccion-motor-527278766855.us-central1.run.app/predict");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json; utf-8");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setDoOutput(true);
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("g_hor_car", Double.parseDouble(etHorGC.getText().toString()));
+                jsonParam.put("g_axi_car", Double.parseDouble(etAxiGC.getText().toString()));
+                jsonParam.put("g_ver_car", Double.parseDouble(etVerGC.getText().toString()));
+                jsonParam.put("g_hor_ven", Double.parseDouble(etHorGV.getText().toString()));
+                jsonParam.put("g_axi_ven", Double.parseDouble(etAxiGV.getText().toString()));
+                jsonParam.put("g_ver_ven", Double.parseDouble(etVerGV.getText().toString()));
+
+                jsonParam.put("iso_hor_car", Double.parseDouble(etHorIsoC.getText().toString()));
+                jsonParam.put("iso_axi_car", Double.parseDouble(etAxiIsoC.getText().toString()));
+                jsonParam.put("iso_ver_car", Double.parseDouble(etVerIsoC.getText().toString()));
+                jsonParam.put("iso_hor_ven", Double.parseDouble(etHorIsoV.getText().toString()));
+                jsonParam.put("iso_axi_ven", Double.parseDouble(etAxiIsoV.getText().toString()));
+                jsonParam.put("iso_ver_ven", Double.parseDouble(etVerIsoV.getText().toString()));
+
+                jsonParam.put("bdu_hor_car", Double.parseDouble(etHorBduC.getText().toString()));
+                jsonParam.put("bdu_axi_car", Double.parseDouble(etAxiBduC.getText().toString()));
+                jsonParam.put("bdu_ver_car", Double.parseDouble(etVerBduC.getText().toString()));
+                jsonParam.put("bdu_hor_ven", Double.parseDouble(etHorBduV.getText().toString()));
+                jsonParam.put("bdu_axi_ven", Double.parseDouble(etAxiBduV.getText().toString()));
+                jsonParam.put("bdu_ver_ven", Double.parseDouble(etVerBduV.getText().toString()));
+
+                OutputStream os = conn.getOutputStream();
+                os.write(jsonParam.toString().getBytes(StandardCharsets.UTF_8));
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    // Leer la respuesta del servidor
+                    java.io.InputStream is = conn.getInputStream();
+                    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+                    String result = s.hasNext() ? s.next() : "";
+
+                    // Parsear el JSON de la respuesta
+                    JSONObject responseJson = new JSONObject(result);
+                    String prediccion = responseJson.getString("prediccion");
+
+                    // Mostrar la predicción en el TextView
+                    runOnUiThread(() -> {
+                        Log.d("PREDICCION", "Resultado recibido: " + prediccion);
+                        resultTextView.setText("Predicción: " + prediccion);
+                    });
+
+
+                    // Limpiar los EditText
+                    etHorGC.setText("");
+                    etAxiGC.setText("");
+                    etVerGC.setText("");
+                    etHorGV.setText("");
+                    etAxiGV.setText("");
+                    etVerGV.setText("");
+
+                    etHorIsoC.setText("");
+                    etAxiIsoC.setText("");
+                    etVerIsoC.setText("");
+                    etHorIsoV.setText("");
+                    etAxiIsoV.setText("");
+                    etVerIsoV.setText("");
+
+                    etHorBduC.setText("");
+                    etAxiBduC.setText("");
+                    etVerBduC.setText("");
+                    etHorBduV.setText("");
+                    etAxiBduV.setText("");
+                    etVerBduV.setText("");
+
+
+                } else {
+                    runOnUiThread(() -> Toast.makeText(VibracionAdmin.this, "Error en la conexión: " + responseCode, Toast.LENGTH_SHORT).show());
+                }
+                conn.disconnect();
+
+
+            } catch (Exception e) {
+                runOnUiThread(() ->
+                        Toast.makeText(VibracionAdmin.this, "Excepción: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                );
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+
+
 
     @Override
     public void mostrarAreas(List<String> areas) {
