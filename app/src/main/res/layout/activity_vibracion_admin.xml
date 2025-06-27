@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="20dp"
                     tools:ignore="MissingConstraints,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
                 <Spinner
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="20dp"
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <Spinner
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="20dp"
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <Spinner
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="20dp"
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <Spinner
@@ -127,6 +127,18 @@
                             android:background="@drawable/cell_border"
                             android:gravity="center"
                             android:padding="8dp"
+                            android:text="g"
+                            android:textColor="#3F51B5"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:padding="8dp"
                             android:text="ISO"
                             android:textColor="#3F51B5"
                             android:textSize="16sp"
@@ -144,17 +156,7 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="g"
-                            android:textColor="#3F51B5"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+
                     </TableRow>
 
                     <!-- Fila 2 -->
@@ -171,6 +173,17 @@
                             android:textColor="#3F51B5"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etHorGC"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:inputType="number|numberDecimal"
+                            android:padding="8dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <EditText
                             android:id="@+id/etHorIsoC"
@@ -194,68 +207,10 @@
                             android:padding="8dp"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                        <EditText
-                            android:id="@+id/etHorGC"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:inputType="number|numberDecimal"
-                            android:padding="8dp"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
                     </TableRow>
 
                     <!-- Fila 3 -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="Vertical Carga"
-                            android:textColor="#3F51B5"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/etVerIsoC"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:inputType="number|numberDecimal"
-                            android:padding="8dp"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                        <EditText
-                            android:id="@+id/etVerBduC"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:inputType="number|numberDecimal"
-                            android:padding="8dp"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                        <EditText
-                            android:id="@+id/etVerGC"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:inputType="number|numberDecimal"
-                            android:padding="8dp"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-                    </TableRow>
-
-                    <!-- Fila 4 -->
                     <TableRow>
 
                         <TextView
@@ -269,6 +224,17 @@
                             android:textColor="#3F51B5"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etAxiGC"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:inputType="number|numberDecimal"
+                            android:padding="8dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <EditText
                             android:id="@+id/etAxiIsoC"
@@ -292,8 +258,26 @@
                             android:padding="8dp"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
+
+                    </TableRow>
+
+                    <!-- Fila 4 -->
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="Vertical Carga"
+                            android:textColor="#3F51B5"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
                         <EditText
-                            android:id="@+id/etAxiGC"
+                            android:id="@+id/etVerGC"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
@@ -302,6 +286,30 @@
                             android:inputType="number|numberDecimal"
                             android:padding="8dp"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <EditText
+                            android:id="@+id/etVerIsoC"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:inputType="number|numberDecimal"
+                            android:padding="8dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <EditText
+                            android:id="@+id/etVerBduC"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:inputType="number|numberDecimal"
+                            android:padding="8dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
                     </TableRow>
 
                     <!-- Fila 5 -->
@@ -318,6 +326,17 @@
                             android:textColor="#3F51B5"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etHorGV"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:inputType="number|numberDecimal"
+                            android:padding="8dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <EditText
                             android:id="@+id/etHorIsoV"
@@ -341,68 +360,10 @@
                             android:padding="8dp"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-                        <EditText
-                            android:id="@+id/etHorGV"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:inputType="number|numberDecimal"
-                            android:padding="8dp"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
                     </TableRow>
 
                     <!-- Fila 6 -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="Vertical Ventilador"
-                            android:textColor="#3F51B5"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/etVerIsoV"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:inputType="number|numberDecimal"
-                            android:padding="8dp"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                        <EditText
-                            android:id="@+id/etVerBduV"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:inputType="number|numberDecimal"
-                            android:padding="8dp"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                        <EditText
-                            android:id="@+id/etVerGV"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/cell_border"
-                            android:gravity="center"
-                            android:inputType="number|numberDecimal"
-                            android:padding="8dp"
-                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-                    </TableRow>
-
-                    <!-- Fila 7 -->
                     <TableRow>
 
                         <TextView
@@ -416,6 +377,17 @@
                             android:textColor="#3F51B5"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etAxiGV"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:inputType="number|numberDecimal"
+                            android:padding="8dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         <EditText
                             android:id="@+id/etAxiIsoV"
@@ -439,8 +411,26 @@
                             android:padding="8dp"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
+
+                    </TableRow>
+
+                    <!-- Fila 7 -->
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="Vertical Ventilador"
+                            android:textColor="#3F51B5"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
                         <EditText
-                            android:id="@+id/etAxiGV"
+                            android:id="@+id/etVerGV"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
@@ -449,6 +439,31 @@
                             android:inputType="number|numberDecimal"
                             android:padding="8dp"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
+                        <EditText
+                            android:id="@+id/etVerIsoV"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:inputType="number|numberDecimal"
+                            android:padding="8dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+                        <EditText
+                            android:id="@+id/etVerBduV"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/cell_border"
+                            android:gravity="center"
+                            android:inputType="number|numberDecimal"
+                            android:padding="8dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
                     </TableRow>
 
                 </TableLayout>
@@ -475,6 +490,16 @@
                     tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/resultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Resultado aquí..."
+                android:background="#FFFF00"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
     </ScrollView>
