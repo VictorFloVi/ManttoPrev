@@ -10,8 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -20,8 +18,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ManttoPrev"
-        >
+        android:theme="@style/Theme.ManttoPrev">
+        <activity
+            android:name=".Vista.ScannerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ManttoPrev.CameraX"/>
+
         <activity
             android:name=".Vista.MotorAdmin"
             android:exported="false" />
@@ -55,7 +57,7 @@
         <activity
             android:name=".Vista.VibracionAdmin"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Vista.AislamientoAdmin"
             android:exported="false" />
@@ -77,6 +79,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.manttoprev.fileprovider"

@@ -131,3 +131,5 @@ Sapp/src/main/java/com/example/manttoprev/Presentador/AislamientoAdminPresenter.
 Qapp/src/main/java/com/example/manttoprev/Presentador/VibracionAdminPresenter.java,6\7\67a45477263c71c1df308711d9b35dc99c0439fb
 p
 @app/src/main/java/com/example/manttoprev/Vista/SeccionAdmin.java,2\1\2117e1bd54e3a4979e83911e7653ad5bd9bfbead
+s
+Capp/src/main/java/com/example/manttoprev/Vista/ScannerActivity.java,5\b\5bb8c20d175c632c7277e2493c67fd45dd5832db

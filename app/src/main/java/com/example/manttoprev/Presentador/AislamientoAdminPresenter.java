@@ -2,6 +2,8 @@ package com.example.manttoprev.Presentador;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import com.example.manttoprev.Modelo.Aislamiento;
 import com.example.manttoprev.Modelo.Alertas;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.logging.Handler;
 
 public class AislamientoAdminPresenter implements AislamientoAdminContract.Presenter{
 
@@ -108,6 +111,7 @@ public class AislamientoAdminPresenter implements AislamientoAdminContract.Prese
         });
     }
 
+
     @Override
     public void obtenerEquipos( String equipoSeleccionado) {
         final List<String> nombresEquipos = new ArrayList<>();
@@ -137,6 +141,7 @@ public class AislamientoAdminPresenter implements AislamientoAdminContract.Prese
             }
         });
     }
+
     @Override
     public void obtenerMaquinas(String maquinaSeleccionada) {
         final List<String> nombresMaquinas = new ArrayList<>();
@@ -197,7 +202,6 @@ public class AislamientoAdminPresenter implements AislamientoAdminContract.Prese
         });
     }
 
-
     @Override
     public void guardarAislamiento(String area, String seccion, String equipo, String maquina, String motor,
                                    Double megadou, Double megadov, Double megadow,
@@ -233,6 +237,35 @@ public class AislamientoAdminPresenter implements AislamientoAdminContract.Prese
                 view.showErrorMessage("Error al generar el PDF: " + e.getMessage());
             }
     }
+
+    @Override
+    public void procesarPushId(String pushId) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("motores").child(pushId);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot s) {
+                if (!s.exists()) {
+                    view.showErrorMessage("Motor no encontrado");
+                    return;
+                }
+                String area = s.child("area").getValue(String.class);
+                String seccion = s.child("seccion").getValue(String.class);
+                String equipo = s.child("equipo").getValue(String.class);
+                String maquina = s.child("maquina").getValue(String.class);
+                String motor = s.child("descripcion").getValue(String.class);
+
+                view.setValoresSeleccion(area, seccion, equipo, maquina, motor);
+                obtenerAreas();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError e) {
+                view.showErrorMessage("Error al buscar el motor");
+            }
+        });
+    }
+
 
 
     private void generarPDF(String area, String seccion, String equipo, String maquina, String motor,

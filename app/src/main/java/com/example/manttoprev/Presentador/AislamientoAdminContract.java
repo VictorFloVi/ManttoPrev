@@ -10,6 +10,8 @@ public interface AislamientoAdminContract {
         void mostrarMaquinas(List<String> maquinas);
         void mostrarMotores(List<String> maquinas);
 
+        void setValoresSeleccion(String area, String seccion, String equipo, String maquina, String motor);
+
     }
     interface Presenter{
         void obtenerAreas();
@@ -21,6 +23,8 @@ public interface AislamientoAdminContract {
                                 Double megadou, Double megadov, Double megadow,
                                 Double resistenciau, Double resistenciav, Double resistenciaw,
                                 Double amperajeu, Double amperajev, Double amperajew);
+        void procesarPushId(String pushId);
+
 
     }
 }

@@ -1,38 +1,26 @@
 package com.example.manttoprev.Vista;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
-
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.Toast;
-
 import com.example.manttoprev.Presentador.AislamientoAdminContract;
 import com.example.manttoprev.Presentador.AislamientoAdminPresenter;
 import com.example.manttoprev.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
-
 import java.io.File;
 import java.util.List;
 
@@ -60,9 +48,14 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
 
     Button btnGuardarAislamiento;
 
-    Button btnEscanearQR;
+    ImageButton imaEscanearQR;
 
     private AislamientoAdminContract.Presenter presenter;
+    private String areaSeleccionada;
+    private String seccionSeleccionada;
+    private String equipoSeleccionado;
+    private String maquinaSeleccionada;
+    private String motorSeleccionado;
 
 
     @Override
@@ -116,7 +109,7 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         etAmperajeW = findViewById(R.id.etAmperajeW);
 
         btnGuardarAislamiento = findViewById(R.id.btnGuardarAislamiento);
-        btnEscanearQR = findViewById(R.id.btnEscanearQR);
+        imaEscanearQR = findViewById(R.id.imaEscanearQR);
 
 
         presenter = new AislamientoAdminPresenter(this);
@@ -199,12 +192,10 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
             }
         });
 
-        btnEscanearQR.setOnClickListener(v -> {
-            new IntentIntegrator(this)
-                    .setPrompt("Escanea el código QR del motor")
-                    .setBeepEnabled(true)
-                    .initiateScan();
-        });
+        imaEscanearQR.setOnClickListener(v ->
+                startActivityForResult(
+                        new Intent(this, ScannerActivity.class), 2001)
+        );
 
 
         btnGuardarAislamiento.setOnClickListener(v -> {
@@ -228,102 +219,40 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
 
             presenter.guardarAislamiento(area, seccion, equipo, maquina, motor, megadou, megadov, megadow, resistenciau, 
                     resistenciav, resistenciaw, amperajeu, amperajev, amperajew);
-
-
         });
-
-
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult res = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (res != null) {
-            if (res.getContents() != null) {
-                String pushId = res.getContents();      // el QR trae el pushId
-                procesarQRporPushId(pushId);
-            } else {
-                Toast.makeText(this, "Escaneo cancelado", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int req, int res, Intent data) {
+        super.onActivityResult(req, res, data);
+        if (req == 2001 && res == RESULT_OK && data != null) {
+            String pushId = data.getStringExtra("QR_CONTENT");
+            if (pushId != null) presenter.procesarPushId(pushId);
         }
     }
 
-    private void procesarQRporPushId(String pushId) {
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("motores")
-                .child(pushId);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            public void onDataChange(@NonNull DataSnapshot s) {
-                if (!s.exists()) {
-                    showErrorMessage("Motor no encontrado");
-                    return;
-                }
-                String area = s.child("area").getValue(String.class);
-                String seccion = s.child("seccion").getValue(String.class);
-                String equipo = s.child("equipo").getValue(String.class);
-                String maquina = s.child("maquina").getValue(String.class);
-                String nombre = s.child("descripcion").getValue(String.class);
-
-                /* Autocompletar spinners y mostrar tabla */
-                autoSeleccionarSpinners(area, seccion, equipo, maquina, nombre);
-            }
-
-            public void onCancelled(@NonNull DatabaseError e) {
-                showErrorMessage("Error al buscar el motor");
-            }
-        });
+    @Override
+    public void setValoresSeleccion(String area, String seccion, String equipo, String maquina, String motor) {
+        this.areaSeleccionada = area;
+        this.seccionSeleccionada = seccion;
+        this.equipoSeleccionado = equipo;
+        this.maquinaSeleccionada = maquina;
+        this.motorSeleccionado = motor;
     }
 
-    private void autoSeleccionarSpinners(String area, String seccion, String equipo, String maquina, String motor) {
-        presenter.obtenerAreas();
-
-        // Paso 1: Seleccionar Área
-        cboArea.postDelayed(() -> {
-            seleccionarSpinnerPorValor(cboArea, area);
-            presenter.obtenerSecciones(area);
-
-            // Paso 2: Seleccionar Sección cuando esté listo
-            cboSecciones.postDelayed(() -> {
-                seleccionarSpinnerPorValor(cboSecciones, seccion);
-                presenter.obtenerEquipos(seccion);
-
-                // Paso 3: Seleccionar Equipo
-                cboEquipos.postDelayed(() -> {
-                    seleccionarSpinnerPorValor(cboEquipos, equipo);
-                    presenter.obtenerMaquinas(equipo);
-
-                    // Paso 4: Seleccionar Máquina
-                    cboMaquinas.postDelayed(() -> {
-                        seleccionarSpinnerPorValor(cboMaquinas, maquina);
-                        presenter.obtenerMotores(maquina);
-
-                        // Paso 5: Seleccionar Motor
-                        cboMotor.postDelayed(() -> {
-                            seleccionarSpinnerPorValor(cboMotor, motor);
-                            tbAislamiento.setVisibility(View.VISIBLE);
-                        }, 500);
-
-                    }, 500);
-
-                }, 500);
-
-            }, 500);
-
-        }, 500);
-    }
 
     private void seleccionarSpinnerPorValor(Spinner sp, String valor) {
+        if (valor == null) return;
         ArrayAdapter<?> ad = (ArrayAdapter<?>) sp.getAdapter();
         if (ad == null) return;
         for (int i = 0; i < ad.getCount(); i++) {
-            if (valor.equals(ad.getItem(i))) { sp.setSelection(i); break; }
+            if (valor.equals(ad.getItem(i))) {
+                sp.setSelection(i);
+                break;
+            }
         }
     }
-
-
 
 
     @Override
@@ -331,12 +260,18 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, areas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboArea.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboArea, areaSeleccionada);
+        presenter.obtenerSecciones(areaSeleccionada);
     }
     @Override
     public void mostrarSecciones(List<String> secciones) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, secciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboSecciones.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboSecciones, seccionSeleccionada);
+        presenter.obtenerEquipos(seccionSeleccionada);
     }
 
     @Override
@@ -344,12 +279,18 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, equipos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboEquipos.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboEquipos, equipoSeleccionado);
+        presenter.obtenerMaquinas(equipoSeleccionado);
     }
     @Override
     public void mostrarMaquinas(List<String> maquinas) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, maquinas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboMaquinas.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboMaquinas, maquinaSeleccionada);
+        presenter.obtenerMotores(maquinaSeleccionada);
     }
 
     @Override
@@ -357,6 +298,9 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, motores);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboMotor.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboMotor, motorSeleccionado);
+
     }
 
     public void showErrorMessage(String message) {

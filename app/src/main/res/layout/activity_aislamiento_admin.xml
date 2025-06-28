@@ -15,12 +15,6 @@
         android:theme="?attr/actionBarTheme"
         app:title="MOTORES CHD" />
 
-    <Button
-        android:id="@+id/btnEscanearQR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Escanear QR" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="30dp"
             tools:ignore="MissingConstraints,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
         <Spinner
@@ -55,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="30dp"
             tools:ignore="TouchTargetSizeCheck" />
 
         <Spinner
@@ -64,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="30dp"
             tools:ignore="TouchTargetSizeCheck" />
 
         <Spinner
@@ -73,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="30dp"
             tools:ignore="TouchTargetSizeCheck" />
 
         <Spinner
@@ -88,8 +82,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imaEscanearQR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/qrcodeflat_106034"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="30dp"
         tools:ignore="UselessLeaf">
 
         <TableLayout

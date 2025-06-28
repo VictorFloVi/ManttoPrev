@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.ManttoPrev" parent="Base.Theme.ManttoPrev" />
+
+    <style name="Theme.ManttoPrev.CameraX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>
