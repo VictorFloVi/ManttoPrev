@@ -1,5 +1,6 @@
 package com.example.manttoprev.Vista;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
@@ -23,6 +24,13 @@ import android.widget.Toast;
 import com.example.manttoprev.Presentador.AislamientoAdminContract;
 import com.example.manttoprev.Presentador.AislamientoAdminPresenter;
 import com.example.manttoprev.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 
 import java.io.File;
@@ -52,6 +60,9 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
 
     Button btnGuardarAislamiento;
 
+    Button btnEscanearQR;
+
+    private AislamientoAdminContract.Presenter presenter;
 
 
     @Override
@@ -73,8 +84,6 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
             startActivity(intent);
 
         });
-
-        AislamientoAdminContract.Presenter presenter;
 
         cboArea = findViewById(R.id.cboArea);
         cboSecciones = findViewById(R.id.cboSecciones);
@@ -107,6 +116,8 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         etAmperajeW = findViewById(R.id.etAmperajeW);
 
         btnGuardarAislamiento = findViewById(R.id.btnGuardarAislamiento);
+        btnEscanearQR = findViewById(R.id.btnEscanearQR);
+
 
         presenter = new AislamientoAdminPresenter(this);
 
@@ -188,6 +199,14 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
             }
         });
 
+        btnEscanearQR.setOnClickListener(v -> {
+            new IntentIntegrator(this)
+                    .setPrompt("Escanea el código QR del motor")
+                    .setBeepEnabled(true)
+                    .initiateScan();
+        });
+
+
         btnGuardarAislamiento.setOnClickListener(v -> {
             String area = cboArea.getSelectedItem().toString().trim();
             String seccion = cboSecciones.getSelectedItem().toString().trim();
@@ -213,7 +232,99 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
 
         });
 
+
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult res = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (res != null) {
+            if (res.getContents() != null) {
+                String pushId = res.getContents();      // el QR trae el pushId
+                procesarQRporPushId(pushId);
+            } else {
+                Toast.makeText(this, "Escaneo cancelado", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void procesarQRporPushId(String pushId) {
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("motores")
+                .child(pushId);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(@NonNull DataSnapshot s) {
+                if (!s.exists()) {
+                    showErrorMessage("Motor no encontrado");
+                    return;
+                }
+                String area = s.child("area").getValue(String.class);
+                String seccion = s.child("seccion").getValue(String.class);
+                String equipo = s.child("equipo").getValue(String.class);
+                String maquina = s.child("maquina").getValue(String.class);
+                String nombre = s.child("descripcion").getValue(String.class);
+
+                /* Autocompletar spinners y mostrar tabla */
+                autoSeleccionarSpinners(area, seccion, equipo, maquina, nombre);
+            }
+
+            public void onCancelled(@NonNull DatabaseError e) {
+                showErrorMessage("Error al buscar el motor");
+            }
+        });
+    }
+
+    private void autoSeleccionarSpinners(String area, String seccion, String equipo, String maquina, String motor) {
+        presenter.obtenerAreas();
+
+        // Paso 1: Seleccionar Área
+        cboArea.postDelayed(() -> {
+            seleccionarSpinnerPorValor(cboArea, area);
+            presenter.obtenerSecciones(area);
+
+            // Paso 2: Seleccionar Sección cuando esté listo
+            cboSecciones.postDelayed(() -> {
+                seleccionarSpinnerPorValor(cboSecciones, seccion);
+                presenter.obtenerEquipos(seccion);
+
+                // Paso 3: Seleccionar Equipo
+                cboEquipos.postDelayed(() -> {
+                    seleccionarSpinnerPorValor(cboEquipos, equipo);
+                    presenter.obtenerMaquinas(equipo);
+
+                    // Paso 4: Seleccionar Máquina
+                    cboMaquinas.postDelayed(() -> {
+                        seleccionarSpinnerPorValor(cboMaquinas, maquina);
+                        presenter.obtenerMotores(maquina);
+
+                        // Paso 5: Seleccionar Motor
+                        cboMotor.postDelayed(() -> {
+                            seleccionarSpinnerPorValor(cboMotor, motor);
+                            tbAislamiento.setVisibility(View.VISIBLE);
+                        }, 500);
+
+                    }, 500);
+
+                }, 500);
+
+            }, 500);
+
+        }, 500);
+    }
+
+    private void seleccionarSpinnerPorValor(Spinner sp, String valor) {
+        ArrayAdapter<?> ad = (ArrayAdapter<?>) sp.getAdapter();
+        if (ad == null) return;
+        for (int i = 0; i < ad.getCount(); i++) {
+            if (valor.equals(ad.getItem(i))) { sp.setSelection(i); break; }
+        }
+    }
+
+
+
 
     @Override
     public void mostrarAreas(List<String> areas) {
@@ -273,8 +384,7 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         etAmperajeV.setText("");
         etAmperajeW.setText("");
     }
-
-
+    
     public void mostrarPDF(String rutaPDF) {
         File pdfFile = new File(rutaPDF);
 
