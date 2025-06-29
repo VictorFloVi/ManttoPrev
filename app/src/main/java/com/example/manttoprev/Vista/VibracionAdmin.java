@@ -1,5 +1,7 @@
 package com.example.manttoprev.Vista;
 
+
+import androidx.activity.result.ActivityResultLauncher;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,11 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
@@ -30,7 +34,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VibracionAdmin extends AppCompatActivity implements VibracionAdminContract.View {
 
@@ -66,13 +73,22 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
     EditText etAxiGV;
 
     Button btnGuardarVibracion;
+    ImageButton imaEscanearQRV;
 
     TextView resultTextView;
 
+    private VibracionAdminContract.Presenter presenter;
+
+    private String areaSeleccionadaScan;
+    private String seccionSeleccionadaScan;
+    private String equipoSeleccionadoScan;
+    private String maquinaSeleccionadaScan;
+    private String motorSeleccionadoScan;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActivityResultLauncher<Intent> qrScannerLauncher;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vibracion_admin);
 
@@ -91,7 +107,22 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
 
         });
 
-        VibracionAdminContract.Presenter presenter;
+
+        qrScannerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            String pushId = data.getStringExtra("QR_CONTENT");
+                            if (pushId != null) presenter.procesarPushIdV(pushId);
+                        }
+                    }
+                }
+        );
+
+
+
 
         cboAreaV = findViewById(R.id.cboAreaV);
         cboSeccionesV = findViewById(R.id.cboSeccionesV);
@@ -126,7 +157,10 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
 
         btnGuardarVibracion = findViewById(R.id.btnGuardarVibracion);
 
+        imaEscanearQRV = findViewById(R.id.imaEscanearQRV);
+
         resultTextView = findViewById(R.id.resultTextView);
+
         btnGuardarVibracion.setOnClickListener(view -> enviarDatos());
 
         presenter = new VibracionAdminPresenter(this);
@@ -208,6 +242,14 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
             }
         });
 
+
+        imaEscanearQRV.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ScannerActivity.class);
+            qrScannerLauncher.launch(intent);
+        });
+
+
+
         btnGuardarVibracion.setOnClickListener(v -> {
             String area = cboAreaV.getSelectedItem().toString().trim();
             String seccion = cboSeccionesV.getSelectedItem().toString().trim();
@@ -248,6 +290,29 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
 
         });
     }
+
+
+    @Override
+    public void setValoresSeleccionV(String area, String seccion, String equipo, String maquina, String motor) {
+        this.areaSeleccionadaScan = area;
+        this.seccionSeleccionadaScan = seccion;
+        this.equipoSeleccionadoScan = equipo;
+        this.maquinaSeleccionadaScan = maquina;
+        this.motorSeleccionadoScan = motor;
+    }
+
+    private void seleccionarSpinnerPorValor(Spinner sp, String valor) {
+        if (valor == null) return;
+        ArrayAdapter<?> ad = (ArrayAdapter<?>) sp.getAdapter();
+        if (ad == null) return;
+        for (int i = 0; i < ad.getCount(); i++) {
+            if (valor.equals(ad.getItem(i))) {
+                sp.setSelection(i);
+                break;
+            }
+        }
+    }
+
 
 
 
@@ -308,7 +373,22 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
                     runOnUiThread(() -> {
                         Log.d("PREDICCION", "Resultado recibido: " + prediccion);
                         resultTextView.setText("Predicción: " + prediccion);
+
+                        /*  NUEVO: crear alerta si la clase != 0  */
+                        if (!"Motor en condiciones normales".equals(prediccion)) {
+                            String fechaPeru = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
+                                    Locale.US).format(new Date());
+
+                            presenter.guardarAlerta(
+                                    fechaPeru,
+                                    prediccion,                                    // mensaje
+                                    cboMotorV.getSelectedItem().toString(),        // motor
+                                    cboMaquinasV.getSelectedItem().toString(),     // máquina
+                                    ""                                            // aún sin URL
+                            );
+                        }
                     });
+
 
 
                     // Limpiar los EditText
@@ -357,30 +437,52 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, areas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboAreaV.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboAreaV, areaSeleccionadaScan);
+        presenter.obtenerSecciones(areaSeleccionadaScan);
+
+
     }
     @Override
     public void mostrarSecciones(List<String> secciones) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, secciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboSeccionesV.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboSeccionesV, seccionSeleccionadaScan);
+        presenter.obtenerEquipos(seccionSeleccionadaScan);
+
+
     }
     @Override
     public void mostrarEquipos(List<String> equipos) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, equipos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboEquiposV.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboEquiposV, equipoSeleccionadoScan);
+        presenter.obtenerMaquinas(equipoSeleccionadoScan);
+
+
     }
     @Override
     public void mostrarMaquinas(List<String> maquinas) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, maquinas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboMaquinasV.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboMaquinasV, maquinaSeleccionadaScan);
+        presenter.obtenerMotores(maquinaSeleccionadaScan);
+
+
     }
     @Override
     public void mostrarMotores(List<String> motores) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, motores);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboMotorV.setAdapter(adapter);
+
+        seleccionarSpinnerPorValor(cboMotorV, motorSeleccionadoScan);
     }
 
     public void showErrorMessage(String message) {

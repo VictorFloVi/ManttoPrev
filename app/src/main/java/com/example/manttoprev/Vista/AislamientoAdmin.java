@@ -1,6 +1,8 @@
 package com.example.manttoprev.Vista;
 
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
@@ -51,15 +53,19 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
     ImageButton imaEscanearQR;
 
     private AislamientoAdminContract.Presenter presenter;
-    private String areaSeleccionada;
-    private String seccionSeleccionada;
-    private String equipoSeleccionado;
-    private String maquinaSeleccionada;
-    private String motorSeleccionado;
+
+    private String areaSeleccionadaScan;
+    private String seccionSeleccionadaScan;
+    private String equipoSeleccionadoScan;
+    private String maquinaSeleccionadaScan;
+    private String motorSeleccionadoScan;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActivityResultLauncher<Intent> qrScannerLauncher;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aislamiento_admin);
 
@@ -77,6 +83,20 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
             startActivity(intent);
 
         });
+
+        qrScannerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            String pushId = data.getStringExtra("QR_CONTENT");
+                            if (pushId != null) presenter.procesarPushId(pushId);
+                        }
+                    }
+                }
+        );
+
 
         cboArea = findViewById(R.id.cboArea);
         cboSecciones = findViewById(R.id.cboSecciones);
@@ -192,10 +212,11 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
             }
         });
 
-        imaEscanearQR.setOnClickListener(v ->
-                startActivityForResult(
-                        new Intent(this, ScannerActivity.class), 2001)
-        );
+        imaEscanearQR.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ScannerActivity.class);
+            qrScannerLauncher.launch(intent);
+        });
+
 
 
         btnGuardarAislamiento.setOnClickListener(v -> {
@@ -224,23 +245,13 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
 
 
     @Override
-    protected void onActivityResult(int req, int res, Intent data) {
-        super.onActivityResult(req, res, data);
-        if (req == 2001 && res == RESULT_OK && data != null) {
-            String pushId = data.getStringExtra("QR_CONTENT");
-            if (pushId != null) presenter.procesarPushId(pushId);
-        }
-    }
-
-    @Override
     public void setValoresSeleccion(String area, String seccion, String equipo, String maquina, String motor) {
-        this.areaSeleccionada = area;
-        this.seccionSeleccionada = seccion;
-        this.equipoSeleccionado = equipo;
-        this.maquinaSeleccionada = maquina;
-        this.motorSeleccionado = motor;
+        this.areaSeleccionadaScan = area;
+        this.seccionSeleccionadaScan = seccion;
+        this.equipoSeleccionadoScan = equipo;
+        this.maquinaSeleccionadaScan = maquina;
+        this.motorSeleccionadoScan = motor;
     }
-
 
     private void seleccionarSpinnerPorValor(Spinner sp, String valor) {
         if (valor == null) return;
@@ -261,8 +272,8 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboArea.setAdapter(adapter);
 
-        seleccionarSpinnerPorValor(cboArea, areaSeleccionada);
-        presenter.obtenerSecciones(areaSeleccionada);
+        seleccionarSpinnerPorValor(cboArea, areaSeleccionadaScan);
+        presenter.obtenerSecciones(areaSeleccionadaScan);
     }
     @Override
     public void mostrarSecciones(List<String> secciones) {
@@ -270,8 +281,8 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboSecciones.setAdapter(adapter);
 
-        seleccionarSpinnerPorValor(cboSecciones, seccionSeleccionada);
-        presenter.obtenerEquipos(seccionSeleccionada);
+        seleccionarSpinnerPorValor(cboSecciones, seccionSeleccionadaScan);
+        presenter.obtenerEquipos(seccionSeleccionadaScan);
     }
 
     @Override
@@ -280,8 +291,8 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboEquipos.setAdapter(adapter);
 
-        seleccionarSpinnerPorValor(cboEquipos, equipoSeleccionado);
-        presenter.obtenerMaquinas(equipoSeleccionado);
+        seleccionarSpinnerPorValor(cboEquipos, equipoSeleccionadoScan);
+        presenter.obtenerMaquinas(equipoSeleccionadoScan);
     }
     @Override
     public void mostrarMaquinas(List<String> maquinas) {
@@ -289,8 +300,8 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboMaquinas.setAdapter(adapter);
 
-        seleccionarSpinnerPorValor(cboMaquinas, maquinaSeleccionada);
-        presenter.obtenerMotores(maquinaSeleccionada);
+        seleccionarSpinnerPorValor(cboMaquinas, maquinaSeleccionadaScan);
+        presenter.obtenerMotores(maquinaSeleccionadaScan);
     }
 
     @Override
@@ -299,7 +310,7 @@ public class AislamientoAdmin extends AppCompatActivity implements AislamientoAd
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cboMotor.setAdapter(adapter);
 
-        seleccionarSpinnerPorValor(cboMotor, motorSeleccionado);
+        seleccionarSpinnerPorValor(cboMotor, motorSeleccionadoScan);
 
     }
 

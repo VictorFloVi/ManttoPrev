@@ -17,7 +17,6 @@ import com.google.mlkit.vision.common.InputImage;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import com.example.manttoprev.R;
 
 public class ScannerActivity extends ComponentActivity {

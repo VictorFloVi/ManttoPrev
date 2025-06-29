@@ -228,14 +228,19 @@ public class VibracionAdminPresenter implements VibracionAdminContract.Presenter
         // Agregar la máquina directamente a la base de datos con una clave única
         mDatabase.push().setValue(vibracion);
 
+        /*
         boolean altaVibracion = (horisoc > 1 || horbduc > 50 || horgc > 0.5 || verisoc >1 || verbduc > 50
                 || vergc > 0.5 || axiisoc > 1 || axibduc > 50 || axigc > 0.5 || horisov > 1 || horbduv > 50
                 || horgv > 0.5 || verisov >1 || verbduv > 50 || vergv > 0.5 || axiisov > 1 || axibduv > 50 || axigv > 0.5);
 
+
+         */
+
+
         try {
             generarPDF(area, seccion, equipo, maquina, motor, horisoc, horbduc, horgc, verisoc,
                     verbduc, vergc, axiisoc, axibduc, axigc, horisov, horbduv, horgv, verisov,
-                    verbduv, vergv, axiisov, axibduv, axigv, altaVibracion);
+                    verbduv, vergv, axiisov, axibduv, axigv);
             view.showSuccessMessage("Datos guardados y PDF generado exitosamente.");
         } catch (IOException e) {
             view.showErrorMessage("Error al generar el PDF: " + e.getMessage());
@@ -243,51 +248,93 @@ public class VibracionAdminPresenter implements VibracionAdminContract.Presenter
 
     }
 
+    @Override
+    public void procesarPushIdV(String pushId) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("motores").child(pushId);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot s) {
+                if (!s.exists()) {
+                    view.showErrorMessage("Motor no encontrado");
+                    return;
+                }
+                String area = s.child("area").getValue(String.class);
+                String seccion = s.child("seccion").getValue(String.class);
+                String equipo = s.child("equipo").getValue(String.class);
+                String maquina = s.child("maquina").getValue(String.class);
+                String motor = s.child("descripcion").getValue(String.class);
+
+                view.setValoresSeleccionV(area, seccion, equipo, maquina, motor);
+                obtenerAreas();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError e) {
+                view.showErrorMessage("Error al buscar el motor");
+            }
+        });
+    }
+
+
     private void generarPDF(String area, String seccion, String equipo, String maquina, String motor,
                             Double horisoc, Double horbduc, Double horgc, Double verisoc, Double verbduc,
                             Double vergc, Double axiisoc, Double axibduc, Double axigc, Double horisov,
                             Double horbduv, Double horgv, Double verisov, Double verbduv, Double vergv,
-                            Double axiisov, Double axibduv, Double axigv, boolean altaVibracion) throws IOException {
+                            Double axiisov, Double axibduv, Double axigv) throws IOException {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Usuarios");
         String uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
-        String pdfFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Vibraciones";
-        PdfDocument pdfDocument = new PdfDocument(new PdfWriter(pdfFilePath));
-        Document document = new Document(pdfDocument);
+        String pdfFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                + "/Vibraciones_" + System.currentTimeMillis() + ".pdf";
 
-        // Ruta de la fuente
-        String fontPath = "assets/fonts/arial.ttf"; // Cambia según tu fuente
+        // Crear escritor y documento
+        PdfWriter writer = new PdfWriter(pdfFilePath);
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        Document document = new Document(pdfDoc);
+
+        // Fuente
+        String fontPath = "assets/fonts/arial.ttf";
         PdfFont font = PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H, true);
         document.setFont(font);
 
-        // Configurar la fecha y hora en la zona horaria peruana
+        // Fecha actual en Perú
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("America/Lima"));
         String fechaPeru = dateFormat.format(new Date());
 
-        // Agregar contenido al PDF
+        // Agregar contenido inicial
         agregarContenidoPDF(document, area, seccion, equipo, maquina, motor, horisoc, horbduc, horgc, verisoc,
                 verbduc, vergc, axiisoc, axibduc, axigc, horisov, horbduv, horgv, verisov,
                 verbduv, vergv, axiisov, axibduv, axigv, fechaPeru);
 
-        // Obtén el nombre del usuario
+        // Leer usuario y finalizar el documento
         mDatabase.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String nombreUsuario = dataSnapshot.child("nombre").getValue(String.class);
+                if (nombreUsuario == null) nombreUsuario = "Técnico desconocido";
+
                 document.add(new Paragraph("\n\nTécnico: " + nombreUsuario).setBold());
-                document.close(); // Cierra el documento después de agregar el usuario
-                subirPDFaFirebase(new File(pdfFilePath), equipo, maquina, motor, fechaPeru, altaVibracion); // Pasa los datos al subir
+                document.close(); // ⬅️ se cierra solo al final
+
+                // Subir PDF y mostrar
+                subirPDFaFirebase(new File(pdfFilePath), equipo, maquina, motor, fechaPeru);
                 abrirPDF(pdfFilePath);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                view.showErrorMessage("Error al obtener los datos del usuario: " + databaseError.getMessage());
+            public void onCancelled(@NonNull DatabaseError error) {
+                document.add(new Paragraph("\n\nTécnico: Error al obtener nombre").setBold());
+                document.close(); // cerrar igual
+
+                subirPDFaFirebase(new File(pdfFilePath), equipo, maquina, motor, fechaPeru);
+                abrirPDF(pdfFilePath);
             }
         });
     }
+
 
     private void agregarContenidoPDF(Document document, String area, String seccion, String equipo, String maquina, String motor,
                                      Double horisoc, Double horbduc, Double horgc, Double verisoc, Double verbduc,
@@ -336,7 +383,7 @@ public class VibracionAdminPresenter implements VibracionAdminContract.Presenter
         document.add(new Paragraph("g " + axigv + " g"));
     }
 
-    private void subirPDFaFirebase(File pdfFile, String equipo, String maquina, String motor, String fecha, boolean altaVibracion) {
+    private void subirPDFaFirebase(File pdfFile, String equipo, String maquina, String motor, String fecha) {
         String pdfFileName = equipo.replaceAll("\\s+", "_") + "_" +
                 maquina.replaceAll("\\s+", "_") + "_" +
                 motor.replaceAll("\\s+", "_") + "_" +
@@ -350,10 +397,12 @@ public class VibracionAdminPresenter implements VibracionAdminContract.Presenter
                     storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         String pdfUrl = uri.toString();
                         view.showSuccessMessage("PDF subido correctamente a Firebase. URL: " + pdfUrl);
-                        // Guardar la alerta con la URL del PDF
-                        if (altaVibracion){
+
+
                             guardarAlerta(fecha, "Alta Vibración !", motor, maquina, pdfUrl);
-                        }
+
+
+
 
 
                     }).addOnFailureListener(e -> view.showErrorMessage("Error al obtener la URL del PDF: " + e.getMessage()));
@@ -361,7 +410,7 @@ public class VibracionAdminPresenter implements VibracionAdminContract.Presenter
                 .addOnFailureListener(e -> view.showErrorMessage("Error al subir el PDF: " + e.getMessage()));
     }
 
-    private void guardarAlerta(String fechaPeru, String mensajeAlerta, String motor, String maquina, String url) {
+    public void guardarAlerta(String fechaPeru, String mensajeAlerta, String motor, String maquina, String url) {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("alertas");
 
         // Crear el objeto de la alertas

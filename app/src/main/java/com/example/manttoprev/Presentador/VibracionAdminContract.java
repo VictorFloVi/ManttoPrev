@@ -9,6 +9,7 @@ public interface VibracionAdminContract {
         void mostrarEquipos(List<String> equipos);
         void mostrarMaquinas(List<String> maquinas);
         void mostrarMotores(List<String> maquinas);
+        void setValoresSeleccionV(String area, String seccion, String equipo, String maquina, String motor);
     }
 
     interface Presenter{
@@ -22,6 +23,8 @@ public interface VibracionAdminContract {
                               Double vergc, Double axiisoc, Double axibduc, Double axigc, Double horisov,
                               Double horbduv, Double horgv, Double verisov, Double verbduv, Double vergv,
                               Double axiisov, Double axibduv, Double axigv);
+        void procesarPushIdV(String pushId);
 
+        void guardarAlerta(String fechaPeru, String prediccion, String string, String string1, String s);
     }
 }

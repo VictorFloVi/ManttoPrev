@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="MOTORES CHD" />
+        app:title="MOTORES CHD V" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -91,8 +91,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imaEscanearQRV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/qrcodeflat_106034"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="5dp"
                 tools:ignore="UselessLeaf">
 
                 <TableLayout
@@ -475,9 +488,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingLeft="100dp"
-                android:paddingTop="10dp"
-                android:paddingRight="100dp"
-                android:paddingBottom="10dp">
+                android:paddingRight="100dp">
 
                 <Button
                     android:id="@+id/btnGuardarVibracion"

@@ -2,7 +2,6 @@ package com.example.manttoprev.Presentador;
 
 import android.net.Uri;
 import android.os.Environment;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import com.example.manttoprev.Modelo.Aislamiento;
@@ -32,7 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
-import java.util.logging.Handler;
+
 
 public class AislamientoAdminPresenter implements AislamientoAdminContract.Presenter{
 
@@ -237,6 +236,7 @@ public class AislamientoAdminPresenter implements AislamientoAdminContract.Prese
                 view.showErrorMessage("Error al generar el PDF: " + e.getMessage());
             }
     }
+
 
     @Override
     public void procesarPushId(String pushId) {
