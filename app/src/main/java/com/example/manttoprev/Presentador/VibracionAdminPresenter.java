@@ -228,14 +228,13 @@ public class VibracionAdminPresenter implements VibracionAdminContract.Presenter
         // Agregar la máquina directamente a la base de datos con una clave única
         mDatabase.push().setValue(vibracion);
 
-        /*
+/*
         boolean altaVibracion = (horisoc > 1 || horbduc > 50 || horgc > 0.5 || verisoc >1 || verbduc > 50
                 || vergc > 0.5 || axiisoc > 1 || axibduc > 50 || axigc > 0.5 || horisov > 1 || horbduv > 50
                 || horgv > 0.5 || verisov >1 || verbduv > 50 || vergv > 0.5 || axiisov > 1 || axibduv > 50 || axigv > 0.5);
 
 
-         */
-
+ */
 
         try {
             generarPDF(area, seccion, equipo, maquina, motor, horisoc, horbduc, horgc, verisoc,
@@ -398,11 +397,10 @@ public class VibracionAdminPresenter implements VibracionAdminContract.Presenter
                         String pdfUrl = uri.toString();
                         view.showSuccessMessage("PDF subido correctamente a Firebase. URL: " + pdfUrl);
 
-
-                            guardarAlerta(fecha, "Alta Vibración !", motor, maquina, pdfUrl);
-
-
-
+                        // Solo guardar alerta si la predicción no es "Motor en condiciones normales"
+                        if (!"Motor en condiciones normales".equalsIgnoreCase(VibracionAdmin.prediccionTexto)) {
+                            guardarAlerta(fecha, VibracionAdmin.prediccionTexto, motor, maquina, pdfUrl);
+                        }
 
 
                     }).addOnFailureListener(e -> view.showErrorMessage("Error al obtener la URL del PDF: " + e.getMessage()));

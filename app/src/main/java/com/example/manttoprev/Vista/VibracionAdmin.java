@@ -30,16 +30,22 @@ import com.example.manttoprev.R;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
-import java.util.Locale;
+
+import java.util.Scanner;
 
 public class VibracionAdmin extends AppCompatActivity implements VibracionAdminContract.View {
+
+
+    public static String prediccionTexto = "";
+
+
 
     Spinner cboAreaV;
     Spinner cboSeccionesV;
@@ -313,11 +319,7 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
         }
     }
 
-
-
-
     private void enviarDatos() {
-
 
         new Thread(() -> {
 
@@ -361,8 +363,8 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
                     // Leer la respuesta del servidor
-                    java.io.InputStream is = conn.getInputStream();
-                    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+                    InputStream is = conn.getInputStream();
+                    Scanner s = new Scanner(is).useDelimiter("\\A");
                     String result = s.hasNext() ? s.next() : "";
 
                     // Parsear el JSON de la respuesta
@@ -374,19 +376,8 @@ public class VibracionAdmin extends AppCompatActivity implements VibracionAdminC
                         Log.d("PREDICCION", "Resultado recibido: " + prediccion);
                         resultTextView.setText("Predicción: " + prediccion);
 
-                        /*  NUEVO: crear alerta si la clase != 0  */
-                        if (!"Motor en condiciones normales".equals(prediccion)) {
-                            String fechaPeru = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss",
-                                    Locale.US).format(new Date());
+                        prediccionTexto = prediccion;
 
-                            presenter.guardarAlerta(
-                                    fechaPeru,
-                                    prediccion,                                    // mensaje
-                                    cboMotorV.getSelectedItem().toString(),        // motor
-                                    cboMaquinasV.getSelectedItem().toString(),     // máquina
-                                    ""                                            // aún sin URL
-                            );
-                        }
                     });
 
 

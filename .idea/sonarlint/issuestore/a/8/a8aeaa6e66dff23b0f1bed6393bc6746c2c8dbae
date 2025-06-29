@@ -1,9 +1,11 @@
 
+o
+java:S1192ÿ"QUse already-defined constant 'DESCRIPCION' instead of duplicating its value here.(ıˆ”Ñ8»×Éû2
 i
-java:S2095ø"FUse try-with-resources or close this "Document" in a "finally" clause.(’µò€üÿÿÿÿ8™›—Ûä2
-S	java:S107î"=Method has 15 parameters, which is greater than 7 authorized.(õÏ°á
-X	java:S107›"=Method has 16 parameters, which is greater than 7 authorized.(²Êùøÿÿÿÿ
-`
-java:S6353½"DUse concise character class syntax '\\W' instead of '[^a-zA-Z0-9_]'.(€“À¾ûÿÿÿÿ
-C
-java:S1602Â",Remove useless curly braces around statement(‹¦ë¢
+java:S2095™"FUse try-with-resources or close this "Document" in a "finally" clause.(’µò€üÿÿÿÿ8‘¼×Éû2
+Z	java:S107"=Method has 15 parameters, which is greater than 7 authorized.(õÏ°á8”¼×Éû2
+_	java:S107¼"=Method has 16 parameters, which is greater than 7 authorized.(²Êùøÿÿÿÿ8”¼×Éû2
+g
+java:S6353Ş"DUse concise character class syntax '\\W' instead of '[^a-zA-Z0-9_]'.(€“À¾ûÿÿÿÿ8­¼×Éû2
+J
+java:S1602ã",Remove useless curly braces around statement(‹¦ë¢8­¼×Éû2

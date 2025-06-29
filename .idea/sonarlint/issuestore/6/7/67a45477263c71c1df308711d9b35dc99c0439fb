@@ -1,15 +1,18 @@
 
+o
+java:S1192‰"QUse already-defined constant 'DESCRIPCION' instead of duplicating its value here.(ıˆ”Ñ8à–­Ôû2
 d
-java:S1192´"FDefine a constant instead of duplicating this literal " mm/s" 6 times.(£™¡š8‡ùÏØä2
+java:S1192ã"FDefine a constant instead of duplicating this literal " mm/s" 6 times.(£™¡š8à–­Ôû2
 d
-java:S1192´"FDefine a constant instead of duplicating this literal "ISO: " 6 times.(£™¡š8ˆùÏØä2
+java:S1192ã"FDefine a constant instead of duplicating this literal "ISO: " 6 times.(£™¡š8à–­Ôû2
 c
-java:S1192µ"FDefine a constant instead of duplicating this literal "BDU: " 6 times.(¾Ÿï8ˆùÏØä2
-i
-java:S2095"FUse try-with-resources or close this "Document" in a "finally" clause.(’µò€üÿÿÿÿ8ŠñÙä2
-Z	java:S107ö"=Method has 24 parameters, which is greater than 7 authorized.(õÏ°á8¼úÏØä2
-_	java:S107¤"=Method has 25 parameters, which is greater than 7 authorized.(¶Ôµúÿÿÿÿ8¼úÏØä2
+java:S1192ä"FDefine a constant instead of duplicating this literal "BDU: " 6 times.(¾Ÿï8à–­Ôû2
+d
+java:S2095§"FUse try-with-resources or close this "Document" in a "finally" clause.(œû¨¤8å—­Ôû2
+Z	java:S107˜"=Method has 23 parameters, which is greater than 7 authorized.(õÏ°á8é—­Ôû2
+_	java:S107Ó"=Method has 25 parameters, which is greater than 7 authorized.(¶Ôµúÿÿÿÿ8é—­Ôû2
+X	java:S125è"<This block of commented-out lines of code should be removed.(£í•@8ù—­Ôû2
 g
-java:S6353×"DUse concise character class syntax '\\W' instead of '[^a-zA-Z0-9_]'.(€“À¾ûÿÿÿÿ8ÖúÏØä2
+java:S6353†"DUse concise character class syntax '\\W' instead of '[^a-zA-Z0-9_]'.(€“À¾ûÿÿÿÿ8‡˜­Ôû2
 J
-java:S1602Ü",Remove useless curly braces around statement(‹¦ë¢8ÖúÏØä2
+java:S1602‹",Remove useless curly braces around statement(‹¦ë¢8‡˜­Ôû2
